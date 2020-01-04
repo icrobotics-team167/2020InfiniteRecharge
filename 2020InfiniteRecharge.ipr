@@ -78,7 +78,7 @@
   <component name="ProjectNotificationSettings">
     <option name="askShowProject" value="false" />
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="11" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="false" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
   <component name="RemoteRepositoriesConfiguration">
@@ -182,37 +182,45 @@
     <library name="Gradle: edu.wpi.first.cameraserver:cameraserver-java:2020.1.2">
       <CLASSES>
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/edu.wpi.first.cameraserver/cameraserver-java/2020.1.2/d92132436a4dd0f9b2ecd4bd72e9495873f22ee7/cameraserver-java-2020.1.2.jar!/" />
+        <root url="jar://$PROJECT_DIR$/../../../../../Public/wpilib/2020/maven/edu/wpi/first/cameraserver/cameraserver-java/2020.1.2/cameraserver-java-2020.1.2.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES>
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/edu.wpi.first.cameraserver/cameraserver-java/2020.1.2/4731ba55fb2250029ff521fe24c31aaa35d46417/cameraserver-java-2020.1.2-sources.jar!/" />
+        <root url="jar://$PROJECT_DIR$/../../../../../Public/wpilib/2020/maven/edu/wpi/first/cameraserver/cameraserver-java/2020.1.2/cameraserver-java-2020.1.2-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: edu.wpi.first.cscore:cscore-java:2020.1.2">
       <CLASSES>
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/edu.wpi.first.cscore/cscore-java/2020.1.2/a42a7c49a54c3feb6e42f5dfae5f087e0edba7a7/cscore-java-2020.1.2.jar!/" />
+        <root url="jar://$PROJECT_DIR$/../../../../../Public/wpilib/2020/maven/edu/wpi/first/cscore/cscore-java/2020.1.2/cscore-java-2020.1.2.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES>
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/edu.wpi.first.cscore/cscore-java/2020.1.2/26678e4db72f4a0cf1050fb192a73dd6b8788042/cscore-java-2020.1.2-sources.jar!/" />
+        <root url="jar://$PROJECT_DIR$/../../../../../Public/wpilib/2020/maven/edu/wpi/first/cscore/cscore-java/2020.1.2/cscore-java-2020.1.2-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: edu.wpi.first.hal:hal-java:2020.1.2">
       <CLASSES>
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/edu.wpi.first.hal/hal-java/2020.1.2/75b3fa0219ba1210e8c090572f2778aa4c3f5a72/hal-java-2020.1.2.jar!/" />
+        <root url="jar://$PROJECT_DIR$/../../../../../Public/wpilib/2020/maven/edu/wpi/first/hal/hal-java/2020.1.2/hal-java-2020.1.2.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES>
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/edu.wpi.first.hal/hal-java/2020.1.2/a60edcb71837dc852ea99b121133ae25dcfd7790/hal-java-2020.1.2-sources.jar!/" />
+        <root url="jar://$PROJECT_DIR$/../../../../../Public/wpilib/2020/maven/edu/wpi/first/hal/hal-java/2020.1.2/hal-java-2020.1.2-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: edu.wpi.first.ntcore:ntcore-java:2020.1.2">
       <CLASSES>
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/edu.wpi.first.ntcore/ntcore-java/2020.1.2/ab4251676537518a7820d93f1a7e630e26e48246/ntcore-java-2020.1.2.jar!/" />
+        <root url="jar://$PROJECT_DIR$/../../../../../Public/wpilib/2020/maven/edu/wpi/first/ntcore/ntcore-java/2020.1.2/ntcore-java-2020.1.2.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES>
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/edu.wpi.first.ntcore/ntcore-java/2020.1.2/12b2ad837811176b7b41cd5ad2ddd06aad3d4daa/ntcore-java-2020.1.2-sources.jar!/" />
+        <root url="jar://$PROJECT_DIR$/../../../../../Public/wpilib/2020/maven/edu/wpi/first/ntcore/ntcore-java/2020.1.2/ntcore-java-2020.1.2-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: edu.wpi.first.thirdparty.frc2020.opencv:opencv-java:3.4.7-2">
@@ -227,28 +235,34 @@
     <library name="Gradle: edu.wpi.first.wpilibj:wpilibj-java:2020.1.2">
       <CLASSES>
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/edu.wpi.first.wpilibj/wpilibj-java/2020.1.2/46a4f95b60e3aecd744919cfc1f1181ad901d10c/wpilibj-java-2020.1.2.jar!/" />
+        <root url="jar://$PROJECT_DIR$/../../../../../Public/wpilib/2020/maven/edu/wpi/first/wpilibj/wpilibj-java/2020.1.2/wpilibj-java-2020.1.2.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES>
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/edu.wpi.first.wpilibj/wpilibj-java/2020.1.2/44eae5b070999f1fd24729fb7f36e974abc30490/wpilibj-java-2020.1.2-sources.jar!/" />
+        <root url="jar://$PROJECT_DIR$/../../../../../Public/wpilib/2020/maven/edu/wpi/first/wpilibj/wpilibj-java/2020.1.2/wpilibj-java-2020.1.2-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: edu.wpi.first.wpilibOldCommands:wpilibOldCommands-java:2020.1.1">
       <CLASSES>
         <root url="jar://$PROJECT_DIR$/../../../../../Public/wpilib/2020/maven/edu/wpi/first/wpilibOldCommands/wpilibOldCommands-java/2020.1.1/wpilibOldCommands-java-2020.1.1.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/edu.wpi.first.wpilibOldCommands/wpilibOldCommands-java/2020.1.1/a64156798da02c0fd24623685629236799ee3e70/wpilibOldCommands-java-2020.1.1.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES>
         <root url="jar://$PROJECT_DIR$/../../../../../Public/wpilib/2020/maven/edu/wpi/first/wpilibOldCommands/wpilibOldCommands-java/2020.1.1/wpilibOldCommands-java-2020.1.1-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/edu.wpi.first.wpilibOldCommands/wpilibOldCommands-java/2020.1.1/94c0d1ff142425cf7b92071f4ce57cefcf66d8a2/wpilibOldCommands-java-2020.1.1-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: edu.wpi.first.wpiutil:wpiutil-java:2020.1.2">
       <CLASSES>
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/edu.wpi.first.wpiutil/wpiutil-java/2020.1.2/720df2a20346bc99c433421c45beb41052687db0/wpiutil-java-2020.1.2.jar!/" />
+        <root url="jar://$PROJECT_DIR$/../../../../../Public/wpilib/2020/maven/edu/wpi/first/wpiutil/wpiutil-java/2020.1.2/wpiutil-java-2020.1.2.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES>
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/edu.wpi.first.wpiutil/wpiutil-java/2020.1.2/548dd9bd7af5c091bba62f62999b1237343cbae8/wpiutil-java-2020.1.2-sources.jar!/" />
+        <root url="jar://$PROJECT_DIR$/../../../../../Public/wpilib/2020/maven/edu/wpi/first/wpiutil/wpiutil-java/2020.1.2/wpiutil-java-2020.1.2-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: junit:junit:4.12">
