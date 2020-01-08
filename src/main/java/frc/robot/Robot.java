@@ -7,7 +7,17 @@
 
 package frc.robot;
 
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj.geometry.Translation2d;
+import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -24,6 +34,17 @@ public class Robot extends TimedRobot {
     private String m_autoSelected;
     private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
+    private XboxController controller;
+    private SwerveDriveKinematics swerveKinematics;
+    private CANSparkMax frontLeftSpin;
+    private CANSparkMax frontLeftMove;
+    private CANSparkMax frontRightSpin;
+    private CANSparkMax frontRightMove;
+    private CANSparkMax backLeftSpin;
+    private CANSparkMax backLeftMove;
+    private CANSparkMax backRightSpin;
+    private CANSparkMax backRightMove;
+
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
@@ -33,6 +54,33 @@ public class Robot extends TimedRobot {
         m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
         m_chooser.addOption("My Auto", kCustomAuto);
         SmartDashboard.putData("Auto choices", m_chooser);
+
+        controller = new XboxController(Config.Ports.PRIMARY_CONTROLLER);
+
+        swerveKinematics = new SwerveDriveKinematics(
+            new Translation2d(Config.Measures.Swerve.FRONT_LEFT_X, Config.Measures.Swerve.FRONT_LEFT_Y),
+            new Translation2d(Config.Measures.Swerve.FRONT_RIGHT_X, Config.Measures.Swerve.FRONT_RIGHT_Y),
+            new Translation2d(Config.Measures.Swerve.BACK_LEFT_X, Config.Measures.Swerve.BACK_LEFT_Y),
+            new Translation2d(Config.Measures.Swerve.BACK_RIGHT_X, Config.Measures.Swerve.BACK_RIGHT_Y)
+        );
+
+        frontLeftSpin = new CANSparkMax(Config.Ports.Swerve.FRONT_LEFT_SPIN, MotorType.kBrushless);
+        frontLeftMove = new CANSparkMax(Config.Ports.Swerve.FRONT_LEFT_MOVE, MotorType.kBrushless);
+        frontRightSpin = new CANSparkMax(Config.Ports.Swerve.FRONT_RIGHT_SPIN, MotorType.kBrushless);
+        frontRightMove = new CANSparkMax(Config.Ports.Swerve.FRONT_RIGHT_MOVE, MotorType.kBrushless);
+        backLeftSpin = new CANSparkMax(Config.Ports.Swerve.BACK_LEFT_SPIN, MotorType.kBrushless);
+        backLeftMove = new CANSparkMax(Config.Ports.Swerve.BACK_LEFT_MOVE, MotorType.kBrushless);
+        backRightSpin = new CANSparkMax(Config.Ports.Swerve.BACK_RIGHT_SPIN, MotorType.kBrushless);
+        backRightMove = new CANSparkMax(Config.Ports.Swerve.BACK_RIGHT_MOVE, MotorType.kBrushless);
+
+        frontLeftSpin.setIdleMode(CANSparkMax.IdleMode.kBrake);
+        frontLeftMove.setIdleMode(CANSparkMax.IdleMode.kBrake);
+        frontRightSpin.setIdleMode(CANSparkMax.IdleMode.kBrake);
+        frontRightMove.setIdleMode(CANSparkMax.IdleMode.kBrake);
+        backLeftSpin.setIdleMode(CANSparkMax.IdleMode.kBrake);
+        backLeftMove.setIdleMode(CANSparkMax.IdleMode.kBrake);
+        backRightSpin.setIdleMode(CANSparkMax.IdleMode.kBrake);
+        backRightMove.setIdleMode(CANSparkMax.IdleMode.kBrake);
     }
 
     /**
@@ -86,6 +134,23 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void teleopPeriodic() {
+        double leftX = controller.getX(Hand.kLeft);
+        double leftY = controller.getY(Hand.kLeft);
+        double rightX = controller.getX(Hand.kRight);
+        // double rightY = controller.getY(Hand.kRight);
+
+        ChassisSpeeds speeds = new ChassisSpeeds(
+            leftY * Config.Measures.SwerveSpeeds.MOVE,
+            leftX * Config.Measures.SwerveSpeeds.MOVE,
+            rightX * Config.Measures.SwerveSpeeds.SPIN
+        );
+        SwerveModuleState[] moduleStates = swerveKinematics.toSwerveModuleStates(speeds);
+        SwerveModuleState frontLeftState = moduleStates[0];
+        SwerveModuleState frontRightState = moduleStates[1];
+        SwerveModuleState backLeftState = moduleStates[2];
+        SwerveModuleState backRightState = moduleStates[3];
+
+        // TODO drive motors with encoders
     }
 
     /**
