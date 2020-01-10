@@ -1,4 +1,4 @@
-package frc.robot;
+package frc.robot; // Blue Green Red Yellow
 
 public final class Color {
 
@@ -58,4 +58,29 @@ public final class Color {
         }
     }
 
+    public static int getClosest(Colors c1, Colors c2) {
+        switch (c1) {
+            case BLUE:
+                if (c2 == Colors.GREEN) {
+                    return -1;
+                }
+                return 1;
+            case RED:
+                if (c2 == Colors.YELLOW) {
+                    return -1;
+                }
+                return 1;
+            case GREEN:
+                if (c2 == Colors.RED) {
+                    return -1;
+                }
+                return 1;
+            case YELLOW:
+                if (c2 == Colors.BLUE) {
+                    return -1;
+                }
+                return 1;
+            default: return 0;
+        }
+    }
 }

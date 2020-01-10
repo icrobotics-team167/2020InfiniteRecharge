@@ -25,6 +25,9 @@ public class Config {
             public static final int BACK_RIGHT_SPIN = 6;
             public static final int BACK_RIGHT_MOVE = 7;
         }
+    
+        // Color Sensor
+        public static final int COLOR_SENSOR = 5;
 
     }
 

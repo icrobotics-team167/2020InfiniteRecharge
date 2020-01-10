@@ -10,6 +10,7 @@ package frc.robot;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
@@ -20,6 +21,10 @@ import edu.wpi.first.wpilibj.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.I2C;
+import com.revrobotics.ColorSensorV3;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -33,6 +38,7 @@ public class Robot extends TimedRobot {
     private static final String kCustomAuto = "My Auto";
     private String m_autoSelected;
     private final SendableChooser<String> m_chooser = new SendableChooser<>();
+    private DriverStation driverStation;
 
     private XboxController controller;
     private SwerveDriveKinematics swerveKinematics;
@@ -45,6 +51,14 @@ public class Robot extends TimedRobot {
     private CANSparkMax backRightSpin;
     private CANSparkMax backRightMove;
 
+    private ColorSensorV3 colorSensor;
+    private final I2C.Port i2cPort = I2C.Port.kOnboard;
+
+    private boolean rotationControl;
+    private boolean positionControl;
+
+    private TalonSRX colorMotor;
+
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
@@ -54,6 +68,7 @@ public class Robot extends TimedRobot {
         m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
         m_chooser.addOption("My Auto", kCustomAuto);
         SmartDashboard.putData("Auto choices", m_chooser);
+        driverStation = DriverStation.getInstance();
 
         controller = new XboxController(Config.Ports.PRIMARY_CONTROLLER);
 
@@ -81,6 +96,12 @@ public class Robot extends TimedRobot {
         backLeftMove.setIdleMode(CANSparkMax.IdleMode.kBrake);
         backRightSpin.setIdleMode(CANSparkMax.IdleMode.kBrake);
         backRightMove.setIdleMode(CANSparkMax.IdleMode.kBrake);
+
+        colorSensor = new ColorSensorV3(i2cPort); 
+        rotationControl = false;
+        positionControl = false;
+
+        colorMotor = new TalonSRX(Config.Ports.COLOR_SENSOR); // port
     }
 
     /**
@@ -129,6 +150,10 @@ public class Robot extends TimedRobot {
         }
     }
 
+    private Colors current;
+    private boolean changedColor;
+    private int semiCycleCount;
+
     /**
      * This function is called periodically during operator control.
      */
@@ -151,6 +176,37 @@ public class Robot extends TimedRobot {
         SwerveModuleState backRightState = moduleStates[3];
 
         // TODO drive motors with encoders
+
+        Color color = new Color(colorSensor.getColor().red, colorSensor.getColor().green, colorSensor.getColor().blue);
+
+        if (controller.getXButton() && !positionControl) {
+            rotationControl = true;
+            current = color.getBestColorMatch();
+            semiCycleCount = 0;
+            changedColor = false;
+            colorMotor.set(ControlMode.PercentOutput, 1);
+        }
+
+        if (controller.getYButton() && !rotationControl) {
+            positionControl = true;
+            colorMotor.set(ControlMode.PercentOutput, Color.getClosest(color.getBestColorMatch(), Colors.getColor(driverStation.getGameSpecificMessage())));
+        }
+
+        if (rotationControl && !changedColor && color.getBestColorMatch() != current) {
+            changedColor = true;
+        } else if (rotationControl && changedColor && color.getBestColorMatch() == current) {
+            semiCycleCount++;
+            changedColor = false;
+        }
+
+        if (rotationControl && semiCycleCount == 8) {
+            rotationControl = false;
+            colorMotor.set(ControlMode.PercentOutput, 0);
+        }
+
+        if (positionControl && color.getBestColorMatch().label == driverStation.getGameSpecificMessage()) {
+            colorMotor.set(ControlMode.PercentOutput, 0);
+        }
     }
 
     /**

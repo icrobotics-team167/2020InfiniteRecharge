@@ -18,4 +18,12 @@ public enum Colors {
         this.name = name;
     }
 
+    
+    public static Colors getColor(String letter) {
+        if (letter.equals("B")) return BLUE;
+        if (letter.equals("G")) return GREEN;
+        if (letter.equals("R")) return RED;
+        if (letter.equals("Y")) return YELLOW;
+        return null;
+    }
 }
