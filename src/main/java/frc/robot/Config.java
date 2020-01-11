@@ -22,6 +22,18 @@ public class Config {
         public static final int PRIMARY_CONTROLLER = 0;
         public static final int SECONDARY_CONTROLLER = 1; // if applicable
 
+        // Tank motor controller ports
+        public static final class Tank {
+            public static final int LEFT_1 = 0;
+            public static final int LEFT_2 = 1;
+            public static final int LEFT_3 = 2;
+            public static final int LEFT_4 = 3;
+            public static final int RIGHT_1 = 4;
+            public static final int RIGHT_2 = 5;
+            public static final int RIGHT_3 = 6;
+            public static final int RIGHT_4 = 7;
+        }
+
         // Swerve module ports
         public static final class Swerve {
             public static final int FRONT_LEFT_SPIN = 0;
