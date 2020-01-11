@@ -3,7 +3,7 @@ package frc.robot;
 public class Config {
 
     // Use tank drive (false) or swerve drive (true)
-    public static final boolean SWERVE_ENABLED = false;
+    public static final boolean SWERVE_ENABLED = true;
 
     public static final class Tolerances {
 

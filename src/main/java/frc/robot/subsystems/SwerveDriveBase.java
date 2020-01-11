@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config;
 
 public class SwerveDriveBase {
@@ -18,7 +19,7 @@ public class SwerveDriveBase {
     private AHRS navx;
     private SwerveDriveKinematics swerveKinematics;
     private CANSparkMax frontLeftSpin;
-    private CANSparkMax frontLeftMove;
+    public CANSparkMax frontLeftMove;
     private CANSparkMax frontRightSpin;
     private CANSparkMax frontRightMove;
     private CANSparkMax backLeftSpin;
@@ -56,7 +57,7 @@ public class SwerveDriveBase {
             new Translation2d(Config.Measures.Swerve.BACK_LEFT_X, Config.Measures.Swerve.BACK_LEFT_Y),
             new Translation2d(Config.Measures.Swerve.BACK_RIGHT_X, Config.Measures.Swerve.BACK_RIGHT_Y)
         );
-
+        
         frontLeftSpin = new CANSparkMax(Config.Ports.Swerve.FRONT_LEFT_SPIN, CANSparkMaxLowLevel.MotorType.kBrushless);
         frontLeftMove = new CANSparkMax(Config.Ports.Swerve.FRONT_LEFT_MOVE, CANSparkMaxLowLevel.MotorType.kBrushless);
         frontRightSpin = new CANSparkMax(Config.Ports.Swerve.FRONT_RIGHT_SPIN, CANSparkMaxLowLevel.MotorType.kBrushless);
@@ -85,6 +86,17 @@ public class SwerveDriveBase {
         backRightMove.setIdleMode(CANSparkMax.IdleMode.kBrake);
     }
 
+    public void resetEncoders() {
+        frontLeftSpinEncoder.setPosition(0);
+        frontLeftMoveEncoder.setPosition(0);
+        frontRightSpinEncoder.setPosition(0);
+        frontRightMoveEncoder.setPosition(0);
+        backLeftSpinEncoder.setPosition(0);
+        backLeftMoveEncoder.setPosition(0);
+        backRightSpinEncoder.setPosition(0);
+        backRightMoveEncoder.setPosition(0);
+    }
+
     public void swerveDrive(double horizontalSpeed, double verticalSpeed, double angularSpeed) {
         ChassisSpeeds speeds = new ChassisSpeeds(
                 verticalSpeed * Config.Measures.SwerveSpeeds.MOVE,
@@ -99,6 +111,29 @@ public class SwerveDriveBase {
         SwerveModuleState backRightState = moduleStates[3];
 
         // TODO drive modules at correct speeds
+    }
+
+    public boolean driveMeter() {
+        frontLeftMove.set(0.3);
+        frontRightMove.set(0.3);
+        backLeftMove.set(0.3);
+        backRightMove.set(0.3);
+        double ticks = (frontLeftMoveEncoder.getPosition() + frontRightMoveEncoder.getPosition() + backLeftMoveEncoder.getPosition() + backRightMoveEncoder.getPosition()) / 4;
+        if (ticks >= 0.17575943852) {
+            return true;
+        }
+        return false;
+    }
+
+    public void printEncoderValues() {
+        SmartDashboard.putNumber("Front left spin encoder: ", frontLeftSpinEncoder.getPosition());
+        SmartDashboard.putNumber("Front left move encoder: ", frontLeftMoveEncoder.getPosition());
+        SmartDashboard.putNumber("Front right spin: ", frontRightSpinEncoder.getPosition());
+        SmartDashboard.putNumber("Front right move: ", frontRightMoveEncoder.getPosition());
+        SmartDashboard.putNumber("Back left spin: ", backLeftSpinEncoder.getPosition());
+        SmartDashboard.putNumber("Back left move: ", backLeftMoveEncoder.getPosition());
+        SmartDashboard.putNumber("Back right spin: ", backRightSpinEncoder.getPosition());
+        SmartDashboard.putNumber("Back right move: ", backRightMoveEncoder.getPosition());
     }
 
 }

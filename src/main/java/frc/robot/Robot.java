@@ -7,6 +7,8 @@
 
 package frc.robot;
 
+import com.revrobotics.CANSparkMax;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -16,6 +18,8 @@ import frc.robot.controllers.SingleXboxController;
 import frc.robot.routines.teleop.SwerveTeleop;
 import frc.robot.routines.teleop.TankTeleop;
 import frc.robot.routines.teleop.Teleop;
+import frc.robot.subsystems.SwerveDriveBase;
+import com.revrobotics.CANSparkMaxLowLevel;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -33,6 +37,8 @@ public class Robot extends TimedRobot {
     private DriverStation driverStation;
     private Controller controller;
     private Teleop teleop;
+
+    CANSparkMax frontRightMove = new CANSparkMax(1, CANSparkMaxLowLevel.MotorType.kBrushless);
 
 //    private XboxController controller;
 //
@@ -117,12 +123,17 @@ public class Robot extends TimedRobot {
 //    private boolean changedColor;
 //    private int semiCycleCount;
 
+    boolean doneDriving = false;
     /**
      * This function is called periodically during operator control.
      */
     @Override
     public void teleopPeriodic() {
-        teleop.exec();
+        // teleop.exec();\
+        frontRightMove.set(1);
+        // if (!doneDriving) {
+        //     doneDriving = SwerveDriveBase.getInstance().driveMeter();
+        // }
 
 //        Color color = new Color(colorSensor.getColor().red, colorSensor.getColor().green, colorSensor.getColor().blue);
 //

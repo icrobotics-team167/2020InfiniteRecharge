@@ -10,11 +10,13 @@ public class SwerveTeleop extends Teleop {
     public SwerveTeleop(Controller controller) {
         super(controller);
         swerveDriveBase = SwerveDriveBase.getInstance();
+        swerveDriveBase.resetEncoders();
     }
 
     @Override
     public void periodic() {
-        swerveDriveBase.swerveDrive(controller.getSwerveHorizontalSpeed(), controller.getSwerveVerticalSpeed(), controller.getSwerveAngularSpeed());
+        // swerveDriveBase.swerveDrive(controller.getSwerveHorizontalSpeed(), controller.getSwerveVerticalSpeed(), controller.getSwerveAngularSpeed());
+        swerveDriveBase.printEncoderValues();
     }
 
 }
