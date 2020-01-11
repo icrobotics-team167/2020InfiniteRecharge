@@ -4,8 +4,15 @@ public class Config {
 
     public static final class Tolerances {
 
-        // Maximum difference in each RGB value between two colors (0-255)
-        public static final int COLOR_EQUIVALENCE = 25;
+        // Tank drive dead zone
+        public static final boolean TANK_DEAD_ZONE_ENABLED = false;
+        public static final double TANK_DEAD_ZONE_SIZE = 0.07;
+
+        // Swerve drive dead zones
+        public static final boolean SWERVE_MOVE_DEAD_ZONE_ENABLED = false;
+        public static final double SWERVE_MOVE_DEAD_ZONE_SIZE = 0.07;
+        public static final boolean SWERVE_SPIN_DEAD_ZONE_ENABLED = false;
+        public static final double SWERVE_SPIN_DEAD_ZONE_SIZE = 0.07;
 
     }
 
@@ -13,7 +20,8 @@ public class Config {
 
         // Xbox controllers
         public static final int PRIMARY_CONTROLLER = 0;
-        
+        public static final int SECONDARY_CONTROLLER = 1; // if applicable
+
         // Swerve module ports
         public static final class Swerve {
             public static final int FRONT_LEFT_SPIN = 0;
@@ -25,7 +33,7 @@ public class Config {
             public static final int BACK_RIGHT_SPIN = 6;
             public static final int BACK_RIGHT_MOVE = 7;
         }
-    
+
         // Color Sensor
         public static final int COLOR_SENSOR = 5;
 

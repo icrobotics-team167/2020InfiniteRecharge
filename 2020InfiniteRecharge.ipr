@@ -35,6 +35,7 @@
             <option value="$PROJECT_DIR$" />
           </set>
         </option>
+        <option name="useAutoImport" value="true" />
         <option name="useQualifiedModuleNames" value="true" />
       </GradleProjectSettings>
     </option>
@@ -118,6 +119,21 @@
       <option name="name" value="WPILocal" />
       <option name="url" value="file:/$PROJECT_DIR$/../../../../../Public/wpilib/2020/maven/" />
     </remote-repository>
+    <remote-repository>
+      <option name="id" value="WPILocal" />
+      <option name="name" value="WPILocal" />
+      <option name="url" value="file:$USER_HOME$/wpilib/2020/maven" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="WPIab676553-b602-441f-a38d-f1296eff6537_0Release" />
+      <option name="name" value="WPIab676553-b602-441f-a38d-f1296eff6537_0Release" />
+      <option name="url" value="http://devsite.ctr-electronics.com/maven/release/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="WPIcda7b4b1-d003-44ac-a1ef-485c1347059a_0Release" />
+      <option name="name" value="WPIcda7b4b1-d003-44ac-a1ef-485c1347059a_0Release" />
+      <option name="url" value="http://www.revrobotics.com/content/sw/color-sensor-v3/sdk/maven/" />
+    </remote-repository>
   </component>
   <component name="SvnBranchConfigurationManager">
     <option name="mySupportsUserInfoFilter" value="true" />
@@ -126,40 +142,66 @@
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
   </component>
   <component name="libraryTable">
+    <library name="Gradle: com.ctre.phoenix:api-java:5.17.3">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.ctre.phoenix/api-java/5.17.3/53b38914d133657ea058c86a97547dfd2035401d/api-java-5.17.3.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.ctre.phoenix/api-java/5.17.3/837f68cb326f2dcb91ce4bbf9e6f5297ff239783/api-java-5.17.3-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: com.ctre.phoenix:wpiapi-java:5.17.3">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.ctre.phoenix/wpiapi-java/5.17.3/278184706572c3ad2fad702cdeebb2cce6b132c7/wpiapi-java-5.17.3.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.ctre.phoenix/wpiapi-java/5.17.3/57bf6fda085e67c9346fa7e14644605f6e29dcaf/wpiapi-java-5.17.3-sources.jar!/" />
+      </SOURCES>
+    </library>
     <library name="Gradle: com.fasterxml.jackson.core:jackson-annotations:2.10.0">
       <CLASSES>
         <root url="jar://$PROJECT_DIR$/../../../../../Public/wpilib/2020/maven/com/fasterxml/jackson/core/jackson-annotations/2.10.0/jackson-annotations-2.10.0.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-annotations/2.10.0/e01cfd93b80d6773b3f757c78e756c9755b47b81/jackson-annotations-2.10.0.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES>
         <root url="jar://$PROJECT_DIR$/../../../../../Public/wpilib/2020/maven/com/fasterxml/jackson/core/jackson-annotations/2.10.0/jackson-annotations-2.10.0-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-annotations/2.10.0/c8be836b340e2bf48c335cfd68765ab867cfd088/jackson-annotations-2.10.0-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: com.fasterxml.jackson.core:jackson-core:2.10.0">
       <CLASSES>
         <root url="jar://$PROJECT_DIR$/../../../../../Public/wpilib/2020/maven/com/fasterxml/jackson/core/jackson-core/2.10.0/jackson-core-2.10.0.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-core/2.10.0/4e2c5fa04648ec9772c63e2101c53af6504e624e/jackson-core-2.10.0.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES>
         <root url="jar://$PROJECT_DIR$/../../../../../Public/wpilib/2020/maven/com/fasterxml/jackson/core/jackson-core/2.10.0/jackson-core-2.10.0-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-core/2.10.0/379d754e510e25111a823428636be68773fc73c9/jackson-core-2.10.0-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: com.fasterxml.jackson.core:jackson-databind:2.10.0">
       <CLASSES>
         <root url="jar://$PROJECT_DIR$/../../../../../Public/wpilib/2020/maven/com/fasterxml/jackson/core/jackson-databind/2.10.0/jackson-databind-2.10.0.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-databind/2.10.0/1127c9cf62f2bb3121a3a2a0a1351d251a602117/jackson-databind-2.10.0.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES>
         <root url="jar://$PROJECT_DIR$/../../../../../Public/wpilib/2020/maven/com/fasterxml/jackson/core/jackson-databind/2.10.0/jackson-databind-2.10.0-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-databind/2.10.0/465988edbcc098cebd769e2ef110ce57661a27a4/jackson-databind-2.10.0-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: com.google.code.findbugs:jsr305:3.0.2">
       <CLASSES>
         <root url="jar://$PROJECT_DIR$/../../../../../Public/wpilib/2020/maven/com/google/code/findbugs/jsr305/3.0.2/jsr305-3.0.2.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.code.findbugs/jsr305/3.0.2/25ea2e8b0c338a877313bd4672d3fe056ea78f0d/jsr305-3.0.2.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES>
         <root url="jar://$PROJECT_DIR$/../../../../../Public/wpilib/2020/maven/com/google/code/findbugs/jsr305/3.0.2/jsr305-3.0.2-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.code.findbugs/jsr305/3.0.2/b19b5927c2c25b6c70f093767041e641ae0b1b35/jsr305-3.0.2-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: com.kauailabs.navx.frc:navx-java:3.1.400">
@@ -171,13 +213,22 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.kauailabs.navx.frc/navx-java/3.1.400/b7d2131e34c349231add5d9f3d95f084dcc3a667/navx-java-3.1.400-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: com.revrobotics.frc:SparkMax-java:1.5.1">
+    <library name="Gradle: com.revrobotics.frc:ColorSensorV3-java:1.0.0">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.revrobotics.frc/SparkMax-java/1.5.1/e23174e5aba5326d8bc688de17673943ee49c041/SparkMax-java-1.5.1.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.revrobotics.frc/ColorSensorV3-java/1.0.0/3ea4580f92de323f30e734ac16698f6e33bf238f/ColorSensorV3-java-1.0.0.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.revrobotics.frc/SparkMax-java/1.5.1/562a8580ca896bb257692e03ccdace958475ee8d/SparkMax-java-1.5.1-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.revrobotics.frc/ColorSensorV3-java/1.0.0/365dd0bcbfe51969d39e1c6947f2f1e2e8ed89cc/ColorSensorV3-java-1.0.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: com.revrobotics.frc:SparkMax-java:1.4.1">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.revrobotics.frc/SparkMax-java/1.4.1/604dd213dd00e19f7b70620e30ff04e89cca3358/SparkMax-java-1.4.1.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.revrobotics.frc/SparkMax-java/1.4.1/19de26f827d567f55516f008464a3b87f6844f5f/SparkMax-java-1.4.1-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: edu.wpi.first.cameraserver:cameraserver-java:2020.1.2">
@@ -227,10 +278,12 @@
     <library name="Gradle: edu.wpi.first.thirdparty.frc2020.opencv:opencv-java:3.4.7-2">
       <CLASSES>
         <root url="jar://$PROJECT_DIR$/../../../../../Public/wpilib/2020/maven/edu/wpi/first/thirdparty/frc2020/opencv/opencv-java/3.4.7-2/opencv-java-3.4.7-2.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/edu.wpi.first.thirdparty.frc2020.opencv/opencv-java/3.4.7-2/567376dfff9299972841aa5bf84116dacb931016/opencv-java-3.4.7-2.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES>
         <root url="jar://$PROJECT_DIR$/../../../../../Public/wpilib/2020/maven/edu/wpi/first/thirdparty/frc2020/opencv/opencv-java/3.4.7-2/opencv-java-3.4.7-2-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/edu.wpi.first.thirdparty.frc2020.opencv/opencv-java/3.4.7-2/9b91344d286110ed348652e12d3b6bc2df38c748/opencv-java-3.4.7-2-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: edu.wpi.first.wpilibj:wpilibj-java:2020.1.2">
@@ -244,15 +297,13 @@
         <root url="jar://$PROJECT_DIR$/../../../../../Public/wpilib/2020/maven/edu/wpi/first/wpilibj/wpilibj-java/2020.1.2/wpilibj-java-2020.1.2-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: edu.wpi.first.wpilibOldCommands:wpilibOldCommands-java:2020.1.1">
+    <library name="Gradle: edu.wpi.first.wpilibOldCommands:wpilibOldCommands-java:2020.1.2">
       <CLASSES>
-        <root url="jar://$PROJECT_DIR$/../../../../../Public/wpilib/2020/maven/edu/wpi/first/wpilibOldCommands/wpilibOldCommands-java/2020.1.1/wpilibOldCommands-java-2020.1.1.jar!/" />
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/edu.wpi.first.wpilibOldCommands/wpilibOldCommands-java/2020.1.1/a64156798da02c0fd24623685629236799ee3e70/wpilibOldCommands-java-2020.1.1.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/edu.wpi.first.wpilibOldCommands/wpilibOldCommands-java/2020.1.2/5e7dcb0e2ca765dbb18c538a6ced54ed7ad89ba3/wpilibOldCommands-java-2020.1.2.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES>
-        <root url="jar://$PROJECT_DIR$/../../../../../Public/wpilib/2020/maven/edu/wpi/first/wpilibOldCommands/wpilibOldCommands-java/2020.1.1/wpilibOldCommands-java-2020.1.1-sources.jar!/" />
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/edu.wpi.first.wpilibOldCommands/wpilibOldCommands-java/2020.1.1/94c0d1ff142425cf7b92071f4ce57cefcf66d8a2/wpilibOldCommands-java-2020.1.1-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/edu.wpi.first.wpilibOldCommands/wpilibOldCommands-java/2020.1.2/89b8cf8dfa1abcb41a1d956eb537b76cdf415c42/wpilibOldCommands-java-2020.1.2-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: edu.wpi.first.wpiutil:wpiutil-java:2020.1.2">
@@ -269,82 +320,100 @@
     <library name="Gradle: junit:junit:4.12">
       <CLASSES>
         <root url="jar://$PROJECT_DIR$/../../../../../Public/wpilib/2020/maven/junit/junit/4.12/junit-4.12.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/junit/junit/4.12/2973d150c0dc1fefe998f834810d68f278ea58ec/junit-4.12.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES>
         <root url="jar://$PROJECT_DIR$/../../../../../Public/wpilib/2020/maven/junit/junit/4.12/junit-4.12-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/junit/junit/4.12/a6c32b40bf3d76eca54e3c601e5d1470c86fcdfa/junit-4.12-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: org.ejml:ejml-cdense:0.38">
       <CLASSES>
         <root url="jar://$PROJECT_DIR$/../../../../../Public/wpilib/2020/maven/org/ejml/ejml-cdense/0.38/ejml-cdense-0.38.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.ejml/ejml-cdense/0.38/195fdce4a23d112b99a7f82f3a906ffff85a44de/ejml-cdense-0.38.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES>
         <root url="jar://$PROJECT_DIR$/../../../../../Public/wpilib/2020/maven/org/ejml/ejml-cdense/0.38/ejml-cdense-0.38-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.ejml/ejml-cdense/0.38/2b9b25692a5077f48e5cb907e9675d721d0d4172/ejml-cdense-0.38-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: org.ejml:ejml-core:0.38">
       <CLASSES>
         <root url="jar://$PROJECT_DIR$/../../../../../Public/wpilib/2020/maven/org/ejml/ejml-core/0.38/ejml-core-0.38.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.ejml/ejml-core/0.38/95493af53f603dfbbcd7d1d3df58b9d5a4c4e2b7/ejml-core-0.38.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES>
         <root url="jar://$PROJECT_DIR$/../../../../../Public/wpilib/2020/maven/org/ejml/ejml-core/0.38/ejml-core-0.38-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.ejml/ejml-core/0.38/3605fc3e3b3de0343e4d0c365cd5207918ac6058/ejml-core-0.38-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: org.ejml:ejml-ddense:0.38">
       <CLASSES>
         <root url="jar://$PROJECT_DIR$/../../../../../Public/wpilib/2020/maven/org/ejml/ejml-ddense/0.38/ejml-ddense-0.38.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.ejml/ejml-ddense/0.38/3f64a356900f72951ffa0242e958b2acf18ac3a3/ejml-ddense-0.38.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES>
         <root url="jar://$PROJECT_DIR$/../../../../../Public/wpilib/2020/maven/org/ejml/ejml-ddense/0.38/ejml-ddense-0.38-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.ejml/ejml-ddense/0.38/7b24d949fc1749fdaf6929953cdedc6a9fa90b76/ejml-ddense-0.38-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: org.ejml:ejml-dsparse:0.38">
       <CLASSES>
         <root url="jar://$PROJECT_DIR$/../../../../../Public/wpilib/2020/maven/org/ejml/ejml-dsparse/0.38/ejml-dsparse-0.38.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.ejml/ejml-dsparse/0.38/4b2ed3b58a5c4b4292c1df0515e6cfb3e97f0f63/ejml-dsparse-0.38.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES>
         <root url="jar://$PROJECT_DIR$/../../../../../Public/wpilib/2020/maven/org/ejml/ejml-dsparse/0.38/ejml-dsparse-0.38-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.ejml/ejml-dsparse/0.38/99fa800790c5c1ca40ce270f460b53fc49491c69/ejml-dsparse-0.38-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: org.ejml:ejml-fdense:0.38">
       <CLASSES>
         <root url="jar://$PROJECT_DIR$/../../../../../Public/wpilib/2020/maven/org/ejml/ejml-fdense/0.38/ejml-fdense-0.38.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.ejml/ejml-fdense/0.38/426ac05f7fb9b87db4e854b8ded9be4fa57b69df/ejml-fdense-0.38.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES>
         <root url="jar://$PROJECT_DIR$/../../../../../Public/wpilib/2020/maven/org/ejml/ejml-fdense/0.38/ejml-fdense-0.38-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.ejml/ejml-fdense/0.38/29dd627c080e1d9a15708a2e82d7a5b132868b26/ejml-fdense-0.38-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: org.ejml:ejml-simple:0.38">
       <CLASSES>
         <root url="jar://$PROJECT_DIR$/../../../../../Public/wpilib/2020/maven/org/ejml/ejml-simple/0.38/ejml-simple-0.38.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.ejml/ejml-simple/0.38/1cfd0fbe2b23aa5af02e9681b011fd8040661039/ejml-simple-0.38.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES>
         <root url="jar://$PROJECT_DIR$/../../../../../Public/wpilib/2020/maven/org/ejml/ejml-simple/0.38/ejml-simple-0.38-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.ejml/ejml-simple/0.38/cd7516e71525d51adcb07fab4688acb25b0d8f5d/ejml-simple-0.38-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: org.ejml:ejml-zdense:0.38">
       <CLASSES>
         <root url="jar://$PROJECT_DIR$/../../../../../Public/wpilib/2020/maven/org/ejml/ejml-zdense/0.38/ejml-zdense-0.38.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.ejml/ejml-zdense/0.38/70e655edf1ce505380e25c4622c9b0e3e07a1823/ejml-zdense-0.38.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES>
         <root url="jar://$PROJECT_DIR$/../../../../../Public/wpilib/2020/maven/org/ejml/ejml-zdense/0.38/ejml-zdense-0.38-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.ejml/ejml-zdense/0.38/ed597a1c0c4aa77ec170b204ecd526408b7698a9/ejml-zdense-0.38-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: org.hamcrest:hamcrest-core:1.3">
       <CLASSES>
         <root url="jar://$PROJECT_DIR$/../../../../../Public/wpilib/2020/maven/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.hamcrest/hamcrest-core/1.3/42a25dc3219429f0e5d060061f71acb49bf010a0/hamcrest-core-1.3.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES>
         <root url="jar://$PROJECT_DIR$/../../../../../Public/wpilib/2020/maven/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.hamcrest/hamcrest-core/1.3/1dc37250fbc78e23a65a67fbbaf71d2e9cbc3c0b/hamcrest-core-1.3-sources.jar!/" />
       </SOURCES>
     </library>
   </component>
