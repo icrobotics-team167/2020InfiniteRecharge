@@ -46,7 +46,7 @@ public class DoubleXboxController implements Controller {
     }
 
     @Override
-    public double getSwerveTurnSpeed() {
+    public double getSwerveAngularSpeed() {
         double speed = primary.getX(GenericHID.Hand.kRight);
         if (Config.Tolerances.SWERVE_SPIN_DEAD_ZONE_ENABLED && Math.abs(speed) <= Math.abs(Config.Tolerances.SWERVE_SPIN_DEAD_ZONE_SIZE)) {
             return 0;

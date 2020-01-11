@@ -13,7 +13,16 @@ public class TankDriveBase {
     private CANSparkMax[] leftMotorGroup;
     private CANSparkMax[] rightMotorGroup;
 
-    public TankDriveBase() {
+    // Singleton
+    private static TankDriveBase instance;
+    public static TankDriveBase getInstance() {
+        if (instance == null) {
+            instance = new TankDriveBase();
+        }
+        return instance;
+    }
+
+    private TankDriveBase() {
         try {
             navx = new AHRS(SPI.Port.kMXP);
         } catch (RuntimeException e) {

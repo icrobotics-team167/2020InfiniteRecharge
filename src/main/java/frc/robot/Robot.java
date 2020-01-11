@@ -9,13 +9,13 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.I2C;
-import com.revrobotics.ColorSensorV3;
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import frc.robot.controllers.Controller;
+import frc.robot.controllers.SingleXboxController;
+import frc.robot.routines.teleop.SwerveTeleop;
+import frc.robot.routines.teleop.TankTeleop;
+import frc.robot.routines.teleop.Teleop;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -25,21 +25,24 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
  * project.
  */
 public class Robot extends TimedRobot {
-    private static final String kDefaultAuto = "Default";
-    private static final String kCustomAuto = "My Auto";
-    private String m_autoSelected;
-    private final SendableChooser<String> m_chooser = new SendableChooser<>();
+    private static final String DEFAULT_AUTO_NAME = "Default";
+    private static final String CUSTOM_AUTO_NAME = "My Auto";
+    private String selectedAutoName;
+    private final SendableChooser<String> AUTO_CHOOSER = new SendableChooser<>();
+
     private DriverStation driverStation;
+    private Controller controller;
+    private Teleop teleop;
 
-    private XboxController controller;
-
-    private ColorSensorV3 colorSensor;
-    private final I2C.Port i2cPort = I2C.Port.kOnboard;
-
-    private boolean rotationControl;
-    private boolean positionControl;
-
-    private TalonSRX colorMotor;
+//    private XboxController controller;
+//
+//    private ColorSensorV3 colorSensor;
+//    private final I2C.Port i2cPort = I2C.Port.kOnboard;
+//
+//    private boolean rotationControl;
+//    private boolean positionControl;
+//
+//    private TalonSRX colorMotor;
 
     /**
      * This function is run when the robot is first started up and should be
@@ -47,18 +50,21 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotInit() {
-        m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
-        m_chooser.addOption("My Auto", kCustomAuto);
-        SmartDashboard.putData("Auto choices", m_chooser);
+        AUTO_CHOOSER.setDefaultOption("Default Auto", DEFAULT_AUTO_NAME);
+        AUTO_CHOOSER.addOption("My Auto", CUSTOM_AUTO_NAME);
+        SmartDashboard.putData("Auto choices", AUTO_CHOOSER);
+
         driverStation = DriverStation.getInstance();
+        controller = new SingleXboxController();
+        teleop = Config.SWERVE_ENABLED ? new SwerveTeleop(controller) : new TankTeleop(controller);
 
-        controller = new XboxController(Config.Ports.PRIMARY_CONTROLLER);
-
-        colorSensor = new ColorSensorV3(i2cPort);
-        rotationControl = false;
-        positionControl = false;
-
-        colorMotor = new TalonSRX(Config.Ports.COLOR_SENSOR); // port
+//        controller = new XboxController(Config.Ports.PRIMARY_CONTROLLER);
+//
+//        colorSensor = new ColorSensorV3(i2cPort);
+//        rotationControl = false;
+//        positionControl = false;
+//
+//        colorMotor = new TalonSRX(Config.Ports.COLOR_SENSOR); // port
     }
 
     /**
@@ -86,9 +92,9 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void autonomousInit() {
-        m_autoSelected = m_chooser.getSelected();
+        selectedAutoName = AUTO_CHOOSER.getSelected();
         // m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
-        System.out.println("Auto selected: " + m_autoSelected);
+        System.out.println("Auto selected: " + selectedAutoName);
     }
 
     /**
@@ -96,56 +102,58 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void autonomousPeriodic() {
-        switch (m_autoSelected) {
-            case kCustomAuto:
+        switch (selectedAutoName) {
+            case CUSTOM_AUTO_NAME:
                 // Put custom auto code here
                 break;
-            case kDefaultAuto:
+            case DEFAULT_AUTO_NAME:
             default:
                 // Put default auto code here
                 break;
         }
     }
 
-    private Colors current;
-    private boolean changedColor;
-    private int semiCycleCount;
+//    private Colors current;
+//    private boolean changedColor;
+//    private int semiCycleCount;
 
     /**
      * This function is called periodically during operator control.
      */
     @Override
     public void teleopPeriodic() {
-        Color color = new Color(colorSensor.getColor().red, colorSensor.getColor().green, colorSensor.getColor().blue);
+        teleop.exec();
 
-        if (controller.getXButton() && !positionControl) {
-            rotationControl = true;
-            current = color.getBestColorMatch();
-            semiCycleCount = 0;
-            changedColor = false;
-            colorMotor.set(ControlMode.PercentOutput, 1);
-        }
-
-        if (controller.getYButton() && !rotationControl) {
-            positionControl = true;
-            colorMotor.set(ControlMode.PercentOutput, Color.getClosest(color.getBestColorMatch(), Colors.getColor(driverStation.getGameSpecificMessage())));
-        }
-
-        if (rotationControl && !changedColor && color.getBestColorMatch() != current) {
-            changedColor = true;
-        } else if (rotationControl && changedColor && color.getBestColorMatch() == current) {
-            semiCycleCount++;
-            changedColor = false;
-        }
-
-        if (rotationControl && semiCycleCount == 8) {
-            rotationControl = false;
-            colorMotor.set(ControlMode.PercentOutput, 0);
-        }
-
-        if (positionControl && color.getBestColorMatch().label == driverStation.getGameSpecificMessage()) {
-            colorMotor.set(ControlMode.PercentOutput, 0);
-        }
+//        Color color = new Color(colorSensor.getColor().red, colorSensor.getColor().green, colorSensor.getColor().blue);
+//
+//        if (controller.getXButton() && !positionControl) {
+//            rotationControl = true;
+//            current = color.getBestColorMatch();
+//            semiCycleCount = 0;
+//            changedColor = false;
+//            colorMotor.set(ControlMode.PercentOutput, 1);
+//        }
+//
+//        if (controller.getYButton() && !rotationControl) {
+//            positionControl = true;
+//            colorMotor.set(ControlMode.PercentOutput, Color.getClosest(color.getBestColorMatch(), Colors.getColor(driverStation.getGameSpecificMessage())));
+//        }
+//
+//        if (rotationControl && !changedColor && color.getBestColorMatch() != current) {
+//            changedColor = true;
+//        } else if (rotationControl && changedColor && color.getBestColorMatch() == current) {
+//            semiCycleCount++;
+//            changedColor = false;
+//        }
+//
+//        if (rotationControl && semiCycleCount == 8) {
+//            rotationControl = false;
+//            colorMotor.set(ControlMode.PercentOutput, 0);
+//        }
+//
+//        if (positionControl && color.getBestColorMatch().label == driverStation.getGameSpecificMessage()) {
+//            colorMotor.set(ControlMode.PercentOutput, 0);
+//        }
     }
 
     /**

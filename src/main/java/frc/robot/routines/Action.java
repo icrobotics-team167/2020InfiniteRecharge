@@ -1,4 +1,4 @@
-package frc.robot.auto;
+package frc.robot.routines;
 
 public abstract class Action {
 

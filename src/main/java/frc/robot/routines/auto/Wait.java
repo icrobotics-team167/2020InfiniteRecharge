@@ -1,6 +1,6 @@
-package frc.robot.auto.actions;
+package frc.robot.routines.auto;
 
-import frc.robot.auto.Action;
+import frc.robot.routines.Action;
 
 public class Wait extends Action {
 

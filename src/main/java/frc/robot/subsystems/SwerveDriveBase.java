@@ -34,6 +34,15 @@ public class SwerveDriveBase {
     private CANEncoder backRightSpinEncoder;
     private CANEncoder backRightMoveEncoder;
 
+    // Singleton
+    private static SwerveDriveBase instance;
+    public static SwerveDriveBase getInstance() {
+        if (instance == null) {
+            instance = new SwerveDriveBase();
+        }
+        return instance;
+    }
+
     public SwerveDriveBase() {
         try {
             navx = new AHRS(SPI.Port.kMXP);

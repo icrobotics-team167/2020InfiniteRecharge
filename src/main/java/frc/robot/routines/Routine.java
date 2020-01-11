@@ -1,4 +1,4 @@
-package frc.robot.auto;
+package frc.robot.routines;
 
 import java.util.Arrays;
 import java.util.LinkedList;

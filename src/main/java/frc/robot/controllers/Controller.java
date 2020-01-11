@@ -7,6 +7,6 @@ public interface Controller {
 
     double getSwerveHorizontalSpeed();
     double getSwerveVerticalSpeed();
-    double getSwerveTurnSpeed();
+    double getSwerveAngularSpeed();
 
 }
