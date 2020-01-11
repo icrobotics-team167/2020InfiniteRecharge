@@ -56,14 +56,14 @@ public class Config {
         // Swerve module locations (center on the origin, front facing the position x-axis)
         public static final class Swerve {
             // TODO determine actual values
-            public static final double FRONT_LEFT_X = 0.381;
-            public static final double FRONT_LEFT_Y = 0.381;
-            public static final double FRONT_RIGHT_X = 0.381;
-            public static final double FRONT_RIGHT_Y = -0.381;
-            public static final double BACK_LEFT_X = -0.381;
-            public static final double BACK_LEFT_Y = 0.381;
-            public static final double BACK_RIGHT_X = -0.381;
-            public static final double BACK_RIGHT_Y = -0.381;
+            public static final double FRONT_LEFT_X = 0.29845;
+            public static final double FRONT_LEFT_Y = 0.29845;
+            public static final double FRONT_RIGHT_X = 0.29845;
+            public static final double FRONT_RIGHT_Y = -0.29845;
+            public static final double BACK_LEFT_X = -0.29845;
+            public static final double BACK_LEFT_Y = 0.29845;
+            public static final double BACK_RIGHT_X = -0.29845;
+            public static final double BACK_RIGHT_Y = -0.29845;
         }
 
         // Swerve top speeds
