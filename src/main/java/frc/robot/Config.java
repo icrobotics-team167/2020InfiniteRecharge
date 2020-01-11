@@ -39,14 +39,14 @@ public class Config {
 
         // Swerve module ports
         public static final class Swerve {
-            public static final int FRONT_LEFT_SPIN = 0;
-            public static final int FRONT_LEFT_MOVE = 1;
+            public static final int FRONT_LEFT_SPIN = 7;
+            public static final int FRONT_LEFT_MOVE = 8;
             public static final int FRONT_RIGHT_SPIN = 2;
-            public static final int FRONT_RIGHT_MOVE = 3;
-            public static final int BACK_LEFT_SPIN = 4;
+            public static final int FRONT_RIGHT_MOVE = 1;
+            public static final int BACK_LEFT_SPIN = 6;
             public static final int BACK_LEFT_MOVE = 5;
-            public static final int BACK_RIGHT_SPIN = 6;
-            public static final int BACK_RIGHT_MOVE = 7;
+            public static final int BACK_RIGHT_SPIN = 4;
+            public static final int BACK_RIGHT_MOVE = 3;
         }
 
         // Color Sensor
