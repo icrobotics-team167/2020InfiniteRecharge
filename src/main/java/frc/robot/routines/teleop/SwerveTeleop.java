@@ -13,9 +13,17 @@ public class SwerveTeleop extends Teleop {
         swerveDriveBase.resetEncoders();
     }
 
+    boolean done = false;
     @Override
     public void periodic() {
         // swerveDriveBase.swerveDrive(controller.getSwerveHorizontalSpeed(), controller.getSwerveVerticalSpeed(), controller.getSwerveAngularSpeed());
+        b n  
+        if (!done) {
+            done = swerveDriveBase.driveMeter();
+        } else {
+            swerveDriveBase.stop();
+        }
+
         swerveDriveBase.printEncoderValues();
     }
 

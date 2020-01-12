@@ -38,8 +38,8 @@ public class Robot extends TimedRobot {
     private Controller controller;
     private Teleop teleop;
 
-    CANSparkMax frontRightMove = new CANSparkMax(1, CANSparkMaxLowLevel.MotorType.kBrushless);
-
+    // CANSparkMax frontRightMove;
+    
 //    private XboxController controller;
 //
 //    private ColorSensorV3 colorSensor;
@@ -62,6 +62,9 @@ public class Robot extends TimedRobot {
 
         driverStation = DriverStation.getInstance();
         controller = new SingleXboxController();
+
+        // frontRightMove = new CANSparkMax(1, CANSparkMaxLowLevel.MotorType.kBrushless);
+
         teleop = Config.SWERVE_ENABLED ? new SwerveTeleop(controller) : new TankTeleop(controller);
 
 //        controller = new XboxController(Config.Ports.PRIMARY_CONTROLLER);
@@ -129,8 +132,8 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void teleopPeriodic() {
-        // teleop.exec();\
-        frontRightMove.set(1);
+        teleop.exec();
+        // frontRightMove.set(1);
         // if (!doneDriving) {
         //     doneDriving = SwerveDriveBase.getInstance().driveMeter();
         // }

@@ -67,14 +67,14 @@ public class SwerveDriveBase {
         backRightSpin = new CANSparkMax(Config.Ports.Swerve.BACK_RIGHT_SPIN, CANSparkMaxLowLevel.MotorType.kBrushless);
         backRightMove = new CANSparkMax(Config.Ports.Swerve.BACK_RIGHT_MOVE, CANSparkMaxLowLevel.MotorType.kBrushless);
 
-        frontLeftSpinEncoder = frontLeftSpin.getEncoder(EncoderType.kQuadrature, 4096);
-        frontLeftMoveEncoder = frontLeftMove.getEncoder(EncoderType.kQuadrature, 4096);
-        frontRightSpinEncoder = frontRightSpin.getEncoder(EncoderType.kQuadrature, 4096);
-        frontRightMoveEncoder = frontRightMove.getEncoder(EncoderType.kQuadrature, 4096);
-        backLeftSpinEncoder = backLeftSpin.getEncoder(EncoderType.kQuadrature, 4096);
-        backLeftMoveEncoder = backLeftMove.getEncoder(EncoderType.kQuadrature, 4096);
-        backRightSpinEncoder = backRightSpin.getEncoder(EncoderType.kQuadrature, 4096);
-        backRightMoveEncoder = backRightMove.getEncoder(EncoderType.kQuadrature, 4096);
+        frontLeftSpinEncoder = frontLeftSpin.getEncoder(EncoderType.kHallSensor, 4096);
+        frontLeftMoveEncoder = frontLeftMove.getEncoder(EncoderType.kHallSensor, 4096);
+        frontRightSpinEncoder = frontRightSpin.getEncoder(EncoderType.kHallSensor, 4096);
+        frontRightMoveEncoder = frontRightMove.getEncoder(EncoderType.kHallSensor, 4096);
+        backLeftSpinEncoder = backLeftSpin.getEncoder(EncoderType.kHallSensor, 4096);
+        backLeftMoveEncoder = backLeftMove.getEncoder(EncoderType.kHallSensor, 4096);
+        backRightSpinEncoder = backRightSpin.getEncoder(EncoderType.kHallSensor, 4096);
+        backRightMoveEncoder = backRightMove.getEncoder(EncoderType.kHallSensor, 4096);
 
         frontLeftSpin.setIdleMode(CANSparkMax.IdleMode.kBrake);
         frontLeftMove.setIdleMode(CANSparkMax.IdleMode.kBrake);
@@ -113,15 +113,29 @@ public class SwerveDriveBase {
         // TODO drive modules at correct speeds
     }
 
+    public void stop() {
+        frontLeftSpin.set(0);
+        frontLeftMove.set(0);
+        frontRightSpin.set(0);
+        frontRightMove.set(0);
+        backLeftSpin.set(0);
+        backLeftMove.set(0);
+        backRightSpin.set(0);
+        backRightMove.set(0);
+    }
+
     public boolean driveMeter() {
         frontLeftMove.set(0.3);
         frontRightMove.set(0.3);
         backLeftMove.set(0.3);
         backRightMove.set(0.3);
         double ticks = (frontLeftMoveEncoder.getPosition() + frontRightMoveEncoder.getPosition() + backLeftMoveEncoder.getPosition() + backRightMoveEncoder.getPosition()) / 4;
-        if (ticks >= 0.17575943852) {
+        if (ticks >= 200) {
             return true;
         }
+        // if (ticks >= 0.17575943852) {
+        //     return true;
+        // }
         return false;
     }
 
