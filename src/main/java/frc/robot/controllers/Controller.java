@@ -9,4 +9,6 @@ public interface Controller {
     double getSwerveVerticalSpeed();
     double getSwerveAngularSpeed();
 
+    double getIntakeSpeed();
+
 }

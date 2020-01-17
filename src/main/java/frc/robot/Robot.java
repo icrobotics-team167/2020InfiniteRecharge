@@ -7,6 +7,8 @@
 
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -19,6 +21,8 @@ import frc.robot.routines.teleop.SwerveTeleop;
 import frc.robot.routines.teleop.TankTeleop;
 import frc.robot.routines.teleop.Teleop;
 import frc.robot.subsystems.SwerveDriveBase;
+import frc.robot.subsystems.TalonTankDriveBase;
+
 import com.revrobotics.CANSparkMaxLowLevel;
 
 /**
@@ -37,6 +41,8 @@ public class Robot extends TimedRobot {
     private DriverStation driverStation;
     private Controller controller;
     private Teleop teleop;
+
+    private TalonSRX collectorTalon;
 
     // CANSparkMax frontRightMove;
     
@@ -67,6 +73,9 @@ public class Robot extends TimedRobot {
 
         teleop = Config.SWERVE_ENABLED ? new SwerveTeleop(controller) : new TankTeleop(controller);
 
+        collectorTalon = new TalonSRX(14);
+
+        TalonTankDriveBase.getInstance();
 //        controller = new XboxController(Config.Ports.PRIMARY_CONTROLLER);
 //
 //        colorSensor = new ColorSensorV3(i2cPort);
@@ -132,7 +141,9 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void teleopPeriodic() {
-        teleop.exec();
+        collectorTalon.set(ControlMode.PercentOutput, controller.getIntakeSpeed());
+        TalonTankDriveBase.getInstance().tankDrive(controller.getTankLeftSpeed(), -controller.getTankRightSpeed());
+        // teleop.exec();
         // frontRightMove.set(1);
         // if (!doneDriving) {
         //     doneDriving = SwerveDriveBase.getInstance().driveMeter();

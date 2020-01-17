@@ -54,4 +54,15 @@ public class DoubleXboxController implements Controller {
         return speed;
     }
 
+    @Override
+    public double getIntakeSpeed() {
+        if (primary.getTriggerAxis(GenericHID.Hand.kRight) > 0.2) {
+            return 1;
+        }
+        if (primary.getTriggerAxis(GenericHID.Hand.kLeft) > 0.2) {
+            return -1;
+        }
+        return 0;
+    }
+
 }
