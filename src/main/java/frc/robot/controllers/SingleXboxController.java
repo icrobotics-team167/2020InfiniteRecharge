@@ -66,7 +66,7 @@ public class SingleXboxController implements Controller {
 
     @Override
     public boolean trackTarget() {
-        return primary.getAButton();
+        return primary.getBButton();
     }
 
     @Override

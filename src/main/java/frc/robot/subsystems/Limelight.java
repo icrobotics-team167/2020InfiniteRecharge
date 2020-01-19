@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Limelight {
 
@@ -19,6 +20,7 @@ public class Limelight {
     private double ty;
     private double ta;
     private double ts;
+    private double distance;
 
     private Limelight() {
         getTable().getEntry("camMode").setNumber(0);
@@ -37,6 +39,12 @@ public class Limelight {
         ty = nt.getEntry("ty").getDouble(0);
         ta = nt.getEntry("ta").getDouble(0);
         ts = nt.getEntry("ts").getDouble(0);
+        distance = ((double) 66.5) / Math.tan(Math.toRadians(29.0436377382 + ty));
+        SmartDashboard.putNumber("tx", tx);
+        SmartDashboard.putNumber("ty", ty);
+        SmartDashboard.putNumber("ta", ta);
+        SmartDashboard.putNumber("ts", ts);
+        SmartDashboard.putNumber("Limelight Distance", distance);
     }
 
     public NetworkTable getTable() {
