@@ -55,13 +55,28 @@ public class SingleXboxController implements Controller {
 
     @Override
     public double getIntakeSpeed() {
-        if (primary.getTriggerAxis(GenericHID.Hand.kRight) > 0.2) {
-            return 1;
-        }
-        if (primary.getTriggerAxis(GenericHID.Hand.kLeft) > 0.2) {
+        if (primary.getTriggerAxis(GenericHID.Hand.kLeft) >= 0.2) {
             return -1;
         }
+        if (primary.getTriggerAxis(GenericHID.Hand.kRight) >= 0.2) {
+            return 1;
+        }
         return 0;
+    }
+
+    @Override
+    public boolean trackTarget() {
+        return primary.getAButton();
+    }
+
+    @Override
+    public double getClockwiseTurretSpeed() {
+        return primary.getBumper(GenericHID.Hand.kRight) ? 0.3 : 0;
+    }
+
+    @Override
+    public double getCounterClockwiseTurretSpeed() {
+        return primary.getBumper(GenericHID.Hand.kLeft) ? 0.3 : 0;
     }
 
 }

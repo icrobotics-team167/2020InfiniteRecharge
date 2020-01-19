@@ -22,6 +22,7 @@ import frc.robot.routines.teleop.TankTeleop;
 import frc.robot.routines.teleop.Teleop;
 import frc.robot.subsystems.SwerveDriveBase;
 import frc.robot.subsystems.TalonTankDriveBase;
+import frc.robot.subsystems.Turret;
 
 import com.revrobotics.CANSparkMaxLowLevel;
 
@@ -141,8 +142,17 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void teleopPeriodic() {
-        collectorTalon.set(ControlMode.PercentOutput, controller.getIntakeSpeed());
+        collectorTalon.set(ControlMode.PercentOutput, 0.65 * controller.getIntakeSpeed());
         TalonTankDriveBase.getInstance().tankDrive(controller.getTankLeftSpeed(), -controller.getTankRightSpeed());
+        if (controller.getClockwiseTurretSpeed() >= 0.03) {
+            Turret.getInstance().turnClockwise(controller.getClockwiseTurretSpeed());
+        } else if (controller.getCounterClockwiseTurretSpeed() > 0.03) {
+            Turret.getInstance().turnCounterclockwise(controller.getCounterClockwiseTurretSpeed());
+        } else if (controller.trackTarget()) {
+            Turret.getInstance().trackTarget();
+        } else {
+            Turret.getInstance().stopTracking();
+        }
         // teleop.exec();
         // frontRightMove.set(1);
         // if (!doneDriving) {

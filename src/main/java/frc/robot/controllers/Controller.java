@@ -11,4 +11,9 @@ public interface Controller {
 
     double getIntakeSpeed();
 
+    boolean trackTarget();
+    double getClockwiseTurretSpeed();
+    double getCounterClockwiseTurretSpeed();
+    // boolean toggleLimelightMode();
+
 }

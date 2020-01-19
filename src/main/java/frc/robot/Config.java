@@ -52,6 +52,9 @@ public class Config {
         // Color Sensor
         public static final int COLOR_SENSOR = 5;
 
+        // Turret motor controller port
+        public static final int TURRET = 5;
+
     }
 
     public static final class Measures {

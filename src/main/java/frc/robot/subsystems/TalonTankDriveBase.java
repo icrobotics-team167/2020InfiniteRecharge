@@ -42,7 +42,8 @@ public class TalonTankDriveBase {
         rightMotorGroup = new TalonSRX[3];
         rightMotorGroup[0] = new TalonSRX(6);
         rightMotorGroup[1] = new TalonSRX(7);
-        rightMotorGroup[2] = new TalonSRX(8);
+        // rightMotorGroup[2] = new TalonSRX(8);
+        rightMotorGroup[2] = new TalonSRX(50);
 
         // leftEncoders = new CANEncoder[3];
         // rightEncoders = new CANEncoder[3];
