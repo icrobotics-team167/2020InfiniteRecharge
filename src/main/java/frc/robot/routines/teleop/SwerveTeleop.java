@@ -15,8 +15,6 @@ public class SwerveTeleop extends Teleop {
         super(controller);
         swerveDriveBase = SwerveDriveBase.getInstance();
         swerveDriveBase.resetEncoders();
-
-        shooterEncoder = new Encoder(6, 7, 8);
     }
 
     boolean done = false;
@@ -28,8 +26,6 @@ public class SwerveTeleop extends Teleop {
         // } else {
         //     swerveDriveBase.stop();
         // }
-
-        swerveDriveBase.printEncoderValues();
 
         SmartDashboard.putNumber("Shooter Encoder", shooterEncoder.get());
     }

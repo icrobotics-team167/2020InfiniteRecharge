@@ -20,6 +20,7 @@ import frc.robot.controllers.SingleXboxController;
 import frc.robot.routines.teleop.SwerveTeleop;
 import frc.robot.routines.teleop.TankTeleop;
 import frc.robot.routines.teleop.Teleop;
+import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.SwerveDriveBase;
 import frc.robot.subsystems.TalonTankDriveBase;
 import frc.robot.subsystems.Turret;
@@ -77,6 +78,7 @@ public class Robot extends TimedRobot {
         collectorTalon = new TalonSRX(14);
 
         TalonTankDriveBase.getInstance();
+        Shooter.getInstance();
 //        controller = new XboxController(Config.Ports.PRIMARY_CONTROLLER);
 //
 //        colorSensor = new ColorSensorV3(i2cPort);
@@ -153,6 +155,7 @@ public class Robot extends TimedRobot {
         } else {
             Turret.getInstance().stopTracking();
         }
+        Shooter.getInstance().drive();
         // teleop.exec();
         // frontRightMove.set(1);
         // if (!doneDriving) {

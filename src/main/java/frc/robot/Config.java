@@ -55,6 +55,10 @@ public class Config {
         // Turret motor controller port
         public static final int TURRET = 5;
 
+        // Shooter motor controller ports
+        public static final int SHOOTER_LEFT = 6;
+        public static final int SHOOTER_RIGHT = 7;
+
     }
 
     public static final class Measures {
