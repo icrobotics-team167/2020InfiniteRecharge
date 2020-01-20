@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.controller.PIDController;
@@ -24,25 +25,18 @@ public class Turret {
 
     private Turret() {
         motor = new TalonSRX(Config.Ports.TURRET);
-        // Working values
-        // pid = new PIDController(0.065, 0.002, 0.005); 
-        // pid.setSetpoint(0);
-        // pid.setTolerance(0.6);
-        pid = new PIDController(0.065, 0.002, 0.002); 
+        motor.setNeutralMode(NeutralMode.Brake);
+        pid = new PIDController(0.065, 0.002, 0.002);
         pid.setSetpoint(0);
         pid.setTolerance(0.5);
         limelight = Limelight.getInstance();
     }
-    
-    public void trackTarget() {
+
+    public void autoAlign() {
         limelight.update();
         double tx = limelight.tx();
-        // if (Math.abs(tx) < 3) {
-        //     return;
-        // }
-        // motor.set(ControlMode.PercentOutput, MathUtil.clamp(-tx / 10, -1, 1));
-        double output = pid.calculate(limelight.tx());
-        SmartDashboard.putNumber("PID Output", output);
+        double output = pid.calculate(tx);
+        SmartDashboard.putNumber("Turret PID Output", output);
         motor.set(ControlMode.PercentOutput, MathUtil.clamp(output, -1, 1));
     }
 
@@ -54,7 +48,7 @@ public class Turret {
         motor.set(ControlMode.PercentOutput, speed);
     }
 
-    public void stopTracking() {
+    public void stop() {
         motor.set(ControlMode.PercentOutput, 0);
     }
 
