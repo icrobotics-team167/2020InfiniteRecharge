@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Limelight {
 
     private static Limelight instance;
-
     public static Limelight getInstance() {
         if (instance == null) {
             instance = new Limelight();

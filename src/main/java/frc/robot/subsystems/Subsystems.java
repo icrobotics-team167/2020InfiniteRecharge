@@ -8,6 +8,7 @@ import frc.robot.subsystems.drive.TankDriveBase;
 public class Subsystems {
 
     public static final TankDriveBase driveBase;
+    public static final Intake intake;
     public static final Turret turret;
 
     static {
@@ -16,6 +17,8 @@ public class Subsystems {
         } else {
             driveBase = TalonTankDriveBase.getInstance();
         }
+
+        intake = Intake.getInstance();
 
         turret = Turret.getInstance();
     }

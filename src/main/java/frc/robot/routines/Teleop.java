@@ -1,6 +1,7 @@
 package frc.robot.routines;
 
 import frc.robot.controls.inputs.ControlScheme;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Subsystems;
 import frc.robot.subsystems.Turret;
 import frc.robot.subsystems.drive.TankDriveBase;
@@ -9,11 +10,13 @@ public class Teleop {
 
     private ControlScheme controls;
     private TankDriveBase driveBase;
+    private Intake intake;
     private Turret turret;
 
     public Teleop(ControlScheme controls) {
         this.controls = controls;
         driveBase = Subsystems.driveBase;
+        intake = Subsystems.intake;
         turret = Subsystems.turret;
     }
 
@@ -27,6 +30,14 @@ public class Teleop {
 
     public void periodic() {
         driveBase.tankDrive(controls.getTankLeftSpeed(), controls.getTankRightSpeed());
+
+        if (controls.doRunIntakeForward()) {
+            intake.runForward();
+        } else if (controls.doRumIntakeReverse()) {
+            intake.runReverse();
+        } else {
+            intake.stop();
+        }
 
         if (controls.doToggleTurretAutoAlign()) {
             turretAutoAlignEnabled = !turretAutoAlignEnabled;

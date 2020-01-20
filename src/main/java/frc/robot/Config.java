@@ -82,6 +82,9 @@ public class Config {
         // Color Sensor
         public static final int COLOR_SENSOR = 5;
 
+        // Intake motor controller pott
+        public static final int INTAKE = 14;
+
         // Turret motor controller port
         public static final int TURRET = 5;
 

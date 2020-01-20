@@ -1,7 +1,5 @@
 package frc.robot;
 
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -14,8 +12,6 @@ import frc.robot.controls.inputs.DoubleController;
 import frc.robot.controls.inputs.NullController;
 import frc.robot.controls.inputs.SingleController;
 import frc.robot.routines.Teleop;
-import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.drive.TalonTankDriveBase;
 
 public class Robot extends TimedRobot {
 
@@ -27,8 +23,6 @@ public class Robot extends TimedRobot {
     private DriverStation driverStation;
     private ControlScheme controls;
     private Teleop teleop;
-
-    private TalonSRX collectorTalon;
 
 //    private ColorSensorV3 colorSensor;
 //    private final I2C.Port i2cPort = I2C.Port.kOnboard;
@@ -84,11 +78,6 @@ public class Robot extends TimedRobot {
         }
 
         teleop = new Teleop(controls);
-
-        collectorTalon = new TalonSRX(14);
-
-        TalonTankDriveBase.getInstance();
-        Shooter.getInstance();
 //        colorSensor = new ColorSensorV3(i2cPort);
 //        rotationControl = false;
 //        positionControl = false;
@@ -128,14 +117,10 @@ public class Robot extends TimedRobot {
 //    private Colors current;
 //    private boolean changedColor;
 //    private int semiCycleCount;
-//    boolean doneDriving = false;
 
     @Override
     public void teleopPeriodic() {
         teleop.periodic();
-//        collectorTalon.set(ControlMode.PercentOutput, 0.65 * controls.getIntakeSpeed());
-//        Shooter.getInstance().drive();
-
 //        Color color = new Color(colorSensor.getColor().red, colorSensor.getColor().green, colorSensor.getColor().blue);
 //
 //        if (controller.getXButton() && !positionControl) {
