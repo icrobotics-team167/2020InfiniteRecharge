@@ -7,6 +7,9 @@ public class Config {
 
     public static final class Tolerances {
 
+        // Threshold for a controller trigger to count as pressed
+        public static final double TRIGGER_PRESSED_THRESHOLD = 0.2;
+
         // Tank drive dead zone
         public static final boolean TANK_DEAD_ZONE_ENABLED = false;
         public static final double TANK_DEAD_ZONE_SIZE = 0.07;
