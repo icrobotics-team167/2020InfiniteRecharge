@@ -6,8 +6,8 @@ public class Config {
 
     public static final class Settings {
 
-        // Use tank drive (false) or swerve drive (true)
-        public static final boolean SWERVE_ENABLED = true;
+        // Use Talon tank drive/test bot (false) or Spark tank drive/real bot (true)
+        public static final boolean SPARK_TANK_ENABLED = true;
 
         // Controllers
         public static final ControllerType PRIMARY_CONTROLLER_TYPE = ControllerType.XB;
@@ -40,8 +40,25 @@ public class Config {
         public static final int PRIMARY_CONTROLLER = 0;
         public static final int SECONDARY_CONTROLLER = 1; // if applicable
 
-        // Tank motor controller ports
-        public static final class Tank {
+        // Talon tank ports (motor controllers and encoders)
+        public static final class TalonTank {
+            public static final int LEFT_1 = 3;
+            public static final int LEFT_2 = 4;
+            public static final int LEFT_3 = 9;
+            public static final int RIGHT_1 = 6;
+            public static final int RIGHT_2 = 7;
+            public static final int RIGHT_3 = 8;
+
+            public static final int LEFT_ENCODER_A = 0;
+            public static final int LEFT_ENCODER_B = 1;
+            public static final boolean LEFT_ENCODER_REVERSED = true;
+            public static final int RIGHT_ENCODER_A = 2;
+            public static final int RIGHT_ENCODER_B = 3;
+            public static final boolean RIGHT_ENCODER_REVERSED = true;
+        }
+
+        // Spark tank motor controller ports
+        public static final class SparkTank {
             public static final int LEFT_1 = 3;
             public static final int LEFT_2 = 4;
             public static final int LEFT_3 = 5;

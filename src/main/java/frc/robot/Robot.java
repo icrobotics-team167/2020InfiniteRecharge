@@ -20,7 +20,7 @@ import frc.robot.controls.inputs.ControlScheme;
 import frc.robot.controls.inputs.DoubleController;
 import frc.robot.controls.inputs.NullController;
 import frc.robot.controls.inputs.SingleController;
-import frc.robot.routines.teleop.Teleop;
+import frc.robot.routines.Teleop;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.drive.TalonTankDriveBase;
 
@@ -100,6 +100,8 @@ public class Robot extends TimedRobot {
             controls = new NullController();
         }
 
+        teleop = new Teleop(controls);
+
         collectorTalon = new TalonSRX(14);
 
         TalonTankDriveBase.getInstance();
@@ -157,7 +159,12 @@ public class Robot extends TimedRobot {
         }
     }
 
-//    private Colors current;
+    @Override
+    public void teleopInit() {
+        teleop.init();
+    }
+
+    //    private Colors current;
 //    private boolean changedColor;
 //    private int semiCycleCount;
 
@@ -167,8 +174,8 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void teleopPeriodic() {
+        teleop.periodic();
 //        collectorTalon.set(ControlMode.PercentOutput, 0.65 * controls.getIntakeSpeed());
-//        TankDriveBase.getInstance().tankDrive(controls.getTankLeftSpeed(), -controls.getTankRightSpeed());
 //        if (controls.getClockwiseTurretSpeed() >= 0.03) {
 //            Turret.getInstance().turnClockwise(controls.getClockwiseTurretSpeed());
 //        } else if (controls.getCounterClockwiseTurretSpeed() > 0.03) {

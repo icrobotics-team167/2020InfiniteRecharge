@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
 import frc.robot.Config;
 
-public class SparkTankDriveBase {
+public class SparkTankDriveBase implements TankDriveBase {
 
     private AHRS navx;
     private CANSparkMax[] leftMotorGroup;
@@ -34,13 +34,13 @@ public class SparkTankDriveBase {
         }
 
         leftMotorGroup = new CANSparkMax[3];
-        leftMotorGroup[0] = new CANSparkMax(Config.Ports.Tank.LEFT_1, CANSparkMaxLowLevel.MotorType.kBrushless);
-        leftMotorGroup[1] = new CANSparkMax(Config.Ports.Tank.LEFT_2, CANSparkMaxLowLevel.MotorType.kBrushless);
-        leftMotorGroup[2] = new CANSparkMax(Config.Ports.Tank.LEFT_3, CANSparkMaxLowLevel.MotorType.kBrushless);
+        leftMotorGroup[0] = new CANSparkMax(Config.Ports.SparkTank.LEFT_1, CANSparkMaxLowLevel.MotorType.kBrushless);
+        leftMotorGroup[1] = new CANSparkMax(Config.Ports.SparkTank.LEFT_2, CANSparkMaxLowLevel.MotorType.kBrushless);
+        leftMotorGroup[2] = new CANSparkMax(Config.Ports.SparkTank.LEFT_3, CANSparkMaxLowLevel.MotorType.kBrushless);
         rightMotorGroup = new CANSparkMax[3];
-        rightMotorGroup[0] = new CANSparkMax(Config.Ports.Tank.RIGHT_1, CANSparkMaxLowLevel.MotorType.kBrushless);
-        rightMotorGroup[1] = new CANSparkMax(Config.Ports.Tank.RIGHT_2, CANSparkMaxLowLevel.MotorType.kBrushless);
-        rightMotorGroup[2] = new CANSparkMax(Config.Ports.Tank.RIGHT_3, CANSparkMaxLowLevel.MotorType.kBrushless);
+        rightMotorGroup[0] = new CANSparkMax(Config.Ports.SparkTank.RIGHT_1, CANSparkMaxLowLevel.MotorType.kBrushless);
+        rightMotorGroup[1] = new CANSparkMax(Config.Ports.SparkTank.RIGHT_2, CANSparkMaxLowLevel.MotorType.kBrushless);
+        rightMotorGroup[2] = new CANSparkMax(Config.Ports.SparkTank.RIGHT_3, CANSparkMaxLowLevel.MotorType.kBrushless);
 
         leftEncoders = new CANEncoder[3];
         rightEncoders = new CANEncoder[3];
@@ -50,6 +50,7 @@ public class SparkTankDriveBase {
         }
     }
 
+    @Override
     public void tankDrive(double leftSpeed, double rightSpeed) {
         for (CANSparkMax motorController : leftMotorGroup) {
             motorController.set(leftSpeed);
