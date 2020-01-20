@@ -10,6 +10,7 @@ public class Subsystems {
     public static final TankDriveBase driveBase;
     public static final Intake intake;
     public static final Turret turret;
+    public static final Shooter shooter;
 
     static {
         if (Config.Settings.SPARK_TANK_ENABLED) {
@@ -21,6 +22,8 @@ public class Subsystems {
         intake = Intake.getInstance();
 
         turret = Turret.getInstance();
+
+        shooter = Shooter.getInstance();
     }
 
 }

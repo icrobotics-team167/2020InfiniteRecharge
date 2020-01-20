@@ -5,9 +5,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpiutil.math.MathUtil;
 import frc.robot.Config;
 
 public class Shooter {
@@ -23,35 +21,31 @@ public class Shooter {
     private TalonSRX leftMotorController;
     private TalonSRX rightMotorController;
     private Encoder encoder;
-    private int targetRPM;
-    private double currentSpeed;
-    private PIDController pid;
 
     private Shooter() {
-        // leftMotorController = new TalonSRX(Config.Ports.SHOOTER_LEFT);
-        // rightMotorController = new TalonSRX(Config.Ports.SHOOTER_RIGHT);
-        // leftMotorController.setNeutralMode(NeutralMode.Coast);
-        // rightMotorController.setNeutralMode(NeutralMode.Coast);
-        encoder = new Encoder(6, 7, 8);
+        leftMotorController = new TalonSRX(Config.Ports.Shooter.LEFT);
+        rightMotorController = new TalonSRX(Config.Ports.Shooter.RIGHT);
+        leftMotorController.setNeutralMode(NeutralMode.Coast);
+        rightMotorController.setNeutralMode(NeutralMode.Coast);
+        encoder = new Encoder(
+            Config.Ports.Shooter.ENCODER_A,
+            Config.Ports.Shooter.ENCODER_B,
+            Config.Ports.Shooter.ENCODER_I
+        );
         encoder.setDistancePerPulse((double) 60 / 2048);
-        targetRPM = 10000;
-        currentSpeed = 0;
-        pid = new PIDController(0.0015, 0.007, 0.0002);
-        pid.setTolerance(5);
     }
 
-    public void drive() {
-        pid.setSetpoint(targetRPM);
+    public void drive(int targetRPM) {
         double actualRPM = encoder.getRate();
         SmartDashboard.putNumber("Shooter RPM", actualRPM);
-        currentSpeed += pid.calculate(actualRPM);
-        currentSpeed = MathUtil.clamp(currentSpeed, 0, 1);
-        // leftMotorController.set(ControlMode.PercentOutput, currentSpeed);
-        // rightMotorController.set(ControlMode.PercentOutput, -currentSpeed);
-    }
 
-    public void setSpeed(int rpm) {
-        targetRPM = rpm;
+        if (actualRPM > targetRPM) {
+            leftMotorController.set(ControlMode.PercentOutput, 0);
+            rightMotorController.set(ControlMode.PercentOutput, 0);
+        } else {
+            leftMotorController.set(ControlMode.PercentOutput, -1);
+            rightMotorController.set(ControlMode.PercentOutput, 1);
+        }
     }
 
 }

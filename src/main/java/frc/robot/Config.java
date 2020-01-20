@@ -89,8 +89,14 @@ public class Config {
         public static final int TURRET = 5;
 
         // Shooter motor controller ports
-        public static final int SHOOTER_LEFT = 6;
-        public static final int SHOOTER_RIGHT = 7;
+        public static final class Shooter {
+            public static final int LEFT = 6;
+            public static final int RIGHT = 7;
+
+            public static final int ENCODER_A = 6;
+            public static final int ENCODER_B = 7;
+            public static final int ENCODER_I = 8;
+        }
 
         // LED PWM ports
         public static final int LED_1 = 0;
