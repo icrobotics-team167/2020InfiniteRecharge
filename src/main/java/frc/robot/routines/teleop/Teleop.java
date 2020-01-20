@@ -1,13 +1,13 @@
 package frc.robot.routines.teleop;
 
-import frc.robot.controllers.Controller;
+import frc.robot.controls.inputs.ControlScheme;
 import frc.robot.routines.Action;
 
 public class Teleop extends Action {
 
-    protected Controller controller;
+    protected ControlScheme controller;
 
-    protected Teleop(Controller controller) {
+    protected Teleop(ControlScheme controller) {
         this.controller = controller;
     }
 

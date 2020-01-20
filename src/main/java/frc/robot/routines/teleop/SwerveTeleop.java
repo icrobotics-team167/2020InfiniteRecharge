@@ -2,8 +2,8 @@ package frc.robot.routines.teleop;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.controllers.Controller;
-import frc.robot.subsystems.SwerveDriveBase;
+import frc.robot.controls.inputs.ControlScheme;
+import frc.robot.subsystems.drive.SwerveDriveBase;
 
 public class SwerveTeleop extends Teleop {
 
@@ -11,7 +11,7 @@ public class SwerveTeleop extends Teleop {
 
     Encoder shooterEncoder;
 
-    public SwerveTeleop(Controller controller) {
+    public SwerveTeleop(ControlScheme controller) {
         super(controller);
         swerveDriveBase = SwerveDriveBase.getInstance();
         swerveDriveBase.resetEncoders();

@@ -1,10 +1,11 @@
-package frc.robot.controllers;
+package frc.robot.controls.controllers;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Config;
+import frc.robot.controls.controllers.Controller;
 
-public class XBController implements GameController {
+public class XBController implements Controller {
 
     private XboxController controller;
     private int port;

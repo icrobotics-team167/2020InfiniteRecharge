@@ -7,26 +7,22 @@
 
 package frc.robot;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.controllers.Controller;
-import frc.robot.controllers.SingleXboxController;
-import frc.robot.routines.teleop.SwerveTeleop;
-import frc.robot.routines.teleop.TankTeleop;
+import frc.robot.controls.controllers.Controller;
+import frc.robot.controls.controllers.PSController;
+import frc.robot.controls.controllers.XBController;
+import frc.robot.controls.inputs.ControlScheme;
+import frc.robot.controls.inputs.DoubleController;
+import frc.robot.controls.inputs.NullController;
+import frc.robot.controls.inputs.SingleController;
 import frc.robot.routines.teleop.Teleop;
 import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.SwerveDriveBase;
-import frc.robot.subsystems.TalonTankDriveBase;
-import frc.robot.subsystems.TankDriveBase;
-import frc.robot.subsystems.Turret;
-
-import com.revrobotics.CANSparkMaxLowLevel;
+import frc.robot.subsystems.drive.TalonTankDriveBase;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -42,15 +38,11 @@ public class Robot extends TimedRobot {
     private final SendableChooser<String> AUTO_CHOOSER = new SendableChooser<>();
 
     private DriverStation driverStation;
-    private Controller controller;
+    private ControlScheme controls;
     private Teleop teleop;
 
     private TalonSRX collectorTalon;
 
-    // CANSparkMax frontRightMove;
-    
-//    private XboxController controller;
-//
 //    private ColorSensorV3 colorSensor;
 //    private final I2C.Port i2cPort = I2C.Port.kOnboard;
 //
@@ -70,18 +62,48 @@ public class Robot extends TimedRobot {
         SmartDashboard.putData("Auto choices", AUTO_CHOOSER);
 
         driverStation = DriverStation.getInstance();
-        controller = new SingleXboxController();
 
-        // frontRightMove = new CANSparkMax(1, CANSparkMaxLowLevel.MotorType.kBrushless);
-
-        teleop = Config.SWERVE_ENABLED ? new SwerveTeleop(controller) : new TankTeleop(controller);
+        Controller primaryController = null;
+        switch (Config.Settings.PRIMARY_CONTROLLER_TYPE) {
+            case XB:
+                primaryController = new XBController(Config.Ports.PRIMARY_CONTROLLER);
+                break;
+            case PS:
+                primaryController = new PSController(Config.Ports.PRIMARY_CONTROLLER);
+                break;
+            case NONE:
+                primaryController = null;
+                break;
+        }
+        Controller secondaryController = null;
+        switch (Config.Settings.SECONDARY_CONTROLLER_TYPE) {
+            case XB:
+                secondaryController = new XBController(Config.Ports.SECONDARY_CONTROLLER);
+                break;
+            case PS:
+                secondaryController = new PSController(Config.Ports.SECONDARY_CONTROLLER);
+                break;
+            case NONE:
+                secondaryController = null;
+                break;
+        }
+        if (primaryController == null && secondaryController == null) {
+            controls = new NullController();
+        } else if (primaryController != null && secondaryController == null) {
+            controls = new SingleController(primaryController);
+        } else if (primaryController != null && secondaryController != null) {
+            controls = new DoubleController(primaryController, secondaryController);
+        } else {
+            // Fallback
+            // This should be unreachable in normal conditions
+            // This could only occur if the secondary controller is configured but the primary controller isn't
+            controls = new NullController();
+        }
 
         collectorTalon = new TalonSRX(14);
 
         TalonTankDriveBase.getInstance();
         Shooter.getInstance();
-//        controller = new XboxController(Config.Ports.PRIMARY_CONTROLLER);
-//
 //        colorSensor = new ColorSensorV3(i2cPort);
 //        rotationControl = false;
 //        positionControl = false;
@@ -145,18 +167,19 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void teleopPeriodic() {
-        collectorTalon.set(ControlMode.PercentOutput, 0.65 * controller.getIntakeSpeed());
-        TankDriveBase.getInstance().tankDrive(controller.getTankLeftSpeed(), -controller.getTankRightSpeed());
-        if (controller.getClockwiseTurretSpeed() >= 0.03) {
-            Turret.getInstance().turnClockwise(controller.getClockwiseTurretSpeed());
-        } else if (controller.getCounterClockwiseTurretSpeed() > 0.03) {
-            Turret.getInstance().turnCounterclockwise(controller.getCounterClockwiseTurretSpeed());
-        } else if (controller.trackTarget()) {
-            Turret.getInstance().trackTarget();
-        } else {
-            Turret.getInstance().stopTracking();
-        }
-        Shooter.getInstance().drive();
+//        collectorTalon.set(ControlMode.PercentOutput, 0.65 * controls.getIntakeSpeed());
+//        TankDriveBase.getInstance().tankDrive(controls.getTankLeftSpeed(), -controls.getTankRightSpeed());
+//        if (controls.getClockwiseTurretSpeed() >= 0.03) {
+//            Turret.getInstance().turnClockwise(controls.getClockwiseTurretSpeed());
+//        } else if (controls.getCounterClockwiseTurretSpeed() > 0.03) {
+//            Turret.getInstance().turnCounterclockwise(controls.getCounterClockwiseTurretSpeed());
+//        } else if (controls.trackTarget()) {
+//            Turret.getInstance().trackTarget();
+//        } else {
+//            Turret.getInstance().stopTracking();
+//        }
+//        Shooter.getInstance().drive();
+
         // teleop.exec();
         // frontRightMove.set(1);
         // if (!doneDriving) {

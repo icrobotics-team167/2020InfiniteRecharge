@@ -1,15 +1,15 @@
 package frc.robot.routines.teleop;
 
-import frc.robot.controllers.Controller;
-import frc.robot.subsystems.TankDriveBase;
+import frc.robot.controls.inputs.ControlScheme;
+import frc.robot.subsystems.drive.SparkTankDriveBase;
 
 public class TankTeleop extends Teleop {
 
-    TankDriveBase tankDriveBase;
+    SparkTankDriveBase tankDriveBase;
 
-    public TankTeleop(Controller controller) {
+    public TankTeleop(ControlScheme controller) {
         super(controller);
-        tankDriveBase = TankDriveBase.getInstance();
+        tankDriveBase = SparkTankDriveBase.getInstance();
     }
 
     @Override

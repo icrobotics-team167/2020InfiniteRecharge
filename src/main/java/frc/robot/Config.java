@@ -1,30 +1,42 @@
 package frc.robot;
 
+import frc.robot.controls.controllers.ControllerType;
+
 public class Config {
 
-    // Use tank drive (false) or swerve drive (true)
-    public static final boolean SWERVE_ENABLED = true;
+    public static final class Settings {
+
+        // Use tank drive (false) or swerve drive (true)
+        public static final boolean SWERVE_ENABLED = true;
+
+        // Controllers
+        public static final ControllerType PRIMARY_CONTROLLER_TYPE = ControllerType.XB;
+        public static final ControllerType SECONDARY_CONTROLLER_TYPE = ControllerType.NONE;
+
+        // Dead zones
+        public static final boolean TANK_DEAD_ZONE_ENABLED = false;
+        public static final boolean SWERVE_MOVE_DEAD_ZONE_ENABLED = false;
+        public static final boolean SWERVE_SPIN_DEAD_ZONE_ENABLED = false;
+
+    }
 
     public static final class Tolerances {
 
         // Threshold for a controller trigger to count as pressed
         public static final double TRIGGER_PRESSED_THRESHOLD = 0.2;
 
-        // Tank drive dead zone
-        public static final boolean TANK_DEAD_ZONE_ENABLED = false;
+        // Tank drive dead zone size
         public static final double TANK_DEAD_ZONE_SIZE = 0.07;
 
         // Swerve drive dead zones
-        public static final boolean SWERVE_MOVE_DEAD_ZONE_ENABLED = false;
         public static final double SWERVE_MOVE_DEAD_ZONE_SIZE = 0.07;
-        public static final boolean SWERVE_SPIN_DEAD_ZONE_ENABLED = false;
         public static final double SWERVE_SPIN_DEAD_ZONE_SIZE = 0.07;
 
     }
 
     public static final class Ports {
 
-        // Xbox controllers
+        // Controllers
         public static final int PRIMARY_CONTROLLER = 0;
         public static final int SECONDARY_CONTROLLER = 1; // if applicable
 

@@ -1,6 +1,6 @@
-package frc.robot.controllers;
+package frc.robot.controls.controllers;
 
-public interface GameController {
+public interface Controller {
 
     int getPort();
     boolean isXBController();

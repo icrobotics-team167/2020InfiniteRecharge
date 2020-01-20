@@ -1,4 +1,4 @@
-package frc.robot.subsystems;
+package frc.robot.subsystems.drive;
 
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANEncoder;
@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
 import frc.robot.Config;
 
-public class TankDriveBase {
+public class SparkTankDriveBase {
 
     private AHRS navx;
     private CANSparkMax[] leftMotorGroup;
@@ -18,15 +18,15 @@ public class TankDriveBase {
     private CANEncoder[] rightEncoders;
 
     // Singleton
-    private static TankDriveBase instance;
-    public static TankDriveBase getInstance() {
+    private static SparkTankDriveBase instance;
+    public static SparkTankDriveBase getInstance() {
         if (instance == null) {
-            instance = new TankDriveBase();
+            instance = new SparkTankDriveBase();
         }
         return instance;
     }
 
-    private TankDriveBase() {
+    private SparkTankDriveBase() {
         try {
             navx = new AHRS(SPI.Port.kMXP);
         } catch (RuntimeException e) {

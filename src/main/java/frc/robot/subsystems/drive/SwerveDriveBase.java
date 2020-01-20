@@ -1,4 +1,4 @@
-package frc.robot.subsystems;
+package frc.robot.subsystems.drive;
 
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANEncoder;
@@ -57,7 +57,7 @@ public class SwerveDriveBase {
             new Translation2d(Config.Measures.Swerve.BACK_LEFT_X, Config.Measures.Swerve.BACK_LEFT_Y),
             new Translation2d(Config.Measures.Swerve.BACK_RIGHT_X, Config.Measures.Swerve.BACK_RIGHT_Y)
         );
-        
+
         frontLeftSpin = new CANSparkMax(Config.Ports.Swerve.FRONT_LEFT_SPIN, CANSparkMaxLowLevel.MotorType.kBrushless);
         frontLeftMove = new CANSparkMax(Config.Ports.Swerve.FRONT_LEFT_MOVE, CANSparkMaxLowLevel.MotorType.kBrushless);
         frontRightSpin = new CANSparkMax(Config.Ports.Swerve.FRONT_RIGHT_SPIN, CANSparkMaxLowLevel.MotorType.kBrushless);

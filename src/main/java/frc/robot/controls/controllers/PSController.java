@@ -1,11 +1,12 @@
-package frc.robot.controllers;
+package frc.robot.controls.controllers;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Config;
+import frc.robot.controls.controllers.Controller;
 
 // TODO update actual bindings for PS4 controllers
-public class PSController implements GameController {
+public class PSController implements Controller {
 
     private XboxController controller;
     private int port;
