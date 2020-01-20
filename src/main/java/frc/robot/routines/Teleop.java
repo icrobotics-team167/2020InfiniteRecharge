@@ -1,5 +1,6 @@
 package frc.robot.routines;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.controls.inputs.ControlScheme;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Subsystems;
@@ -44,8 +45,10 @@ public class Teleop {
         }
         if (controls.doTurnTurretClockwise()) {
             turret.turnClockwise(0.3);
+            turretAutoAlignEnabled = false;
         } else if (controls.doTurnTurretCounterclockwise()) {
             turret.turnCounterclockwise(0.3);
+            turretAutoAlignEnabled = false;
         } else if (turretAutoAlignEnabled) {
             turret.autoAlign();
         } else {

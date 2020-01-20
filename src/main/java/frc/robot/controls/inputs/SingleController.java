@@ -22,7 +22,7 @@ public class SingleController implements ControlScheme {
 
     @Override
     public double getTankRightSpeed() {
-        double speed = primary.getRightStickX();
+        double speed = primary.getRightStickY();
         if (Config.Settings.TANK_DEAD_ZONE_ENABLED && Math.abs(speed) < Math.abs(Config.Tolerances.TANK_DEAD_ZONE_SIZE)) {
             speed = 0;
         }
