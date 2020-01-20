@@ -2,7 +2,6 @@ package frc.robot.controls.controllers;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.Config;
 import frc.robot.controls.controllers.Controller;
 
 // TODO update actual bindings for PS4 controllers
@@ -33,12 +32,16 @@ public class PSController implements Controller {
 
     @Override
     public double getLeftTriggerValue() {
-        return controller.getTriggerAxis(GenericHID.Hand.kLeft);
+        return (controller.getRawAxis(3) + 1) / 2;
     }
 
     @Override
     public boolean getLeftTrigger() {
-        return controller.getTriggerAxis(GenericHID.Hand.kLeft) >= Math.abs(Config.Tolerances.TRIGGER_PRESSED_THRESHOLD);
+        return controller.getBackButton();
+    }
+
+    public boolean getLeftTriggerToggled() {
+        return controller.getBackButtonPressed();
     }
 
     @Override
@@ -53,12 +56,16 @@ public class PSController implements Controller {
 
     @Override
     public double getRightTriggerValue() {
-        return controller.getTriggerAxis(GenericHID.Hand.kRight);
+        return (controller.getRawAxis(4) + 1) / 2;
     }
 
     @Override
     public boolean getRightTrigger() {
-        return controller.getTriggerAxis(GenericHID.Hand.kRight) >= Math.abs(Config.Tolerances.TRIGGER_PRESSED_THRESHOLD);
+        return controller.getStartButton();
+    }
+
+    public boolean getRightTriggerToggled() {
+        return controller.getStartButtonPressed();
     }
 
     @Override
@@ -73,72 +80,72 @@ public class PSController implements Controller {
 
     @Override
     public double getLeftStickX() {
-        return controller.getX(GenericHID.Hand.kLeft);
+        return controller.getRawAxis(0);
     }
 
     @Override
     public double getLeftStickY() {
-        return -controller.getY(GenericHID.Hand.kLeft);
+        return -controller.getRawAxis(1);
     }
 
     @Override
     public boolean getLeftStickButton() {
-        return controller.getStickButton(GenericHID.Hand.kLeft);
+        return controller.getRawButton(11);
     }
 
     @Override
     public boolean getLeftStickButtonToggled() {
-        return controller.getStickButtonPressed(GenericHID.Hand.kLeft);
+        return controller.getRawButtonPressed(11);
     }
 
     @Override
     public double getRightStickX() {
-        return controller.getX(GenericHID.Hand.kRight);
+        return controller.getRawAxis(2);
     }
 
     @Override
     public double getRightStickY() {
-        return -controller.getY(GenericHID.Hand.kRight);
+        return -controller.getRawAxis(5);
     }
 
     @Override
     public boolean getRightStickButton() {
-        return controller.getStickButton(GenericHID.Hand.kRight);
+        return controller.getRawButton(12);
     }
 
     @Override
     public boolean getRightStickButtonToggled() {
-        return controller.getStickButtonPressed(GenericHID.Hand.kRight);
+        return controller.getRawButtonPressed(12);
     }
 
     @Override
     public boolean getAButton() {
-        return controller.getAButton();
-    }
-
-    @Override
-    public boolean getAButtonToggled() {
-        return controller.getAButtonPressed();
-    }
-
-    @Override
-    public boolean getBButton() {
         return controller.getBButton();
     }
 
     @Override
-    public boolean getBButtonToggled() {
+    public boolean getAButtonToggled() {
         return controller.getBButtonPressed();
     }
 
     @Override
-    public boolean getXButton() {
+    public boolean getBButton() {
         return controller.getXButton();
     }
 
     @Override
-    public boolean getXButtonToggled() {
+    public boolean getBButtonToggled() {
         return controller.getXButtonPressed();
+    }
+
+    @Override
+    public boolean getXButton() {
+        return controller.getAButton();
+    }
+
+    @Override
+    public boolean getXButtonToggled() {
+        return controller.getAButtonPressed();
     }
 
     @Override
@@ -198,22 +205,38 @@ public class PSController implements Controller {
 
     @Override
     public boolean getViewButton() {
-        return controller.getBackButton();
+        return controller.getStickButton(GenericHID.Hand.kLeft);
     }
 
     @Override
     public boolean getViewButtonToggled() {
-        return controller.getBackButtonPressed();
+        return controller.getStickButtonPressed(GenericHID.Hand.kLeft);
     }
 
     @Override
     public boolean getMenuButton() {
-        return controller.getStartButton();
+        return controller.getStickButton(GenericHID.Hand.kRight);
     }
 
     @Override
     public boolean getMenuButtonToggled() {
-        return controller.getStartButtonPressed();
+        return controller.getStickButtonPressed(GenericHID.Hand.kRight);
+    }
+
+    public boolean getPSButton() {
+        return controller.getRawButton(13);
+    }
+
+    public boolean getPSButtonToggled() {
+        return controller.getRawButtonPressed(13);
+    }
+
+    public boolean getTouchpadButton() {
+        return controller.getRawButton(14);
+    }
+
+    public boolean getTouchpadButtonToggled() {
+        return controller.getRawButtonPressed(14);
     }
 
 }

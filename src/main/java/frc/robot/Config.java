@@ -10,7 +10,7 @@ public class Config {
         public static final boolean SPARK_TANK_ENABLED = false;
 
         // Controllers
-        public static final ControllerType PRIMARY_CONTROLLER_TYPE = ControllerType.XB;
+        public static final ControllerType PRIMARY_CONTROLLER_TYPE = ControllerType.PS;
         public static final ControllerType SECONDARY_CONTROLLER_TYPE = ControllerType.NONE;
 
         // Dead zones
@@ -22,7 +22,7 @@ public class Config {
 
     public static final class Tolerances {
 
-        // Threshold for a controller trigger to count as pressed
+        // Threshold for a controller trigger to count as pressed (on XB controllers only)
         public static final double TRIGGER_PRESSED_THRESHOLD = 0.2;
 
         // Tank drive dead zone size
