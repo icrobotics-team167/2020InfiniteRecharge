@@ -11,7 +11,7 @@ public class LEDStrip {
 
     public LEDStrip(int port, int length) {
         this.length = length;
-        led = new AddresableLED(port);
+        led = new AddressableLED(port);
         led.setLength(length);
         ledBuffer = new AddressableLEDBuffer(length);
         led.setData(ledBuffer);
