@@ -11,17 +11,17 @@ import frc.robot.controls.inputs.ControlScheme;
 import frc.robot.controls.inputs.DoubleController;
 import frc.robot.controls.inputs.NullController;
 import frc.robot.controls.inputs.SingleController;
+import frc.robot.routines.Action;
 import frc.robot.routines.Teleop;
+import frc.robot.routines.auto.AutoRoutine;
+import frc.robot.routines.auto.NullAction;
 
 public class Robot extends TimedRobot {
 
-    private static final String DEFAULT_AUTO_NAME = "Default";
-    private static final String CUSTOM_AUTO_NAME = "My Auto";
-    private String selectedAutoName;
-    private final SendableChooser<String> AUTO_CHOOSER = new SendableChooser<>();
-
+    private SendableChooser<AutoRoutine> autoChooser = new SendableChooser<>();
     private DriverStation driverStation;
     private ControlScheme controls;
+    private Action auto;
     private Teleop teleop;
 
 //    private ColorSensorV3 colorSensor;
@@ -34,9 +34,11 @@ public class Robot extends TimedRobot {
 
     @Override
     public void robotInit() {
-        AUTO_CHOOSER.setDefaultOption("Default Auto", DEFAULT_AUTO_NAME);
-        AUTO_CHOOSER.addOption("My Auto", CUSTOM_AUTO_NAME);
-        SmartDashboard.putData("Auto choices", AUTO_CHOOSER);
+        autoChooser.setDefaultOption(AutoRoutine.NULL.name, AutoRoutine.NULL);
+        autoChooser.addOption(AutoRoutine.FRIENDLY_TRENCH_RUN.name, AutoRoutine.FRIENDLY_TRENCH_RUN);
+        autoChooser.addOption(AutoRoutine.ENEMY_TENCH_RUN.name, AutoRoutine.ENEMY_TENCH_RUN);
+        autoChooser.addOption(AutoRoutine.SHOOT_3.name, AutoRoutine.SHOOT_3);
+        SmartDashboard.putData("Autonomous Routines", autoChooser);
 
         driverStation = DriverStation.getInstance();
 
@@ -91,22 +93,28 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-        selectedAutoName = AUTO_CHOOSER.getSelected();
-        // m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
-        System.out.println("Auto selected: " + selectedAutoName);
+        AutoRoutine autoRoutine = autoChooser.getSelected();
+        switch (autoChooser.getSelected()) {
+//            case FRIENDLY_TRENCH_RUN:
+//                break;
+//            case ENEMY_TENCH_RUN:
+//                break;
+//            case SHOOT_3:
+//                break;
+            case NULL:
+                auto = new NullAction();
+                break;
+            default:
+                auto = new NullAction();
+                break;
+        }
+        auto.exec();
+        System.out.println("Auto selected: " + autoRoutine.name);
     }
 
     @Override
     public void autonomousPeriodic() {
-        switch (selectedAutoName) {
-            case CUSTOM_AUTO_NAME:
-                // Put custom auto code here
-                break;
-            case DEFAULT_AUTO_NAME:
-            default:
-                // Put default auto code here
-                break;
-        }
+        auto.exec();
     }
 
     @Override
