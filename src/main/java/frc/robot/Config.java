@@ -57,6 +57,9 @@ public class Config {
         public static final int SHOOTER_LEFT = 6;
         public static final int SHOOTER_RIGHT = 7;
 
+        // LED PWM ports
+        public static final int LED_1 = 0;
+
     }
 
     public static final class Measures {
