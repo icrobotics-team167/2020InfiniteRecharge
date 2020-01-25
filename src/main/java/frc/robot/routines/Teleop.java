@@ -37,7 +37,7 @@ public class Teleop {
 
         if (controls.doRunIntakeForward()) {
             intake.runForward();
-        } else if (controls.doRumIntakeReverse()) {
+        } else if (controls.doRunIntakeReverse()) {
             intake.runReverse();
         } else {
             intake.stop();
@@ -58,6 +58,9 @@ public class Teleop {
             turret.stop();
         }
 
+        // shooter.testLeft();
+        // shooter.testRight();
+        shooter.pidDrive(5000);
         shooter.printEncoderValues();
     }
 

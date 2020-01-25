@@ -6,7 +6,7 @@ public interface ControlScheme {
     double getTankRightSpeed();
 
     boolean doRunIntakeForward();
-    boolean doRumIntakeReverse();
+    boolean doRunIntakeReverse();
 
     boolean doToggleTurretAutoAlign();
     boolean doTurnTurretClockwise();

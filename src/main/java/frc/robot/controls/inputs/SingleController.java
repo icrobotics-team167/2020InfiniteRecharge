@@ -35,7 +35,7 @@ public class SingleController implements ControlScheme {
     }
 
     @Override
-    public boolean doRumIntakeReverse() {
+    public boolean doRunIntakeReverse() {
         return primary.getRightTrigger();
     }
 

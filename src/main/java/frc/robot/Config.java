@@ -7,7 +7,7 @@ public class Config {
     public static final class Settings {
 
         // Use Talon tank drive/test bot (false) or Spark tank drive/real bot (true)
-        public static final boolean SPARK_TANK_ENABLED = true;
+        public static final boolean SPARK_TANK_ENABLED = false;
 
         // Controllers
         public static final ControllerType PRIMARY_CONTROLLER_TYPE = ControllerType.PS;

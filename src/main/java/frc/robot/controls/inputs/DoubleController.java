@@ -37,7 +37,7 @@ public class DoubleController implements ControlScheme {
     }
 
     @Override
-    public boolean doRumIntakeReverse() {
+    public boolean doRunIntakeReverse() {
         return primary.getRightTrigger();
     }
 

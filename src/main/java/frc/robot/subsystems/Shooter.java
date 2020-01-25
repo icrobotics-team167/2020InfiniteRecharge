@@ -39,24 +39,26 @@ public class Shooter {
         rightMotorController.restoreFactoryDefaults();
         leftMotorController.setIdleMode(IdleMode.kCoast);
         rightMotorController.setIdleMode(IdleMode.kCoast);
+        leftMotorController.setInverted(false);
+        rightMotorController.setInverted(true);
 
         leftEncoder = leftMotorController.getEncoder(EncoderType.kHallSensor, 4096);
         rightEncoder = rightMotorController.getEncoder(EncoderType.kHallSensor, 4096);
-        leftEncoder.setInverted(false);
-        rightEncoder.setInverted(false);
+        // leftEncoder.setInverted(false);
+        // rightEncoder.setInverted(false);
 
         leftPID = leftMotorController.getPIDController();
         rightPID = rightMotorController.getPIDController();
 
-        leftPID.setP(0.00005);
-        leftPID.setI(0.000001);
+        leftPID.setP(0.05);
+        leftPID.setI(0);
         leftPID.setD(0);
         leftPID.setIZone(0);
         leftPID.setFF(0);
         leftPID.setOutputRange(-1, 1);
 
-        rightPID.setP(0.00005);
-        rightPID.setI(0.000001);
+        rightPID.setP(0.05);
+        rightPID.setI(0);
         rightPID.setD(0);
         rightPID.setIZone(0);
         rightPID.setFF(0);
@@ -71,7 +73,7 @@ public class Shooter {
             leftMotorController.set(0);
             rightMotorController.set(0);
         } else {
-            leftMotorController.set(-1);
+            leftMotorController.set(1);
             rightMotorController.set(1);
         }
     }
@@ -81,15 +83,23 @@ public class Shooter {
         rightPID.setReference(targetRPM, ControlType.kVelocity);
     }
 
-    public void testMotors() {
-        leftMotorController.set(-0.2);
+    public void stop() {
+        // pidDrive(0++);
+        leftMotorController.set(0);
+        rightMotorController.set(0);
+    }
+
+    public void testLeft() {
+        leftMotorController.set(0.2);
+    }
+
+    public void testRight() {
         rightMotorController.set(0.2);
-        printEncoderValues();
     }
 
     public void printEncoderValues() {
-        SmartDashboard.putNumber("Left Shooter Encoder", leftEncoder.getVelocity());
-        SmartDashboard.putNumber("Right Shooter Encoder", rightEncoder.getVelocity());
+        SmartDashboard.putNumber("Left Shooter RPM", leftEncoder.getVelocity());
+        SmartDashboard.putNumber("Right Shooter RPM", rightEncoder.getVelocity());
     }
 
 }

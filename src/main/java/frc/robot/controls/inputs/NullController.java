@@ -18,7 +18,7 @@ public class NullController implements ControlScheme {
     }
 
     @Override
-    public boolean doRumIntakeReverse() {
+    public boolean doRunIntakeReverse() {
         return false;
     }
 
