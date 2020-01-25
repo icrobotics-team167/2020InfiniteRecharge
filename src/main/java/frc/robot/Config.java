@@ -7,7 +7,7 @@ public class Config {
     public static final class Settings {
 
         // Use Talon tank drive/test bot (false) or Spark tank drive/real bot (true)
-        public static final boolean SPARK_TANK_ENABLED = false;
+        public static final boolean SPARK_TANK_ENABLED = true;
 
         // Controllers
         public static final ControllerType PRIMARY_CONTROLLER_TYPE = ControllerType.PS;
@@ -93,9 +93,9 @@ public class Config {
             public static final int LEFT = 6;
             public static final int RIGHT = 7;
 
-            public static final int ENCODER_A = 6;
-            public static final int ENCODER_B = 7;
-            public static final int ENCODER_I = 8;
+            // public static final int ENCODER_A = 6;
+            // public static final int ENCODER_B = 7;
+            // public static final int ENCODER_I = 8;
         }
 
         // LED PWM ports

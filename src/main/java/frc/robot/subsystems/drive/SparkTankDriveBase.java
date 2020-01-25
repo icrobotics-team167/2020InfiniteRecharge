@@ -53,7 +53,7 @@ public class SparkTankDriveBase implements TankDriveBase {
     @Override
     public void tankDrive(double leftSpeed, double rightSpeed) {
         for (CANSparkMax motorController : leftMotorGroup) {
-            motorController.set(leftSpeed);
+            motorController.set(-leftSpeed);
         }
         for (CANSparkMax motorController : rightMotorGroup) {
             motorController.set(rightSpeed);

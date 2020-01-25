@@ -3,6 +3,7 @@ package frc.robot.routines;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.controls.inputs.ControlScheme;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Subsystems;
 import frc.robot.subsystems.Turret;
 import frc.robot.subsystems.drive.TankDriveBase;
@@ -13,12 +14,14 @@ public class Teleop {
     private TankDriveBase driveBase;
     private Intake intake;
     private Turret turret;
+    private Shooter shooter;
 
     public Teleop(ControlScheme controls) {
         this.controls = controls;
         driveBase = Subsystems.driveBase;
         intake = Subsystems.intake;
         turret = Subsystems.turret;
+        shooter = Subsystems.shooter;
     }
 
 
@@ -54,6 +57,8 @@ public class Teleop {
         } else {
             turret.stop();
         }
+
+        shooter.printEncoderValues();
     }
 
 }
