@@ -1,6 +1,5 @@
 package frc.robot.routines;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.controls.inputs.ControlScheme;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
@@ -60,8 +59,17 @@ public class Teleop {
 
         // shooter.testLeft();
         // shooter.testRight();
-        shooter.pidDrive(5000);
+        // shooter.pidDrive(500);
+        shooter.bangBangDrive(5000);
         shooter.printEncoderValues();
+    }
+
+    public void done() {
+
+    }
+
+    public void disabledPeriodic() {
+
     }
 
 }

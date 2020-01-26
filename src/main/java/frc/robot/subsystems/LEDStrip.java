@@ -8,7 +8,8 @@ public class LEDStrip {
     private int length;
     private AddressableLED led;
     private AddressableLEDBuffer ledBuffer;
-
+    private int counter = 0;
+    private 
     public LEDStrip(int port, int length) {
         this.length = length;
         led = new AddressableLED(port);
@@ -19,7 +20,7 @@ public class LEDStrip {
     }
 
     public void setRGBColor(int r, int g, int b) {
-        for(int i = 0; i < length; i++) {
+        for (int i = 0; i < length; i++) {
             ledBuffer.setRGB(i, r, g, b);
         }
         led.setData(ledBuffer);
@@ -27,10 +28,12 @@ public class LEDStrip {
 
     // set color based on hue [0-180], saturation [0-255], and value [0-255]
     public void setHSVColor(int h, int s, int v) {
-        for(int i = 0; i < length; i++) {
+        for (int i = 0; i < length; i++) {
             ledBuffer.setHSV(i, h, s, v);
         }
         led.setData(ledBuffer);
     }
+
+    public void setBlink
 
 }

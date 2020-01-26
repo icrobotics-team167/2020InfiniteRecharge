@@ -27,8 +27,8 @@ public class Turret {
         motor = new TalonSRX(Config.Ports.TURRET);
         motor.setNeutralMode(NeutralMode.Brake);
         pid = new PIDController(0.065, 0.002, 0.002);
-        pid.setSetpoint(0);
-        pid.setTolerance(0.5);
+        pid.setSetpoint(-1);
+        pid.setTolerance(0.4);
         limelight = Limelight.getInstance();
     }
 
