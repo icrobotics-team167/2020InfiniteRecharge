@@ -33,6 +33,8 @@ public class Shooter {
         rightMotorController.setIdleMode(IdleMode.kCoast);
         leftMotorController.setInverted(false);
         rightMotorController.setInverted(true);
+        // leftMotorController.setOpenLoopRampRate(Config.Settings.CPU_PERIOD);
+        // rightMotorController.setOpenLoopRampRate(Config.Settings.CPU_PERIOD);
 
         leftEncoder = leftMotorController.getEncoder(EncoderType.kHallSensor, 4096);
         rightEncoder = rightMotorController.getEncoder(EncoderType.kHallSensor, 4096);
@@ -42,7 +44,13 @@ public class Shooter {
 
     public void drive(int targetRPM) {
         double actualRPM = (leftEncoder.getVelocity() + rightEncoder.getVelocity()) / 2;
+        System.out.println(actualRPM);
         SmartDashboard.putNumber("Shooter RPM", actualRPM);
+        if (actualRPM < 0) {   
+            leftEncoder.setPosition(0);
+            rightEncoder.setPosition(0);
+            actualRPM = 0;
+        }
 
         if (actualRPM > targetRPM) {
             leftMotorController.set(0);
@@ -56,7 +64,8 @@ public class Shooter {
     public void stop() {
         // Lower than 0 to prevent misreading RPM from running the motors at full power
         // e.g. if the actual RPM is misread at -5, so it won't run at full power
-        drive(-1000);
+        leftMotorController.set(.1);
+        rightMotorController.set(.1);
     }
 
     public void testLeft() {

@@ -24,6 +24,10 @@ public class Robot extends TimedRobot {
     private Action auto;
     private Teleop teleop;
 
+    public Robot() {
+        super(Config.Settings.CPU_PERIOD);
+    }
+
 //    private ColorSensorV3 colorSensor;
 //    private final I2C.Port i2cPort = I2C.Port.kOnboard;
 //

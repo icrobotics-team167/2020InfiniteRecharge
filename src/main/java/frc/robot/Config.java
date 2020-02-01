@@ -18,6 +18,9 @@ public class Config {
 //        public static final boolean SWERVE_MOVE_DEAD_ZONE_ENABLED = false;
 //        public static final boolean SWERVE_SPIN_DEAD_ZONE_ENABLED = false;
 
+        // CPU period (seconds)
+        public static final double CPU_PERIOD = 0.02;
+
     }
 
     public static final class Tolerances {
@@ -42,12 +45,12 @@ public class Config {
 
         // Talon tank ports (motor controllers and encoders)
         public static final class TalonTank {
-            public static final int LEFT_1 = 3;
-            public static final int LEFT_2 = 4;
-            public static final int LEFT_3 = 9;
-            public static final int RIGHT_1 = 6;
-            public static final int RIGHT_2 = 7;
-            public static final int RIGHT_3 = 8;
+            public static final int LEFT_1 = 1;
+            public static final int LEFT_2 = 2;
+            public static final int LEFT_3 = 3;
+            public static final int RIGHT_1 = 4;
+            public static final int RIGHT_2 = 5;
+            public static final int RIGHT_3 = 6;
 
             public static final int LEFT_ENCODER_A = 0;
             public static final int LEFT_ENCODER_B = 1;
@@ -86,12 +89,12 @@ public class Config {
         public static final int INTAKE = 14;
 
         // Turret motor controller port
-        public static final int TURRET = 5;
+        public static final int TURRET = 7;
 
         // Shooter motor controller ports
         public static final class Shooter {
-            public static final int LEFT = 6;
-            public static final int RIGHT = 7;
+            public static final int LEFT = 8;
+            public static final int RIGHT = 9;
 
             // public static final int ENCODER_A = 6;
             // public static final int ENCODER_B = 7;

@@ -39,9 +39,7 @@ public class TalonTankDriveBase implements TankDriveBase {
         rightMotorGroup = new TalonSRX[3];
         rightMotorGroup[0] = new TalonSRX(Config.Ports.TalonTank.RIGHT_1);
         rightMotorGroup[1] = new TalonSRX(Config.Ports.TalonTank.RIGHT_2);
-        // This Talon is disabled because one of the Talons on the left is broken
-        // rightMotorGroup[2] = new TalonSRX(Config.Ports.TalonTank.RIGHT_3);
-        rightMotorGroup[2] = new TalonSRX(50);
+        rightMotorGroup[2] = new TalonSRX(Config.Ports.TalonTank.RIGHT_3);
 
         leftEncoder = new Encoder(
             Config.Ports.TalonTank.LEFT_ENCODER_A,
