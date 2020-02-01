@@ -21,6 +21,8 @@ public final class Color {
 
     // Construct a color from HSV
     public static Color fromHSV(double hue, double saturation, double value) {
+        // java.awt.Color color = new java.awt.Color(java.awt.Color.HSBtoRGB((float)hue, (float)saturation, (float)value));
+        // return new Color(color.getRed(), color.getGreen(), color.getBlue());
         return null;
     }
 
@@ -92,5 +94,17 @@ public final class Color {
                 return 1;
             default: return 0;
         }
+    }
+
+    public double getRed() {
+        return red;
+    }
+
+    public double getGreen() {
+        return green;
+    }
+
+    public double getBlue() {
+        return blue;
     }
 }
