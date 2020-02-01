@@ -36,6 +36,11 @@ public class SingleController implements ControlScheme {
 
     @Override
     public boolean doRunIntakeReverse() {
+        return false;
+    }
+
+    @Override
+    public boolean doRunShooter() {
         return primary.getRightTrigger();
     }
 

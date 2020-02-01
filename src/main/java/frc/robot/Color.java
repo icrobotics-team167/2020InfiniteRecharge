@@ -21,7 +21,7 @@ public final class Color {
 
     // Construct a color from HSV
     public static Color fromHSV(double hue, double saturation, double value) {
-
+        return null;
     }
 
     // Construct a color from CMYK

@@ -9,7 +9,7 @@ public class LEDStrip {
     private AddressableLED led;
     private AddressableLEDBuffer ledBuffer;
     private int counter = 0;
-    private 
+    // private 
     public LEDStrip(int port, int length) {
         this.length = length;
         led = new AddressableLED(port);
@@ -34,6 +34,6 @@ public class LEDStrip {
         led.setData(ledBuffer);
     }
 
-    public void setBlink
+    // public void setBlink
 
 }

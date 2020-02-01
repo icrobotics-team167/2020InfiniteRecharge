@@ -1,9 +1,7 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANEncoder;
-import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.ControlType;
 import com.revrobotics.EncoderType;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -25,8 +23,6 @@ public class Shooter {
     private CANSparkMax rightMotorController;
     private CANEncoder leftEncoder;
     private CANEncoder rightEncoder;
-    private CANPIDController leftPID;
-    private CANPIDController rightPID;
 
     private Shooter() {
         leftMotorController = new CANSparkMax(Config.Ports.Shooter.LEFT, MotorType.kBrushless);
@@ -40,26 +36,11 @@ public class Shooter {
 
         leftEncoder = leftMotorController.getEncoder(EncoderType.kHallSensor, 4096);
         rightEncoder = rightMotorController.getEncoder(EncoderType.kHallSensor, 4096);
-
-        // leftPID = leftMotorController.getPIDController();
-        // rightPID = rightMotorController.getPIDController();
-
-        // leftPID.setP(0.004);
-        // leftPID.setI(0);
-        // leftPID.setD(0);
-        // leftPID.setIZone(0);
-        // leftPID.setFF(0);
-        // leftPID.setOutputRange(0, 1);
-
-        // rightPID.setP(0.004);
-        // rightPID.setI(0);
-        // rightPID.setD(0);
-        // rightPID.setIZone(0);
-        // rightPID.setFF(0);
-        // rightPID.setOutputRange(0, 1);
+        leftEncoder.setPosition(0);
+        rightEncoder.setPosition(0);
     }
 
-    public void bangBangDrive(int targetRPM) {
+    public void drive(int targetRPM) {
         double actualRPM = (leftEncoder.getVelocity() + rightEncoder.getVelocity()) / 2;
         SmartDashboard.putNumber("Shooter RPM", actualRPM);
 
@@ -72,23 +53,18 @@ public class Shooter {
         }
     }
 
-    public void pidDrive(int targetRPM) {
-        leftPID.setReference(targetRPM, ControlType.kVelocity);
-        rightPID.setReference(targetRPM, ControlType.kVelocity);
-    }
-
     public void stop() {
-        // pidDrive(0++);
-        leftMotorController.set(0);
-        rightMotorController.set(0);
+        // Lower than 0 to prevent misreading RPM from running the motors at full power
+        // e.g. if the actual RPM is misread at -5, so it won't run at full power
+        drive(-1000);
     }
 
     public void testLeft() {
-        leftMotorController.set(0.4);
+        leftMotorController.set(0.2);
     }
 
     public void testRight() {
-        rightMotorController.set(0.4);
+        rightMotorController.set(0.2);
     }
 
     public void printEncoderValues() {

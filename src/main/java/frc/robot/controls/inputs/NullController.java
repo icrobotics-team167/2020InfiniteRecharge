@@ -23,6 +23,11 @@ public class NullController implements ControlScheme {
     }
 
     @Override
+    public boolean doRunShooter() {
+        return false;
+    }
+
+    @Override
     public boolean doToggleTurretAutoAlign() {
         return false;
     }

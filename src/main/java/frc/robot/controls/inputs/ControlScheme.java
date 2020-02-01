@@ -8,6 +8,8 @@ public interface ControlScheme {
     boolean doRunIntakeForward();
     boolean doRunIntakeReverse();
 
+    boolean doRunShooter();
+
     boolean doToggleTurretAutoAlign();
     boolean doTurnTurretClockwise();
     boolean doTurnTurretCounterclockwise();
