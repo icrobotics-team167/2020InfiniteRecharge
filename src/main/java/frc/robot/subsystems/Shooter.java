@@ -33,39 +33,67 @@ public class Shooter {
         rightMotorController.setIdleMode(IdleMode.kCoast);
         leftMotorController.setInverted(false);
         rightMotorController.setInverted(true);
-        // leftMotorController.setOpenLoopRampRate(Config.Settings.CPU_PERIOD);
-        // rightMotorController.setOpenLoopRampRate(Config.Settings.CPU_PERIOD);
+        leftMotorController.setOpenLoopRampRate(Config.Settings.CPU_PERIOD);
+        rightMotorController.setOpenLoopRampRate(Config.Settings.CPU_PERIOD);
 
-        leftEncoder = leftMotorController.getEncoder(EncoderType.kHallSensor, 4096);
-        rightEncoder = rightMotorController.getEncoder(EncoderType.kHallSensor, 4096);
+        leftEncoder = leftMotorController.getEncoder();
+        rightEncoder = rightMotorController.getEncoder();
         leftEncoder.setPosition(0);
         rightEncoder.setPosition(0);
     }
 
     public void drive(int targetRPM) {
-        double actualRPM = (leftEncoder.getVelocity() + rightEncoder.getVelocity()) / 2;
-        System.out.println(actualRPM);
+        int actualRPM = (int) leftEncoder.getVelocity();
+        System.out.println("Actual RPM: " + actualRPM);
+        System.out.println("Target RPM: " + targetRPM);
         SmartDashboard.putNumber("Shooter RPM", actualRPM);
-        if (actualRPM < 0) {   
-            leftEncoder.setPosition(0);
-            rightEncoder.setPosition(0);
-            actualRPM = 0;
-        }
 
-        if (actualRPM > targetRPM) {
-            leftMotorController.set(0);
-            rightMotorController.set(0);
-        } else {
+        // if (actualRPM > targetRPM) {
+        //     leftMotorController.set(0);
+            // rightMotorController.set(0);
+        // } else {
+            // leftMotorController.set(1);
+            // rightMotorController.set(1);
+        // }
+        if (actualRPM <= targetRPM) {
             leftMotorController.set(1);
             rightMotorController.set(1);
+        } else {
+            leftMotorController.set(0);
+            rightMotorController.set(0);
+        }
+    }
+
+    boolean fullSpeed = true;
+    public void test(int targetRPM) {
+        int actualRPM = (int) leftEncoder.getVelocity();
+        System.out.println("Actual RPM: " + actualRPM);
+        System.out.println("Target RPM: " + targetRPM);
+        SmartDashboard.putNumber("Shooter RPM", actualRPM);
+
+        if (!fullSpeed && actualRPM > targetRPM) {
+            fullSpeed = true;
+            leftMotorController.set(0);
+            rightMotorController.set(0);
+        } else if (fullSpeed && actualRPM <= 0) {
+            fullSpeed = false;
+            leftMotorController.set(0.8);
+            rightMotorController.set(0.8);
+        } else if (!fullSpeed && actualRPM <= targetRPM) {
+            leftMotorController.set(0.8);
+            rightMotorController.set(0.8);
+        } else if (fullSpeed && actualRPM > targetRPM) {
+            leftMotorController.set(0);
+            rightMotorController.set(0);
         }
     }
 
     public void stop() {
         // Lower than 0 to prevent misreading RPM from running the motors at full power
         // e.g. if the actual RPM is misread at -5, so it won't run at full power
-        leftMotorController.set(.1);
-        rightMotorController.set(.1);
+        // drive(0);
+        leftMotorController.set(0);
+        rightMotorController.set(0);
     }
 
     public void testLeft() {

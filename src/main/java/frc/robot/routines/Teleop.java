@@ -42,15 +42,13 @@ public class Teleop {
             intake.stop();
         }
 
+        // shooter.drive(3700);
+        // shooter.test(3700);
         if (controls.doRunShooter()) {
-            shooter.drive(3700);
-            System.out.println("g0");
+            shooter.drive(5000);
         } else {
-            shooter.drive(-1000);
-            System.out.println("stop");
+            shooter.stop();
         }
-        shooter.printEncoderValues();
-        // shooter.drive(5000);
         // shooter.printEncoderValues();
 
         if (controls.doToggleTurretAutoAlign()) {
