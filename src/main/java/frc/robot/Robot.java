@@ -1,41 +1,33 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package frc.robot;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.controllers.Controller;
-import frc.robot.controllers.SingleXboxController;
-import frc.robot.routines.teleop.SwerveTeleop;
-import frc.robot.routines.teleop.TankTeleop;
-import frc.robot.routines.teleop.Teleop;
+import frc.robot.controls.controllers.Controller;
+import frc.robot.controls.controllers.PSController;
+import frc.robot.controls.controllers.XBController;
+import frc.robot.controls.inputs.ControlScheme;
+import frc.robot.controls.inputs.DoubleController;
+import frc.robot.controls.inputs.NullController;
+import frc.robot.controls.inputs.SingleController;
+import frc.robot.routines.Action;
+import frc.robot.routines.Teleop;
+import frc.robot.routines.auto.AutoRoutine;
+import frc.robot.routines.auto.NullAction;
 
-/**
- * The VM is configured to automatically run this class, and to call the
- * functions corresponding to each mode, as described in the TimedRobot
- * documentation. If you change the name of this class or the package after
- * creating this project, you must also update the build.gradle file in the
- * project.
- */
 public class Robot extends TimedRobot {
-    private static final String DEFAULT_AUTO_NAME = "Default";
-    private static final String CUSTOM_AUTO_NAME = "My Auto";
-    private String selectedAutoName;
-    private final SendableChooser<String> AUTO_CHOOSER = new SendableChooser<>();
 
+    private SendableChooser<AutoRoutine> autoChooser = new SendableChooser<>();
     private DriverStation driverStation;
-    private Controller controller;
+    private ControlScheme controls;
+    private Action auto;
     private Teleop teleop;
 
-//    private XboxController controller;
-//
+    public Robot() {
+        super(Config.Settings.CPU_PERIOD);
+    }
+
 //    private ColorSensorV3 colorSensor;
 //    private final I2C.Port i2cPort = I2C.Port.kOnboard;
 //
@@ -44,22 +36,54 @@ public class Robot extends TimedRobot {
 //
 //    private TalonSRX colorMotor;
 
-    /**
-     * This function is run when the robot is first started up and should be
-     * used for any initialization code.
-     */
     @Override
     public void robotInit() {
-        AUTO_CHOOSER.setDefaultOption("Default Auto", DEFAULT_AUTO_NAME);
-        AUTO_CHOOSER.addOption("My Auto", CUSTOM_AUTO_NAME);
-        SmartDashboard.putData("Auto choices", AUTO_CHOOSER);
+        autoChooser.setDefaultOption(AutoRoutine.NULL.name, AutoRoutine.NULL);
+        autoChooser.addOption(AutoRoutine.FRIENDLY_TRENCH_RUN.name, AutoRoutine.FRIENDLY_TRENCH_RUN);
+        autoChooser.addOption(AutoRoutine.ENEMY_TENCH_RUN.name, AutoRoutine.ENEMY_TENCH_RUN);
+        autoChooser.addOption(AutoRoutine.SHOOT_3.name, AutoRoutine.SHOOT_3);
+        SmartDashboard.putData("Autonomous Routines", autoChooser);
 
         driverStation = DriverStation.getInstance();
-        controller = new SingleXboxController();
-        teleop = Config.SWERVE_ENABLED ? new SwerveTeleop(controller) : new TankTeleop(controller);
 
-//        controller = new XboxController(Config.Ports.PRIMARY_CONTROLLER);
-//
+        Controller primaryController = null;
+        switch (Config.Settings.PRIMARY_CONTROLLER_TYPE) {
+            case XB:
+                primaryController = new XBController(Config.Ports.PRIMARY_CONTROLLER);
+                break;
+            case PS:
+                primaryController = new PSController(Config.Ports.PRIMARY_CONTROLLER);
+                break;
+            case NONE:
+                primaryController = null;
+                break;
+        }
+        Controller secondaryController = null;
+        switch (Config.Settings.SECONDARY_CONTROLLER_TYPE) {
+            case XB:
+                secondaryController = new XBController(Config.Ports.SECONDARY_CONTROLLER);
+                break;
+            case PS:
+                secondaryController = new PSController(Config.Ports.SECONDARY_CONTROLLER);
+                break;
+            case NONE:
+                secondaryController = null;
+                break;
+        }
+        if (primaryController == null && secondaryController == null) {
+            controls = new NullController();
+        } else if (primaryController != null && secondaryController == null) {
+            controls = new SingleController(primaryController);
+        } else if (primaryController != null && secondaryController != null) {
+            controls = new DoubleController(primaryController, secondaryController);
+        } else {
+            // Fallback
+            // This should be unreachable in normal conditions
+            // This could only occur if the secondary controller is configured but the primary controller isn't
+            controls = new NullController();
+        }
+
+        teleop = new Teleop(controls);
 //        colorSensor = new ColorSensorV3(i2cPort);
 //        rotationControl = false;
 //        positionControl = false;
@@ -67,63 +91,48 @@ public class Robot extends TimedRobot {
 //        colorMotor = new TalonSRX(Config.Ports.COLOR_SENSOR); // port
     }
 
-    /**
-     * This function is called every robot packet, no matter the mode. Use
-     * this for items like diagnostics that you want ran during disabled,
-     * autonomous, teleoperated and test.
-     *
-     * <p>This runs after the mode specific periodic functions, but before
-     * LiveWindow and SmartDashboard integrated updating.
-     */
     @Override
     public void robotPeriodic() {
     }
 
-    /**
-     * This autonomous (along with the chooser code above) shows how to select
-     * between different autonomous modes using the dashboard. The sendable
-     * chooser code works with the Java SmartDashboard. If you prefer the
-     * LabVIEW Dashboard, remove all of the chooser code and uncomment the
-     * getString line to get the auto name from the text box below the Gyro
-     *
-     * <p>You can add additional auto modes by adding additional comparisons to
-     * the switch structure below with additional strings. If using the
-     * SendableChooser make sure to add them to the chooser code above as well.
-     */
     @Override
     public void autonomousInit() {
-        selectedAutoName = AUTO_CHOOSER.getSelected();
-        // m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
-        System.out.println("Auto selected: " + selectedAutoName);
-    }
-
-    /**
-     * This function is called periodically during autonomous.
-     */
-    @Override
-    public void autonomousPeriodic() {
-        switch (selectedAutoName) {
-            case CUSTOM_AUTO_NAME:
-                // Put custom auto code here
+        AutoRoutine autoRoutine = autoChooser.getSelected();
+        switch (autoChooser.getSelected()) {
+//            case FRIENDLY_TRENCH_RUN:
+//                break;
+//            case ENEMY_TENCH_RUN:
+//                break;
+//            case SHOOT_3:
+//                break;
+            case NULL:
+                auto = new NullAction();
                 break;
-            case DEFAULT_AUTO_NAME:
             default:
-                // Put default auto code here
+                auto = new NullAction();
                 break;
         }
+        auto.exec();
+        System.out.println("Auto selected: " + autoRoutine.name);
+    }
+
+    @Override
+    public void autonomousPeriodic() {
+        auto.exec();
+    }
+
+    @Override
+    public void teleopInit() {
+        teleop.init();
     }
 
 //    private Colors current;
 //    private boolean changedColor;
 //    private int semiCycleCount;
 
-    /**
-     * This function is called periodically during operator control.
-     */
     @Override
     public void teleopPeriodic() {
-        teleop.exec();
-
+        teleop.periodic();
 //        Color color = new Color(colorSensor.getColor().red, colorSensor.getColor().green, colorSensor.getColor().blue);
 //
 //        if (controller.getXButton() && !positionControl) {
@@ -156,10 +165,21 @@ public class Robot extends TimedRobot {
 //        }
     }
 
-    /**
-     * This function is called periodically during test mode.
-     */
+    @Override
+    public void testInit() {
+    }
+
     @Override
     public void testPeriodic() {
     }
+
+    @Override
+    public void disabledInit() {
+        teleop.done();
+    }
+
+    @Override
+    public void disabledPeriodic() {
+    }
+
 }

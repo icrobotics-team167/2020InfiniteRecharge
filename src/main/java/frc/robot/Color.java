@@ -8,15 +8,27 @@ public final class Color {
     public final double blue;
 
     // Construct a color from RGB
-    public Color(double red, double green, double blue) {
+    private Color(double red, double green, double blue) {
         this.red = red;
         this.green = green;
         this.blue = blue;
     }
+    
+    // Construct a color from RGB
+    public static Color fromRGB(double red, double green, double blue) {
+        return new Color(red, green, blue);
+    }
+
+    // Construct a color from HSV
+    public static Color fromHSV(double hue, double saturation, double value) {
+        // java.awt.Color color = new java.awt.Color(java.awt.Color.HSBtoRGB((float)hue, (float)saturation, (float)value));
+        // return new Color(color.getRed(), color.getGreen(), color.getBlue());
+        return null;
+    }
 
     // Construct a color from CMYK
-    public Color(double cyan, double magenta, double yellow, double black) {
-        this(255 * (1 - cyan) * (1 - black), 255 * (1 - magenta) * (1 - black), 255 * (1 - yellow) * (1 - black));
+    public static Color fromCMYK(double cyan, double magenta, double yellow, double black) {
+        return new Color(255 * (1 - cyan) * (1 - black), 255 * (1 - magenta) * (1 - black), 255 * (1 - yellow) * (1 - black));
     }
 
     // Find the "distance" between two colors i.e. how similar they are
@@ -82,5 +94,17 @@ public final class Color {
                 return 1;
             default: return 0;
         }
+    }
+
+    public double getRed() {
+        return red;
+    }
+
+    public double getGreen() {
+        return green;
+    }
+
+    public double getBlue() {
+        return blue;
     }
 }

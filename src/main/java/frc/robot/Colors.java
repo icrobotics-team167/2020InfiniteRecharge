@@ -3,10 +3,10 @@ package frc.robot;
 public enum Colors {
 
     // Control panel colors
-    BLUE(new Color(1, 0, 0, 0), "B", "Blue"), // 0, 255, 255
-    GREEN(new Color(1, 0, 1, 0), "G", "Green"), // 0, 255, 0
-    RED(new Color(0, 1, 1, 0), "R", "Red"), // 255, 0, 0
-    YELLOW(new Color(0, 0, 1, 0), "Y", "Yellow"); // 255, 255, 0
+    BLUE(Color.fromCMYK(1, 0, 0, 0), "B", "Blue"), // 0, 255, 255
+    GREEN(Color.fromCMYK(1, 0, 1, 0), "G", "Green"), // 0, 255, 0
+    RED(Color.fromCMYK(0, 1, 1, 0), "R", "Red"), // 255, 0, 0
+    YELLOW(Color.fromCMYK(0, 0, 1, 0), "Y", "Yellow"); // 255, 255, 0
 
     public final Color color;
     public final String label;
@@ -17,7 +17,6 @@ public enum Colors {
         this.label = label;
         this.name = name;
     }
-
     
     public static Colors getColor(String letter) {
         if (letter.equals("B")) return BLUE;
