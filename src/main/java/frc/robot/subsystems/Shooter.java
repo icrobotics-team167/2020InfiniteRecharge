@@ -35,6 +35,11 @@ public class Shooter {
         rightMotorController.setInverted(true);
         leftMotorController.setOpenLoopRampRate(Config.Settings.CPU_PERIOD);
         rightMotorController.setOpenLoopRampRate(Config.Settings.CPU_PERIOD);
+        leftMotorController.setSmartCurrentLimit(40);
+        rightMotorController.setSmartCurrentLimit(40);
+        leftMotorController.setSecondaryCurrentLimit(40);
+        rightMotorController.setSecondaryCurrentLimit(40); 
+        
 
         leftEncoder = leftMotorController.getEncoder();
         rightEncoder = rightMotorController.getEncoder();
@@ -48,13 +53,6 @@ public class Shooter {
         System.out.println("Target RPM: " + targetRPM);
         SmartDashboard.putNumber("Shooter RPM", actualRPM);
 
-        // if (actualRPM > targetRPM) {
-        //     leftMotorController.set(0);
-            // rightMotorController.set(0);
-        // } else {
-            // leftMotorController.set(1);
-            // rightMotorController.set(1);
-        // }
         if (actualRPM <= targetRPM) {
             leftMotorController.set(1);
             rightMotorController.set(1);
