@@ -44,7 +44,7 @@ public class Teleop {
         }
 
         if (controls.doRunShooter()) {
-            shooter.drive(4000);
+            shooter.drive(3700);
         } else {
             shooter.stop();
         }

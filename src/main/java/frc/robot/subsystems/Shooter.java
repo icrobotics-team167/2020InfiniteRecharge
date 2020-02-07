@@ -33,8 +33,17 @@ public class Shooter {
         rightMotorController.setIdleMode(IdleMode.kCoast);
         leftMotorController.setInverted(false);
         rightMotorController.setInverted(true);
-        leftMotorController.setOpenLoopRampRate(Config.Settings.CPU_PERIOD);
-        rightMotorController.setOpenLoopRampRate(Config.Settings.CPU_PERIOD);
+
+        leftMotorController.setOpenLoopRampRate(0);
+        rightMotorController.setOpenLoopRampRate(0);
+        leftMotorController.setClosedLoopRampRate(0);
+        rightMotorController.setClosedLoopRampRate(0);
+
+        leftMotorController.setSmartCurrentLimit(80);
+        rightMotorController.setSmartCurrentLimit(80);
+        leftMotorController.setSecondaryCurrentLimit(40);
+        rightMotorController.setSecondaryCurrentLimit(40);
+
         leftMotorController.setSmartCurrentLimit(150);
         rightMotorController.setSmartCurrentLimit(150);
         leftMotorController.setSecondaryCurrentLimit(150);
@@ -51,8 +60,8 @@ public class Shooter {
         int actualRPM = (int) leftEncoder.getVelocity();
 
         if (actualRPM <= targetRPM) {
-            leftMotorController.set(0.75);
-            rightMotorController.set(0.75);
+            leftMotorController.set(1);
+            rightMotorController.set(1);
         } else {
             leftMotorController.set(0);
             rightMotorController.set(0);
@@ -84,9 +93,6 @@ public class Shooter {
     }
 
     public void stop() {
-        // Lower than 0 to prevent misreading RPM from running the motors at full power
-        // e.g. if the actual RPM is misread at -5, so it won't run at full power
-        // drive(0);
         leftMotorController.set(0);
         rightMotorController.set(0);
     }
