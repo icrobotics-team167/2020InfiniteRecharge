@@ -35,10 +35,10 @@ public class Shooter {
         rightMotorController.setInverted(true);
         leftMotorController.setOpenLoopRampRate(Config.Settings.CPU_PERIOD);
         rightMotorController.setOpenLoopRampRate(Config.Settings.CPU_PERIOD);
-        leftMotorController.setSmartCurrentLimit(40);
-        rightMotorController.setSmartCurrentLimit(40);
-        leftMotorController.setSecondaryCurrentLimit(40);
-        rightMotorController.setSecondaryCurrentLimit(40); 
+        leftMotorController.setSmartCurrentLimit(150);
+        rightMotorController.setSmartCurrentLimit(150);
+        leftMotorController.setSecondaryCurrentLimit(150);
+        rightMotorController.setSecondaryCurrentLimit(150); 
         
 
         leftEncoder = leftMotorController.getEncoder();
@@ -49,13 +49,10 @@ public class Shooter {
 
     public void drive(int targetRPM) {
         int actualRPM = (int) leftEncoder.getVelocity();
-        System.out.println("Actual RPM: " + actualRPM);
-        System.out.println("Target RPM: " + targetRPM);
-        SmartDashboard.putNumber("Shooter RPM", actualRPM);
 
         if (actualRPM <= targetRPM) {
-            leftMotorController.set(1);
-            rightMotorController.set(1);
+            leftMotorController.set(0.75);
+            rightMotorController.set(0.75);
         } else {
             leftMotorController.set(0);
             rightMotorController.set(0);
@@ -103,8 +100,30 @@ public class Shooter {
     }
 
     public void printEncoderValues() {
-        SmartDashboard.putNumber("Left Shooter RPM", leftEncoder.getVelocity());
-        SmartDashboard.putNumber("Right Shooter RPM", rightEncoder.getVelocity());
+        SmartDashboard.putNumber("Shooter RPM", (int) leftEncoder.getVelocity());
+        SmartDashboard.putNumber("Left Shooter Amps", leftMotorController.getOutputCurrent());
+        SmartDashboard.putNumber("Right Shooter Amps", rightMotorController.getOutputCurrent());
+    }
+
+    public void logData() {
+        SmartDashboard.putNumber("Left Applied Output", leftMotorController.getAppliedOutput());
+        SmartDashboard.putNumber("Right Applied Output", rightMotorController.getAppliedOutput());
+        SmartDashboard.putNumber("Left Faults", leftMotorController.getFaults());
+        SmartDashboard.putNumber("Right Faults", rightMotorController.getFaults());
+        SmartDashboard.putNumber("Left Sticky Faults", leftMotorController.getStickyFaults());
+        SmartDashboard.putNumber("Right Sticky Faults", rightMotorController.getStickyFaults());
+        SmartDashboard.putBoolean("Left Is Follower", leftMotorController.isFollower());
+        SmartDashboard.putBoolean("Right Is Follower", rightMotorController.isFollower());
+        SmartDashboard.putNumber("Left Motor Velocity", leftEncoder.getVelocity());
+        SmartDashboard.putNumber("Right Motor Velocity", rightEncoder.getVelocity());
+        SmartDashboard.putNumber("Left Motor Temperature", leftMotorController.getMotorTemperature());
+        SmartDashboard.putNumber("Right Motor Temperature", rightMotorController.getMotorTemperature());
+        SmartDashboard.putNumber("Left Motor Voltage", leftMotorController.getBusVoltage());
+        SmartDashboard.putNumber("Right Motor Voltage", rightMotorController.getBusVoltage());
+        SmartDashboard.putNumber("Left Motor Current", leftMotorController.getOutputCurrent());
+        SmartDashboard.putNumber("Right Motor Current", rightMotorController.getOutputCurrent());
+        SmartDashboard.putNumber("Left Motor Position", leftEncoder.getPosition());
+        SmartDashboard.putNumber("Right Motor Position", rightEncoder.getPosition());
     }
 
 }
