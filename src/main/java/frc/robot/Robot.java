@@ -1,5 +1,7 @@
 package frc.robot;
 
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -82,6 +84,10 @@ public class Robot extends TimedRobot {
             // This could only occur if the secondary controller is configured but the primary controller isn't
             controls = new NullController();
         }
+
+        new Thread(() -> {
+            UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+        }).start();
 
         teleop = new Teleop(controls);
 //        colorSensor = new ColorSensorV3(i2cPort);

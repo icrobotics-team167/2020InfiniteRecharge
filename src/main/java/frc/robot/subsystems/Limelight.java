@@ -32,12 +32,23 @@ public class Limelight {
         return visionEnabled;
     }
 
+    public void setCameraMode() {
+        getTable().getEntry("camMode").setNumber(1);
+        visionEnabled = false;
+    }
+
+    public void setVisionMode() {
+        getTable().getEntry("camMode").setNumber(0);
+        visionEnabled = true;
+    }
+
     public void update() {
         NetworkTable nt = NetworkTableInstance.getDefault().getTable("limelight");
         tx = nt.getEntry("tx").getDouble(0);
         ty = nt.getEntry("ty").getDouble(0);
         ta = nt.getEntry("ta").getDouble(0);
         ts = nt.getEntry("ts").getDouble(0);
+        ts = ts < -45 ? ts + 90 : ts;
         distance = ((double) 66.5) / Math.tan(Math.toRadians(29.0436377382 + ty));
         SmartDashboard.putNumber("tx", tx);
         SmartDashboard.putNumber("ty", ty);

@@ -54,6 +54,7 @@ public class Teleop {
         Limelight.getInstance().update();
         if (controls.doToggleTurretAutoAlign()) {
             turretAutoAlignEnabled = !turretAutoAlignEnabled;
+            Limelight.getInstance().toggleMode();
         }
         if (controls.doTurnTurretClockwise()) {
             turret.turnClockwise(0.3);
