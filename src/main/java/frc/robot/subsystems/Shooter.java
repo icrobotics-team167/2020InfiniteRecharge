@@ -2,7 +2,6 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.EncoderType;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -105,31 +104,18 @@ public class Shooter {
         rightMotorController.set(0.2);
     }
 
-    public void printEncoderValues() {
-        SmartDashboard.putNumber("Shooter RPM", (int) leftEncoder.getVelocity());
-        SmartDashboard.putNumber("Left Shooter Amps", leftMotorController.getOutputCurrent());
-        SmartDashboard.putNumber("Right Shooter Amps", rightMotorController.getOutputCurrent());
+    public int getRPM() {
+        int leftRPM = (int) leftEncoder.getVelocity();
+        int rightRPM = (int) rightEncoder.getVelocity();
+        return Math.max(leftRPM, rightRPM);
     }
 
-    public void logData() {
-        SmartDashboard.putNumber("Left Applied Output", leftMotorController.getAppliedOutput());
-        SmartDashboard.putNumber("Right Applied Output", rightMotorController.getAppliedOutput());
-        SmartDashboard.putNumber("Left Faults", leftMotorController.getFaults());
-        SmartDashboard.putNumber("Right Faults", rightMotorController.getFaults());
-        SmartDashboard.putNumber("Left Sticky Faults", leftMotorController.getStickyFaults());
-        SmartDashboard.putNumber("Right Sticky Faults", rightMotorController.getStickyFaults());
-        SmartDashboard.putBoolean("Left Is Follower", leftMotorController.isFollower());
-        SmartDashboard.putBoolean("Right Is Follower", rightMotorController.isFollower());
-        SmartDashboard.putNumber("Left Motor Velocity", leftEncoder.getVelocity());
-        SmartDashboard.putNumber("Right Motor Velocity", rightEncoder.getVelocity());
-        SmartDashboard.putNumber("Left Motor Temperature", leftMotorController.getMotorTemperature());
-        SmartDashboard.putNumber("Right Motor Temperature", rightMotorController.getMotorTemperature());
-        SmartDashboard.putNumber("Left Motor Voltage", leftMotorController.getBusVoltage());
-        SmartDashboard.putNumber("Right Motor Voltage", rightMotorController.getBusVoltage());
-        SmartDashboard.putNumber("Left Motor Current", leftMotorController.getOutputCurrent());
-        SmartDashboard.putNumber("Right Motor Current", rightMotorController.getOutputCurrent());
-        SmartDashboard.putNumber("Left Motor Position", leftEncoder.getPosition());
-        SmartDashboard.putNumber("Right Motor Position", rightEncoder.getPosition());
+    public double getLeftVoltage() {
+        return leftMotorController.getBusVoltage();
+    }
+
+    public double getRightVoltage() {
+        return rightMotorController.getBusVoltage();
     }
 
 }

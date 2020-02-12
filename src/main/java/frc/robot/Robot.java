@@ -17,6 +17,7 @@ import frc.robot.routines.Action;
 import frc.robot.routines.Teleop;
 import frc.robot.routines.auto.AutoRoutine;
 import frc.robot.routines.auto.NullAction;
+import frc.robot.subsystems.Subsystems;
 
 public class Robot extends TimedRobot {
 
@@ -99,6 +100,15 @@ public class Robot extends TimedRobot {
 
     @Override
     public void robotPeriodic() {
+        SmartDashboard.putNumber("limelight/tx", Subsystems.limelight.tx());
+        SmartDashboard.putNumber("limelight/ty", Subsystems.limelight.ty());
+        SmartDashboard.putNumber("limelight/ta", Subsystems.limelight.ta());
+        SmartDashboard.putNumber("limelight/ts", Subsystems.limelight.ts());
+        SmartDashboard.putNumber("limelight/distance", Subsystems.limelight.distance());
+
+        SmartDashboard.putNumber("shooter/rpm", Subsystems.shooter.getRPM());
+        SmartDashboard.putNumber("shooter/left/voltage", Subsystems.shooter.getLeftVoltage());
+        SmartDashboard.putNumber("shooter/right/voltage", Subsystems.shooter.getRightVoltage());
     }
 
     @Override
@@ -181,7 +191,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void disabledInit() {
-        teleop.done();
+        // teleop.done();
     }
 
     @Override

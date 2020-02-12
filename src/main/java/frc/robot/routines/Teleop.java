@@ -24,8 +24,6 @@ public class Teleop {
         shooter = Subsystems.shooter;
     }
 
-
-
     private boolean turretAutoAlignEnabled = false;
 
     public void init() {
@@ -48,13 +46,9 @@ public class Teleop {
         } else {
             shooter.stop();
         }
-        // shooter.printEncoderValues();
-        shooter.logData();
 
-        Limelight.getInstance().update();
         if (controls.doToggleTurretAutoAlign()) {
             turretAutoAlignEnabled = !turretAutoAlignEnabled;
-            Limelight.getInstance().toggleMode();
         }
         if (controls.doTurnTurretClockwise()) {
             turret.turnClockwise(0.3);
@@ -67,14 +61,6 @@ public class Teleop {
         } else {
             turret.stop();
         }
-    }
-
-    public void done() {
-
-    }
-
-    public void disabledPeriodic() {
-
     }
 
 }
