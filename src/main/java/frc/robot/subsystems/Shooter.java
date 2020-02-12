@@ -2,7 +2,6 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.EncoderType;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -33,12 +32,21 @@ public class Shooter {
         rightMotorController.setIdleMode(IdleMode.kCoast);
         leftMotorController.setInverted(false);
         rightMotorController.setInverted(true);
-        leftMotorController.setOpenLoopRampRate(Config.Settings.CPU_PERIOD);
-        rightMotorController.setOpenLoopRampRate(Config.Settings.CPU_PERIOD);
-        leftMotorController.setSmartCurrentLimit(40);
-        rightMotorController.setSmartCurrentLimit(40);
+
+        leftMotorController.setOpenLoopRampRate(0);
+        rightMotorController.setOpenLoopRampRate(0);
+        leftMotorController.setClosedLoopRampRate(0);
+        rightMotorController.setClosedLoopRampRate(0);
+
+        leftMotorController.setSmartCurrentLimit(80);
+        rightMotorController.setSmartCurrentLimit(80);
         leftMotorController.setSecondaryCurrentLimit(40);
-        rightMotorController.setSecondaryCurrentLimit(40); 
+        rightMotorController.setSecondaryCurrentLimit(40);
+
+        leftMotorController.setSmartCurrentLimit(150);
+        rightMotorController.setSmartCurrentLimit(150);
+        leftMotorController.setSecondaryCurrentLimit(150);
+        rightMotorController.setSecondaryCurrentLimit(150); 
         
 
         leftEncoder = leftMotorController.getEncoder();
@@ -49,9 +57,6 @@ public class Shooter {
 
     public void drive(int targetRPM) {
         int actualRPM = (int) leftEncoder.getVelocity();
-        System.out.println("Actual RPM: " + actualRPM);
-        System.out.println("Target RPM: " + targetRPM);
-        SmartDashboard.putNumber("Shooter RPM", actualRPM);
 
         if (actualRPM <= targetRPM) {
             leftMotorController.set(1);
@@ -87,9 +92,6 @@ public class Shooter {
     }
 
     public void stop() {
-        // Lower than 0 to prevent misreading RPM from running the motors at full power
-        // e.g. if the actual RPM is misread at -5, so it won't run at full power
-        // drive(0);
         leftMotorController.set(0);
         rightMotorController.set(0);
     }
@@ -102,9 +104,18 @@ public class Shooter {
         rightMotorController.set(0.2);
     }
 
-    public void printEncoderValues() {
-        SmartDashboard.putNumber("Left Shooter RPM", leftEncoder.getVelocity());
-        SmartDashboard.putNumber("Right Shooter RPM", rightEncoder.getVelocity());
+    public int getRPM() {
+        int leftRPM = (int) leftEncoder.getVelocity();
+        int rightRPM = (int) rightEncoder.getVelocity();
+        return Math.max(leftRPM, rightRPM);
+    }
+
+    public double getLeftVoltage() {
+        return leftMotorController.getBusVoltage();
+    }
+
+    public double getRightVoltage() {
+        return rightMotorController.getBusVoltage();
     }
 
 }

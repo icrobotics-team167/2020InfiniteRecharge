@@ -2,7 +2,6 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Limelight {
 
@@ -22,14 +21,17 @@ public class Limelight {
     private double distance;
 
     private Limelight() {
-        getTable().getEntry("camMode").setNumber(0);
-        visionEnabled = true;
+        setVisionMode();
     }
 
-    public boolean toggleMode() {
-        getTable().getEntry("camMode").setNumber(visionEnabled ? 1 : 0);
-        visionEnabled = !visionEnabled;
-        return visionEnabled;
+    public void setCameraMode() {
+        getTable().getEntry("camMode").setNumber(1);
+        visionEnabled = false;
+    }
+
+    public void setVisionMode() {
+        getTable().getEntry("camMode").setNumber(0);
+        visionEnabled = true;
     }
 
     public void update() {
@@ -39,11 +41,6 @@ public class Limelight {
         ta = nt.getEntry("ta").getDouble(0);
         ts = nt.getEntry("ts").getDouble(0);
         distance = ((double) 66.5) / Math.tan(Math.toRadians(29.0436377382 + ty));
-        SmartDashboard.putNumber("tx", tx);
-        SmartDashboard.putNumber("ty", ty);
-        SmartDashboard.putNumber("ta", ta);
-        SmartDashboard.putNumber("ts", ts);
-        SmartDashboard.putNumber("Limelight Distance", distance);
     }
 
     public NetworkTable getTable() {
@@ -51,19 +48,28 @@ public class Limelight {
     }
 
     public double tx() {
+        update();
         return tx;
     }
 
     public double ty() {
+        update();
         return ty;
     }
 
     public double ts() {
+        update();
         return ts;
     }
 
     public double ta() {
+        update();
         return ta;
+    }
+
+    public double distance() {
+        update();
+        return distance;
     }
 
 }

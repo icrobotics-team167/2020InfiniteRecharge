@@ -2,6 +2,7 @@ package frc.robot.routines;
 
 import frc.robot.controls.inputs.ControlScheme;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Subsystems;
 import frc.robot.subsystems.Turret;
@@ -22,8 +23,6 @@ public class Teleop {
         turret = Subsystems.turret;
         shooter = Subsystems.shooter;
     }
-
-
 
     private boolean turretAutoAlignEnabled = false;
 
@@ -47,7 +46,6 @@ public class Teleop {
         } else {
             shooter.stop();
         }
-        shooter.printEncoderValues();
 
         if (controls.doToggleTurretAutoAlign()) {
             turretAutoAlignEnabled = !turretAutoAlignEnabled;
@@ -63,14 +61,6 @@ public class Teleop {
         } else {
             turret.stop();
         }
-    }
-
-    public void done() {
-
-    }
-
-    public void disabledPeriodic() {
-
     }
 
 }

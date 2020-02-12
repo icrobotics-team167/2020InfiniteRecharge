@@ -33,7 +33,6 @@ public class Turret {
     }
 
     public void autoAlign() {
-        limelight.update();
         double tx = limelight.tx();
         double output = pid.calculate(tx);
         SmartDashboard.putNumber("Turret PID Output", output);
