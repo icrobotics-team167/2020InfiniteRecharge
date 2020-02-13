@@ -9,6 +9,7 @@ public class Subsystems {
 
     public static final TankDriveBase driveBase;
     public static final Intake intake;
+    public static final Indexer indexer;
     public static final Limelight limelight;
     public static final Turret turret;
     public static final Shooter shooter;
@@ -21,6 +22,8 @@ public class Subsystems {
         }
 
         intake = Intake.getInstance();
+
+        indexer = Indexer.getInstance();
 
         limelight = Limelight.getInstance();
 

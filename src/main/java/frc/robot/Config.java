@@ -83,6 +83,12 @@ public class Config {
             public static final int SOLENOID_REVERSE = 4;
         }
 
+        // Indexer ports
+        public static final class Indexer {
+            public static final int TURN_MOTOR = 10;
+            public static final int LIFT_MOTOR = 11;
+        }
+
         // Turret motor controller port
         public static final int TURRET = 7;
 

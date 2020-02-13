@@ -32,22 +32,14 @@ public class Shooter {
         rightMotorController.setIdleMode(IdleMode.kCoast);
         leftMotorController.setInverted(false);
         rightMotorController.setInverted(true);
-
         leftMotorController.setOpenLoopRampRate(0);
         rightMotorController.setOpenLoopRampRate(0);
         leftMotorController.setClosedLoopRampRate(0);
         rightMotorController.setClosedLoopRampRate(0);
-
         leftMotorController.setSmartCurrentLimit(80);
         rightMotorController.setSmartCurrentLimit(80);
         leftMotorController.setSecondaryCurrentLimit(40);
         rightMotorController.setSecondaryCurrentLimit(40);
-
-        leftMotorController.setSmartCurrentLimit(150);
-        rightMotorController.setSmartCurrentLimit(150);
-        leftMotorController.setSecondaryCurrentLimit(150);
-        rightMotorController.setSecondaryCurrentLimit(150); 
-        
 
         leftEncoder = leftMotorController.getEncoder();
         rightEncoder = rightMotorController.getEncoder();

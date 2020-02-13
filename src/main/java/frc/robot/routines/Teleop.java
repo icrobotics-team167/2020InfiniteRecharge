@@ -1,10 +1,7 @@
 package frc.robot.routines;
 
 import frc.robot.controls.controlschemes.ControlScheme;
-import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.Subsystems;
-import frc.robot.subsystems.Turret;
+import frc.robot.subsystems.*;
 import frc.robot.subsystems.drive.TankDriveBase;
 
 public class Teleop {
@@ -12,6 +9,7 @@ public class Teleop {
     private ControlScheme controls;
     private TankDriveBase driveBase;
     private Intake intake;
+    private Indexer indexer;
     private Turret turret;
     private Shooter shooter;
 
@@ -19,6 +17,7 @@ public class Teleop {
         this.controls = controls;
         driveBase = Subsystems.driveBase;
         intake = Subsystems.intake;
+        indexer = Subsystems.indexer;
         turret = Subsystems.turret;
         shooter = Subsystems.shooter;
     }
@@ -73,6 +72,20 @@ public class Teleop {
         } else {
             shooter.stop();
             shooterEnabled = false;
+        }
+
+        if (intake.isRunningForward()) {
+            indexer.turnIntakeSpeed();
+            indexer.stopShooting();
+        } else if (shooterEnabled) {
+            indexer.turnShootingSpeed();
+            indexer.shoot();
+        } else if (intake.isRunningReverse()) {
+            indexer.turnIntakeSpeed();
+            indexer.stopShooting();
+        } else {
+            indexer.stopTurning();
+            indexer.stopShooting();
         }
 
         if (controls.doToggleTurretAutoAlign()) {
