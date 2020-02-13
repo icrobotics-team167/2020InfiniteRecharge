@@ -32,6 +32,11 @@ public class DoubleController extends ControlScheme {
     }
 
     @Override
+    public boolean doToggleGearing() {
+        return primary.getBButtonToggled();
+    }
+
+    @Override
     public boolean doToggleIntakeExtended() {
         return primary.getXButtonToggled();
     }

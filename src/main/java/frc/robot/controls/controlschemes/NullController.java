@@ -13,6 +13,11 @@ public class NullController extends ControlScheme {
     }
 
     @Override
+    public boolean doToggleGearing() {
+        return false;
+    }
+
+    @Override
     public boolean doToggleIntakeExtended() {
         return false;
     }

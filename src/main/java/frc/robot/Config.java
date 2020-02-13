@@ -41,6 +41,8 @@ public class Config {
         public static final int PRIMARY_CONTROLLER = 0;
         public static final int SECONDARY_CONTROLLER = 1; // if applicable
 
+        public static final int PCM = 2;
+
         // Talon tank ports (motor controllers and encoders)
         public static final class TalonTank {
             public static final int LEFT_1 = 1;
@@ -56,6 +58,7 @@ public class Config {
             public static final int RIGHT_ENCODER_A = 2;
             public static final int RIGHT_ENCODER_B = 3;
             public static final boolean RIGHT_ENCODER_REVERSED = true;
+            public static final int SOLENOID = 2;
         }
 
         // Spark tank motor controller ports
@@ -66,6 +69,8 @@ public class Config {
             public static final int RIGHT_1 = 6;
             public static final int RIGHT_2 = 7;
             public static final int RIGHT_3 = 8;
+            public static final int SOLENOID_FORWARD = 1;
+            public static final int SOLENOID_REVERSE = 2;
         }
 
         // Color Sensor

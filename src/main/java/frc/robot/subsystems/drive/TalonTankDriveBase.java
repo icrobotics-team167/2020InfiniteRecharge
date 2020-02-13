@@ -6,6 +6,7 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.Solenoid;
 import frc.robot.Config;
 
 public class TalonTankDriveBase implements TankDriveBase {
@@ -15,6 +16,8 @@ public class TalonTankDriveBase implements TankDriveBase {
     private TalonSRX[] rightMotorGroup;
     private Encoder leftEncoder;
     private Encoder rightEncoder;
+    private Solenoid solenoid;
+    private boolean highGear;
 
     // Singleton
     private static TalonTankDriveBase instance;
@@ -51,6 +54,9 @@ public class TalonTankDriveBase implements TankDriveBase {
             Config.Ports.TalonTank.RIGHT_ENCODER_B,
             Config.Ports.TalonTank.RIGHT_ENCODER_REVERSED
         );
+
+        solenoid = new Solenoid(Config.Ports.PCM, Config.Ports.TalonTank.SOLENOID);
+        highGear = false;
     }
 
     @Override
@@ -61,6 +67,37 @@ public class TalonTankDriveBase implements TankDriveBase {
         for (TalonSRX motorController : rightMotorGroup) {
             motorController.set(ControlMode.PercentOutput, rightSpeed);
         }
+    }
+
+    @Override
+    public void toggleGearing() {
+        if (highGear) {
+            setLowGear();
+        } else {
+            setHighGear();
+        }
+    }
+
+    @Override
+    public void setHighGear() {
+        solenoid.set(false);
+        highGear = true;
+    }
+
+    @Override
+    public void setLowGear() {
+        solenoid.set(true);
+        highGear = false;
+    }
+
+    @Override
+    public boolean isHighGear() {
+        return highGear;
+    }
+
+    @Override
+    public boolean isLowGear() {
+        return !highGear;
     }
 
 }

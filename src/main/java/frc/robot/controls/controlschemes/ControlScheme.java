@@ -4,6 +4,7 @@ public abstract class ControlScheme {
 
     public abstract double getTankLeftSpeed();
     public abstract double getTankRightSpeed();
+    public abstract boolean doToggleGearing();
 
     public abstract boolean doToggleIntakeExtended();
     public abstract boolean doToggleIntakeForward();

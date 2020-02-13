@@ -32,6 +32,9 @@ public class Teleop {
 
     public void periodic() {
         driveBase.tankDrive(controls.getTankLeftSpeed(), controls.getTankRightSpeed());
+        if (controls.doToggleGearing()) {
+            driveBase.toggleGearing();
+        }
 
         if (controls.doToggleIntakeExtended()) {
             intake.toggleExtension();

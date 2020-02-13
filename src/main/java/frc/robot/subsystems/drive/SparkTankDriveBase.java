@@ -5,6 +5,7 @@ import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.EncoderType;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
 import frc.robot.Config;
@@ -16,6 +17,8 @@ public class SparkTankDriveBase implements TankDriveBase {
     private CANSparkMax[] rightMotorGroup;
     private CANEncoder[] leftEncoders;
     private CANEncoder[] rightEncoders;
+    private DoubleSolenoid doubleSolenoid;
+    private boolean highGear;
 
     // Singleton
     private static SparkTankDriveBase instance;
@@ -48,6 +51,9 @@ public class SparkTankDriveBase implements TankDriveBase {
             leftEncoders[i] = leftMotorGroup[i].getEncoder(EncoderType.kHallSensor, 4096);
             rightEncoders[i] = rightMotorGroup[i].getEncoder(EncoderType.kHallSensor, 4096);
         }
+
+        doubleSolenoid = new DoubleSolenoid(Config.Ports.PCM, Config.Ports.SparkTank.SOLENOID_FORWARD, Config.Ports.SparkTank.SOLENOID_REVERSE);
+        highGear = false;
     }
 
     @Override
@@ -58,6 +64,37 @@ public class SparkTankDriveBase implements TankDriveBase {
         for (CANSparkMax motorController : rightMotorGroup) {
             motorController.set(rightSpeed);
         }
+    }
+
+    @Override
+    public void toggleGearing() {
+        if (highGear) {
+            setLowGear();
+        } else {
+            setHighGear();
+        }
+    }
+
+    @Override
+    public void setHighGear() {
+        doubleSolenoid.set(DoubleSolenoid.Value.kForward);
+        highGear = true;
+    }
+
+    @Override
+    public void setLowGear() {
+        doubleSolenoid.set(DoubleSolenoid.Value.kReverse);
+        highGear = false;
+    }
+
+    @Override
+    public boolean isHighGear() {
+        return highGear;
+    }
+
+    @Override
+    public boolean isLowGear() {
+        return !highGear;
     }
 
 }

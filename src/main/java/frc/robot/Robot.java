@@ -31,14 +31,6 @@ public class Robot extends TimedRobot {
         super(Config.Settings.CPU_PERIOD);
     }
 
-//    private ColorSensorV3 colorSensor;
-//    private final I2C.Port i2cPort = I2C.Port.kOnboard;
-//
-//    private boolean rotationControl;
-//    private boolean positionControl;
-//
-//    private TalonSRX colorMotor;
-
     @Override
     public void robotInit() {
         autoChooser.setDefaultOption(AutoRoutine.NULL.name, AutoRoutine.NULL);
@@ -91,11 +83,6 @@ public class Robot extends TimedRobot {
         }).start();
 
         teleop = new Teleop(controls);
-//        colorSensor = new ColorSensorV3(i2cPort);
-//        rotationControl = false;
-//        positionControl = false;
-//
-//        colorMotor = new TalonSRX(Config.Ports.COLOR_SENSOR); // port
     }
 
     @Override
@@ -142,43 +129,9 @@ public class Robot extends TimedRobot {
         teleop.init();
     }
 
-//    private Colors current;
-//    private boolean changedColor;
-//    private int semiCycleCount;
-
     @Override
     public void teleopPeriodic() {
         teleop.periodic();
-//        Color color = new Color(colorSensor.getColor().red, colorSensor.getColor().green, colorSensor.getColor().blue);
-//
-//        if (controller.getXButton() && !positionControl) {
-//            rotationControl = true;
-//            current = color.getBestColorMatch();
-//            semiCycleCount = 0;
-//            changedColor = false;
-//            colorMotor.set(ControlMode.PercentOutput, 1);
-//        }
-//
-//        if (controller.getYButton() && !rotationControl) {
-//            positionControl = true;
-//            colorMotor.set(ControlMode.PercentOutput, Color.getClosest(color.getBestColorMatch(), Colors.getColor(driverStation.getGameSpecificMessage())));
-//        }
-//
-//        if (rotationControl && !changedColor && color.getBestColorMatch() != current) {
-//            changedColor = true;
-//        } else if (rotationControl && changedColor && color.getBestColorMatch() == current) {
-//            semiCycleCount++;
-//            changedColor = false;
-//        }
-//
-//        if (rotationControl && semiCycleCount == 8) {
-//            rotationControl = false;
-//            colorMotor.set(ControlMode.PercentOutput, 0);
-//        }
-//
-//        if (positionControl && color.getBestColorMatch().label == driverStation.getGameSpecificMessage()) {
-//            colorMotor.set(ControlMode.PercentOutput, 0);
-//        }
     }
 
     @Override
@@ -191,7 +144,6 @@ public class Robot extends TimedRobot {
 
     @Override
     public void disabledInit() {
-        // teleop.done();
     }
 
     @Override
