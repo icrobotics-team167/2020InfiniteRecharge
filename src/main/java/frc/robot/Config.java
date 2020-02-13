@@ -15,8 +15,7 @@ public class Config {
 
         // Dead zones
         public static final boolean TANK_DEAD_ZONE_ENABLED = false;
-//        public static final boolean SWERVE_MOVE_DEAD_ZONE_ENABLED = false;
-//        public static final boolean SWERVE_SPIN_DEAD_ZONE_ENABLED = false;
+        public static final boolean TURRET_TURN_DEAD_ZONE_ENABLED = true;
 
         // CPU period (seconds)
         public static final double CPU_PERIOD = 0.02;
@@ -31,9 +30,8 @@ public class Config {
         // Tank drive dead zone size
         public static final double TANK_DEAD_ZONE_SIZE = 0.07;
 
-//        // Swerve drive dead zones
-//        public static final double SWERVE_MOVE_DEAD_ZONE_SIZE = 0.07;
-//        public static final double SWERVE_SPIN_DEAD_ZONE_SIZE = 0.07;
+        // Turret manual turn dead zone size
+        public static final double TURRET_TURN_DEAD_ZONE_SIZE = 0.03;
 
     }
 
@@ -70,23 +68,15 @@ public class Config {
             public static final int RIGHT_3 = 8;
         }
 
-//        // Swerve module ports
-//        public static final class Swerve {
-//            public static final int FRONT_LEFT_SPIN = 7;
-//            public static final int FRONT_LEFT_MOVE = 8;
-//            public static final int FRONT_RIGHT_SPIN = 2;
-//            public static final int FRONT_RIGHT_MOVE = 1;
-//            public static final int BACK_LEFT_SPIN = 6;
-//            public static final int BACK_LEFT_MOVE = 5;
-//            public static final int BACK_RIGHT_SPIN = 4;
-//            public static final int BACK_RIGHT_MOVE = 3;
-//        }
-
         // Color Sensor
         public static final int COLOR_SENSOR = 5;
 
-        // Intake motor controller pott
-        public static final int INTAKE = 14;
+        // Intake ports
+        public static final class Intake {
+            public static final int MOTOR = 14;
+            public static final int SOLENOID_FORWARD = 3;
+            public static final int SOLENOID_REVERSE = 4;
+        }
 
         // Turret motor controller port
         public static final int TURRET = 7;
@@ -95,37 +85,10 @@ public class Config {
         public static final class Shooter {
             public static final int LEFT = 8;
             public static final int RIGHT = 9;
-
-            // public static final int ENCODER_A = 6;
-            // public static final int ENCODER_B = 7;
-            // public static final int ENCODER_I = 8;
         }
 
         // LED PWM ports
         public static final int LED_1 = 0;
-
-    }
-
-    public static final class Measures {
-
-//        // Swerve module locations (center on the origin, front facing the position x-axis)
-//        public static final class Swerve {
-//            public static final double FRONT_LEFT_X = 0.29845;
-//            public static final double FRONT_LEFT_Y = 0.29845;
-//            public static final double FRONT_RIGHT_X = 0.29845;
-//            public static final double FRONT_RIGHT_Y = -0.29845;
-//            public static final double BACK_LEFT_X = -0.29845;
-//            public static final double BACK_LEFT_Y = 0.29845;
-//            public static final double BACK_RIGHT_X = -0.29845;
-//            public static final double BACK_RIGHT_Y = -0.29845;
-//        }
-//
-//        // Swerve top speeds
-//        public static final class SwerveSpeeds {
-//            // TODO determine actual values
-//            public static final double MOVE = 3.0; // meters per second
-//            public static final double SPIN = 1.5; // radians per second
-//        }
 
     }
 

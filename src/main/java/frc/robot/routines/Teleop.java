@@ -1,8 +1,7 @@
 package frc.robot.routines;
 
-import frc.robot.controls.inputs.ControlScheme;
+import frc.robot.controls.controlschemes.ControlScheme;
 import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Subsystems;
 import frc.robot.subsystems.Turret;
@@ -24,6 +23,7 @@ public class Teleop {
         shooter = Subsystems.shooter;
     }
 
+    private boolean shooterEnabled = false;
     private boolean turretAutoAlignEnabled = false;
 
     public void init() {
@@ -33,28 +33,53 @@ public class Teleop {
     public void periodic() {
         driveBase.tankDrive(controls.getTankLeftSpeed(), controls.getTankRightSpeed());
 
-        if (controls.doRunIntakeForward()) {
-            intake.runForward();
-        } else if (controls.doRunIntakeReverse()) {
-            intake.runReverse();
+        if (controls.doToggleIntakeExtended()) {
+            intake.toggleExtension();
+        }
+        if (controls.doToggleIntakeForward()) {
+            if (intake.isRunningForward()) {
+                intake.stop();
+            } else {
+                intake.runForward();
+            }
+        } else if (controls.doToggleIntakeReverse()) {
+            if (intake.isRunningReverse()) {
+                intake.stop();
+            } else {
+                intake.runReverse();
+            }
         } else {
-            intake.stop();
+            if (intake.isRunningForward()) {
+                intake.runForward();
+            } else if (intake.isRunningReverse()) {
+                intake.runReverse();
+            } else {
+                intake.stop();
+            }
         }
 
-        if (controls.doRunShooter()) {
+        if (shooterEnabled && controls.doToggleShooter()) {
+            shooter.stop();
+            shooterEnabled = false;
+        } else if (!shooterEnabled && controls.doToggleShooter()) {
             shooter.drive(3700);
+            shooterEnabled = true;
+        } else if (shooterEnabled) {
+            shooter.drive(3700);
+            shooterEnabled = true;
         } else {
             shooter.stop();
+            shooterEnabled = false;
         }
 
         if (controls.doToggleTurretAutoAlign()) {
             turretAutoAlignEnabled = !turretAutoAlignEnabled;
         }
         if (controls.doTurnTurretClockwise()) {
-            turret.turnClockwise(0.3);
+            turret.turnClockwise(controls.getTurretClockwiseSpeed());
             turretAutoAlignEnabled = false;
         } else if (controls.doTurnTurretCounterclockwise()) {
-            turret.turnCounterclockwise(0.3);
+            turret.turnCounterclockwise(controls.getTurretCounterclockwiseSpeed());
             turretAutoAlignEnabled = false;
         } else if (turretAutoAlignEnabled) {
             turret.autoAlign();

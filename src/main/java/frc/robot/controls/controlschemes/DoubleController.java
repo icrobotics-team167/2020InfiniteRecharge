@@ -1,9 +1,9 @@
-package frc.robot.controls.inputs;
+package frc.robot.controls.controlschemes;
 
 import frc.robot.Config;
 import frc.robot.controls.controllers.Controller;
 
-public class DoubleController implements ControlScheme {
+public class DoubleController extends ControlScheme {
 
     private Controller primary;
     private Controller secondary;
@@ -32,18 +32,23 @@ public class DoubleController implements ControlScheme {
     }
 
     @Override
-    public boolean doRunIntakeForward() {
-        return primary.getLeftTrigger();
+    public boolean doToggleIntakeExtended() {
+        return primary.getXButtonToggled();
     }
 
     @Override
-    public boolean doRunIntakeReverse() {
-        return false;
+    public boolean doToggleIntakeForward() {
+        return primary.getLeftBumperToggled();
     }
 
     @Override
-    public boolean doRunShooter() {
-        return primary.getRightTrigger();
+    public boolean doToggleIntakeReverse() {
+        return primary.getYButtonToggled();
+    }
+
+    @Override
+    public boolean doToggleShooter() {
+        return primary.getRightBumperToggled();
     }
 
     @Override
@@ -52,13 +57,21 @@ public class DoubleController implements ControlScheme {
     }
 
     @Override
-    public boolean doTurnTurretClockwise() {
-        return primary.getRightBumper();
+    public double getTurretClockwiseSpeed() {
+        double speed = primary.getRightTriggerValue();
+        if (Config.Settings.TURRET_TURN_DEAD_ZONE_ENABLED && Math.abs(speed) < Math.abs(Config.Tolerances.TURRET_TURN_DEAD_ZONE_SIZE)) {
+            speed = 0;
+        }
+        return 0.3 * speed;
     }
 
     @Override
-    public boolean doTurnTurretCounterclockwise() {
-        return primary.getLeftBumper();
+    public double getTurretCounterclockwiseSpeed() {
+        double speed = primary.getLeftTriggerValue();
+        if (Config.Settings.TURRET_TURN_DEAD_ZONE_ENABLED && Math.abs(speed) < Math.abs(Config.Tolerances.TURRET_TURN_DEAD_ZONE_SIZE)) {
+            speed = 0;
+        }
+        return 0.3 * speed;
     }
 
 }
