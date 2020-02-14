@@ -52,7 +52,11 @@ public class SparkTankDriveBase implements TankDriveBase {
             rightEncoders[i] = rightMotorGroup[i].getEncoder(EncoderType.kHallSensor, 4096);
         }
 
-        doubleSolenoid = new DoubleSolenoid(Config.Ports.PCM, Config.Ports.SparkTank.SOLENOID_FORWARD, Config.Ports.SparkTank.SOLENOID_REVERSE);
+        doubleSolenoid = new DoubleSolenoid(
+            Config.Settings.SPARK_TANK_ENABLED ? Config.Ports.SparkTank.PCM : Config.Ports.TalonTank.PCM,
+            Config.Ports.SparkTank.SOLENOID_FORWARD,
+            Config.Ports.SparkTank.SOLENOID_REVERSE
+        );
         highGear = false;
     }
 

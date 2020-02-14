@@ -55,7 +55,10 @@ public class TalonTankDriveBase implements TankDriveBase {
             Config.Ports.TalonTank.RIGHT_ENCODER_REVERSED
         );
 
-        solenoid = new Solenoid(Config.Ports.PCM, Config.Ports.TalonTank.SOLENOID);
+        solenoid = new Solenoid(
+            Config.Settings.SPARK_TANK_ENABLED ? Config.Ports.SparkTank.PCM : Config.Ports.TalonTank.PCM,
+            Config.Ports.TalonTank.SOLENOID
+        );
         highGear = false;
     }
 

@@ -22,7 +22,11 @@ public class Intake {
     private double currentSpeed;
 
     private Intake() {
-        doubleSolenoid = new DoubleSolenoid(Config.Ports.Intake.SOLENOID_FORWARD, Config.Ports.Intake.SOLENOID_REVERSE);
+        doubleSolenoid = new DoubleSolenoid(
+            Config.Settings.SPARK_TANK_ENABLED ? Config.Ports.SparkTank.PCM : Config.Ports.TalonTank.PCM,
+            Config.Ports.Intake.SOLENOID_FORWARD,
+            Config.Ports.Intake.SOLENOID_REVERSE
+        );
         extended = false;
         motor = new TalonSRX(Config.Ports.Intake.MOTOR);
         motor.setNeutralMode(NeutralMode.Brake);

@@ -7,7 +7,7 @@ public class Config {
     public static final class Settings {
 
         // Use Talon tank drive/test bot (false) or Spark tank drive/real bot (true)
-        public static final boolean SPARK_TANK_ENABLED = false;
+        public static final boolean SPARK_TANK_ENABLED = true;
 
         // Controllers
         public static final ControllerType PRIMARY_CONTROLLER_TYPE = ControllerType.PS;
@@ -41,10 +41,10 @@ public class Config {
         public static final int PRIMARY_CONTROLLER = 0;
         public static final int SECONDARY_CONTROLLER = 1; // if applicable
 
-        public static final int PCM = 2;
-
         // Talon tank ports (motor controllers and encoders)
         public static final class TalonTank {
+            public static final int PCM = 2;
+
             public static final int LEFT_1 = 1;
             public static final int LEFT_2 = 2;
             public static final int LEFT_3 = 3;
@@ -63,6 +63,8 @@ public class Config {
 
         // Spark tank motor controller ports
         public static final class SparkTank {
+            public static final int PCM = 2;
+
             public static final int LEFT_1 = 3;
             public static final int LEFT_2 = 4;
             public static final int LEFT_3 = 5;
@@ -72,9 +74,6 @@ public class Config {
             public static final int SOLENOID_FORWARD = 1;
             public static final int SOLENOID_REVERSE = 2;
         }
-
-        // Color Sensor
-        public static final int COLOR_SENSOR = 5;
 
         // Intake ports
         public static final class Intake {
@@ -97,9 +96,6 @@ public class Config {
             public static final int LEFT = 8;
             public static final int RIGHT = 9;
         }
-
-        // LED PWM ports
-        public static final int LED_1 = 0;
 
     }
 
