@@ -36,40 +36,41 @@ public class Teleop {
             driveBase.toggleGearing();
         }
 
-        if (controls.doToggleIntakeForward()) {
-            indexerTestEnabled = !indexerTestEnabled;
-        }
-        if (indexerTestEnabled) {
-            indexer.turnIntakeSpeed();
-            indexer.shoot();
-        } else {
-            indexer.stopTurning();
-            indexer.stopShooting();
-        }
-//        if (controls.doToggleIntakeExtended()) {
-//            intake.toggleExtension();
-//        }
-//        if (controls.doToggleIntakeForward()) {
-//            if (intake.isRunningForward()) {
-//                intake.stop();
-//            } else {
-//                intake.runForward();
-//            }
-//        } else if (controls.doToggleIntakeReverse()) {
-//            if (intake.isRunningReverse()) {
-//                intake.stop();
-//            } else {
-//                intake.runReverse();
-//            }
-//        } else {
-//            if (intake.isRunningForward()) {
-//                intake.runForward();
-//            } else if (intake.isRunningReverse()) {
-//                intake.runReverse();
-//            } else {
-//                intake.stop();
-//            }
-//        }
+        // if (controls.doToggleIntakeForward()) {
+        //     indexerTestEnabled = !indexerTestEnabled;
+        // }
+        // if (indexerTestEnabled) {
+        //     indexer.turnShootingSpeed();
+        //     indexer.shoot();
+        // } else {
+        //     indexer.stopTurning();
+        //     indexer.stopShooting();
+        // }
+
+       if (controls.doToggleIntakeExtended()) {
+           intake.toggleExtension();
+       }
+       if (controls.doToggleIntakeForward()) {
+           if (intake.isRunningForward()) {
+               intake.stop();
+           } else {
+               intake.runForward();
+           }
+       } else if (controls.doToggleIntakeReverse()) {
+           if (intake.isRunningReverse()) {
+               intake.stop();
+           } else {
+               intake.runReverse();
+           }
+       } else {
+           if (intake.isRunningForward()) {
+               intake.runForward();
+           } else if (intake.isRunningReverse()) {
+               intake.runReverse();
+           } else {
+               intake.stop();
+           }
+       }
 
         if (controls.doToggleShooter()) {
             shooterEnabled = !shooterEnabled;
@@ -80,19 +81,19 @@ public class Teleop {
             shooter.stop();
         }
 
-//        if (intake.isRunningForward()) {
-//            indexer.turnIntakeSpeed();
-//            indexer.stopShooting();
-//        } else if (shooterEnabled) {
-//            indexer.turnShootingSpeed();
-//            indexer.shoot();
-//        } else if (intake.isRunningReverse()) {
-//            indexer.turnIntakeSpeed();
-//            indexer.stopShooting();
-//        } else {
-//            indexer.stopTurning();
-//            indexer.stopShooting();
-//        }
+       if (intake.isRunningForward()) {
+           indexer.turnIntakeSpeed();
+           indexer.stopShooting();
+       } else if (shooterEnabled) {
+           indexer.turnShootingSpeed();
+           indexer.shoot();
+       } else if (intake.isRunningReverse()) {
+           indexer.turnIntakeSpeed();
+           indexer.stopShooting();
+       } else {
+           indexer.stopTurning();
+           indexer.stopShooting();
+       }
 
         if (controls.doToggleTurretAutoAlign()) {
             turretAutoAlignEnabled = !turretAutoAlignEnabled;

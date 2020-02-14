@@ -77,9 +77,9 @@ public class Config {
 
         // Intake ports
         public static final class Intake {
-            public static final int MOTOR = 14;
-            public static final int SOLENOID_FORWARD = 3;
-            public static final int SOLENOID_REVERSE = 4;
+            public static final int MOTOR = 12;
+            public static final int SOLENOID_FORWARD = 0;
+            public static final int SOLENOID_REVERSE = 3;
         }
 
         // Indexer ports
@@ -89,11 +89,11 @@ public class Config {
         }
 
         // Turret motor controller port
-        public static final int TURRET = 7;
+        public static final int TURRET = 13;
 
         // Shooter motor controller ports
         public static final class Shooter {
-            public static final int LEFT = 8;
+            public static final int LEFT = 14;
             public static final int RIGHT = 9;
         }
 

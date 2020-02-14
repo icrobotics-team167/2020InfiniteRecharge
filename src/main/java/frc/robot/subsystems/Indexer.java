@@ -25,7 +25,7 @@ public class Indexer {
         turnMotorController = new CANSparkMax(Config.Ports.Indexer.TURN_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless);
         turnMotorController.restoreFactoryDefaults();
         turnMotorController.setIdleMode(CANSparkMax.IdleMode.kBrake);
-        turnMotorController.setInverted(false);
+        turnMotorController.setInverted(true);
         turnMotorController.setOpenLoopRampRate(0);
         turnMotorController.setClosedLoopRampRate(0);
         turnMotorController.setSmartCurrentLimit(80);
@@ -33,13 +33,13 @@ public class Indexer {
         currentSpeed = 0;
 
         liftMotorController = new TalonSRX(Config.Ports.Indexer.LIFT_MOTOR);
-        liftMotorController.setInverted(false);
+        liftMotorController.setInverted(true);
         shooting = false;
     }
 
     public void turnIntakeSpeed() {
-        turnMotorController.set(0.2);
-        currentSpeed = 0.2;
+        turnMotorController.set(0.3);
+        currentSpeed = 0.3;
     }
 
     public void turnReverseSpeed() {
@@ -48,8 +48,8 @@ public class Indexer {
     }
 
     public void turnShootingSpeed() {
-        turnMotorController.set(0.6);
-        currentSpeed = 0.6;
+        turnMotorController.set(1);
+        currentSpeed = 1;
     }
 
     public void stopTurning() {
@@ -58,7 +58,7 @@ public class Indexer {
     }
 
     public void shoot() {
-        liftMotorController.set(ControlMode.PercentOutput, 0.6);
+        liftMotorController.set(ControlMode.PercentOutput, 1);
     }
 
     public void stopShooting() {
@@ -66,7 +66,7 @@ public class Indexer {
     }
 
     public boolean isIntakeSpeed() {
-        return currentSpeed == 0.2;
+        return currentSpeed == 0.3;
     }
 
     public boolean isReverseSpeed() {
@@ -74,7 +74,7 @@ public class Indexer {
     }
 
     public boolean isShootingSpeed() {
-        return currentSpeed == 0.6;
+        return currentSpeed == 1;
     }
 
     public boolean isStopped() {
