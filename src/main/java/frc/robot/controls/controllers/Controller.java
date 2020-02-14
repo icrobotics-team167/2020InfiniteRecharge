@@ -8,10 +8,12 @@ public interface Controller {
 
     double getLeftTriggerValue();
     boolean getLeftTrigger();
+    boolean getLeftTriggerToggled();
     boolean getLeftBumper();
     boolean getLeftBumperToggled();
     double getRightTriggerValue();
     boolean getRightTrigger();
+    boolean getRightTriggerToggled();
     boolean getRightBumper();
     boolean getRightBumperToggled();
 

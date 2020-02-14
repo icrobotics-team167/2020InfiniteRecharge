@@ -43,7 +43,7 @@ public class DoubleController extends ControlScheme {
 
     @Override
     public boolean doToggleIntakeForward() {
-        return primary.getLeftBumperToggled();
+        return primary.getLeftTriggerToggled();
     }
 
     @Override
@@ -53,7 +53,7 @@ public class DoubleController extends ControlScheme {
 
     @Override
     public boolean doToggleShooter() {
-        return primary.getRightBumperToggled();
+        return primary.getRightTriggerToggled();
     }
 
     @Override
@@ -62,21 +62,13 @@ public class DoubleController extends ControlScheme {
     }
 
     @Override
-    public double getTurretClockwiseSpeed() {
-        double speed = primary.getRightTriggerValue();
-        if (Config.Settings.TURRET_TURN_DEAD_ZONE_ENABLED && Math.abs(speed) < Math.abs(Config.Tolerances.TURRET_TURN_DEAD_ZONE_SIZE)) {
-            speed = 0;
-        }
-        return 0.3 * speed;
+    public boolean doTurnTurretClockwise() {
+        return primary.getRightBumper();
     }
 
     @Override
-    public double getTurretCounterclockwiseSpeed() {
-        double speed = primary.getLeftTriggerValue();
-        if (Config.Settings.TURRET_TURN_DEAD_ZONE_ENABLED && Math.abs(speed) < Math.abs(Config.Tolerances.TURRET_TURN_DEAD_ZONE_SIZE)) {
-            speed = 0;
-        }
-        return 0.3 * speed;
+    public boolean doTurnTurretCounterclockwise() {
+        return primary.getLeftBumper();
     }
 
 }

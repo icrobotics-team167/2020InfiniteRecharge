@@ -3,7 +3,6 @@ package frc.robot.controls.controllers;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Config;
-import frc.robot.controls.controllers.Controller;
 
 public class XBController implements Controller {
 
@@ -40,6 +39,19 @@ public class XBController implements Controller {
         return controller.getTriggerAxis(GenericHID.Hand.kLeft) >= Math.abs(Config.Tolerances.TRIGGER_PRESSED_THRESHOLD);
     }
 
+    private boolean leftTriggerToggle = true;
+    @Override
+    public boolean getLeftTriggerToggled() {
+        if (leftTriggerToggle && getLeftTrigger()) {
+            leftTriggerToggle = false;
+            return true;
+        } else if (!getLeftTrigger()) {
+            leftTriggerToggle = true;
+            return true;
+        }
+        return false;
+    }
+
     @Override
     public boolean getLeftBumper() {
         return controller.getBumper(GenericHID.Hand.kLeft);
@@ -58,6 +70,19 @@ public class XBController implements Controller {
     @Override
     public boolean getRightTrigger() {
         return controller.getTriggerAxis(GenericHID.Hand.kRight) >= Math.abs(Config.Tolerances.TRIGGER_PRESSED_THRESHOLD);
+    }
+
+    private boolean rightTriggerToggle = true;
+    @Override
+    public boolean getRightTriggerToggled() {
+        if (rightTriggerToggle && getRightTrigger()) {
+            rightTriggerToggle = false;
+            return true;
+        } else if (!getRightTrigger()) {
+            rightTriggerToggle = true;
+            return true;
+        }
+        return false;
     }
 
     @Override

@@ -92,10 +92,10 @@ public class Teleop {
             turretAutoAlignEnabled = !turretAutoAlignEnabled;
         }
         if (controls.doTurnTurretClockwise()) {
-            turret.turnClockwise(controls.getTurretClockwiseSpeed());
+            turret.turnClockwise(0.3);
             turretAutoAlignEnabled = false;
         } else if (controls.doTurnTurretCounterclockwise()) {
-            turret.turnCounterclockwise(controls.getTurretCounterclockwiseSpeed());
+            turret.turnCounterclockwise(0.3);
             turretAutoAlignEnabled = false;
         } else if (turretAutoAlignEnabled) {
             turret.autoAlign();

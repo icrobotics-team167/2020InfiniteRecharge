@@ -43,13 +43,13 @@ public class NullController extends ControlScheme {
     }
 
     @Override
-    public double getTurretClockwiseSpeed() {
-        return 0;
+    public boolean doTurnTurretClockwise() {
+        return false;
     }
 
     @Override
-    public double getTurretCounterclockwiseSpeed() {
-        return 0;
+    public boolean doTurnTurretCounterclockwise() {
+        return false;
     }
 
 }
