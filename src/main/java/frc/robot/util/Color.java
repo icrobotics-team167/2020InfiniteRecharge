@@ -1,4 +1,4 @@
-package frc.robot; // Blue Green Red Yellow
+package frc.robot.util; // Blue Green Red Yellow
 
 public final class Color {
 
@@ -13,7 +13,7 @@ public final class Color {
         this.green = green;
         this.blue = blue;
     }
-    
+
     // Construct a color from RGB
     public static Color fromRGB(double red, double green, double blue) {
         return new Color(red, green, blue);

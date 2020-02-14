@@ -1,4 +1,4 @@
-package frc.robot;
+package frc.robot.util;
 
 public enum Colors {
 
@@ -17,7 +17,7 @@ public enum Colors {
         this.label = label;
         this.name = name;
     }
-    
+
     public static Colors getColor(String letter) {
         if (letter.equals("B")) return BLUE;
         if (letter.equals("G")) return GREEN;
