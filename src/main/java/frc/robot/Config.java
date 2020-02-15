@@ -14,7 +14,7 @@ public class Config {
         public static final ControllerType SECONDARY_CONTROLLER_TYPE = ControllerType.NONE;
 
         // Dead zones
-        public static final boolean TANK_DEAD_ZONE_ENABLED = false;
+        public static final boolean TANK_DEAD_ZONE_ENABLED = true;
         public static final boolean TURRET_TURN_DEAD_ZONE_ENABLED = true;
 
         // CPU period (seconds)

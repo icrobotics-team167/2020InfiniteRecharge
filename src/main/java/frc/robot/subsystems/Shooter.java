@@ -46,7 +46,9 @@ public class Shooter {
         leftEncoder.setPosition(0);
         rightEncoder.setPosition(0);
 
-        rightMotorController.follow(leftMotorController);
+        stop();
+
+        // rightMotorController.follow(leftMotorController);
     }
 
     public void run() {
@@ -54,10 +56,12 @@ public class Shooter {
 
         if (actualRPM <= targetRPM) {
             leftMotorController.set(1);
+            rightMotorController.set(1);
         } else {
             leftMotorController.set(0);
+            rightMotorController.set(0);
         }
-        rightMotorController.follow(leftMotorController);
+        // rightMotorController.follow(leftMotorController);
     }
 
     // boolean fullSpeed = true;
@@ -101,16 +105,16 @@ public class Shooter {
     }
 
     public void stop() {
-        setTargetRPM(-10);
+        setTargetRPM(-1000);
     }
 
-    // public void testLeft() {
-    //     leftMotorController.set(0.2);
-    // }
+    public void testLeft() {
+        leftMotorController.set(0.2);
+    }
 
-    // public void testRight() {
-    //     rightMotorController.set(0.2);
-    // }
+    public void testRight() {
+        rightMotorController.set(0.2);
+    }
 
     public int getTargetRPM() {
         return targetRPM;

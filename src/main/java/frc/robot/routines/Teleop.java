@@ -105,7 +105,7 @@ public class Teleop {
                     break;
             }
         }
-        intake.run();
+        // intake.run();
 
         // switch (intake.getMode()) {
         //     case OFF_UP:
@@ -152,7 +152,7 @@ public class Teleop {
             if (shooter.isInShootingMode()) {
                 indexer.setMode(Indexer.Mode.SMART_SHOOT);
             } else {
-                indexer.setMode(Indexer.Mode.SMART_INTAKE);
+                indexer.setMode(Indexer.Mode.OFF);
             }
         }
         indexer.run();

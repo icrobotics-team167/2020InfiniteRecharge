@@ -91,11 +91,11 @@ public class Indexer {
                 }
                 return;
             case SHOOT_FORWARD:
-                turnMotorController.set(1);
+                turnMotorController.set(0.5);
                 liftMotorController.set(ControlMode.PercentOutput, 1);
                 return;
             case SHOOT_REVERSE:
-                turnMotorController.set(-1);
+                turnMotorController.set(-0.5);
                 liftMotorController.set(ControlMode.PercentOutput, 1);
                 return;
             case SMART_SHOOT:
@@ -107,7 +107,7 @@ public class Indexer {
                     turnMotorController.set(0);
                 } else if (!startupTimer.hasElapsed(3.05)) {
                     liftMotorController.set(ControlMode.PercentOutput, 1);
-                    turnMotorController.set(1);
+                    turnMotorController.set(0.5);
                 } else if (turnEncoder.getVelocity() < 300 && !antiJamTimer.hasElapsed(2)) {
                     liftMotorController.set(ControlMode.PercentOutput, -0.08);
                     turnMotorController.set(-0.1);
@@ -118,7 +118,7 @@ public class Indexer {
                     startupTimer.reset();
                 } else {
                     liftMotorController.set(ControlMode.PercentOutput, 1);
-                    turnMotorController.set(1);
+                    turnMotorController.set(0.5);
                     antiJamTimer.reset();
                 }
                 return;
