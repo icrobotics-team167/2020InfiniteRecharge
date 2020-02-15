@@ -23,14 +23,11 @@ public class Teleop {
         shooter = Subsystems.shooter;
     }
 
-    private boolean shooterEnabled = false;
-    private boolean indexerTestEnabled = false;
-    private boolean turretAutoAlignEnabled = false;
-    private boolean intakeDown = false;
-    private boolean smartShoot = false;
-
     public void init() {
-        turretAutoAlignEnabled = false;
+        intake.setMode(Intake.Mode.OFF_UP);
+        indexer.setMode(Indexer.Mode.OFF);
+        turret.setMode(Turret.Mode.OFF);
+        shooter.stop();
     }
 
     public void periodic() {
@@ -105,47 +102,6 @@ public class Teleop {
                     break;
             }
         }
-        // intake.run();
-
-        // switch (intake.getMode()) {
-        //     case OFF_UP:
-        //         indexer.setMode(Indexer.Mode.OFF);
-        //         break;
-        //     case OFF_DOWN:
-        //         indexer.setMode(Indexer.Mode.OFF);
-        //         break;
-        //     case INTAKE_DOWN:
-        //         indexer.setMode(Indexer.Mode.SMART_INTAKE);
-        //         break;
-        //     case REVERSE_UP:
-        //         indexer.setMode(Indexer.Mode.SMART_INTAKE);
-        //         break;
-        //     case REVERSE_DOWN:
-        //         indexer.setMode(Indexer.Mode.SMART_SHOOT);
-        //         break;
-        //     default:
-        //         break;
-        // }
-        // if (controls.doToggleIntakeForward()) {
-        //     if (intakeDown) {
-        //         intake.setMode(Intake.Mode.OFF_UP);
-        //         intakeDown = false;
-        //     } else {
-        //         intake.setMode(Intake.Mode.INTAKE_DOWN);
-        //         intakeDown = true;
-        //     }
-        // }
-        // intake.run();
-        // if (controls.doToggleIntakeReverse()) {
-        //     if (smartShoot) {
-        //         indexer.setMode(Indexer.Mode.OFF);
-        //         smartShoot = false;
-        //     } else {
-        //         indexer.setMode(Indexer.Mode.SHOOT_FORWARD);
-        //         smartShoot = true;
-        //     }
-        // }
-        // indexer.run();
 
         if (controls.doToggleShooter()) {
             shooter.toggle();
@@ -157,21 +113,6 @@ public class Teleop {
         }
         indexer.run();
         shooter.run();
-
-        // if (controls.doToggleTurretAutoAlign()) {
-        //     turretAutoAlignEnabled = !turretAutoAlignEnabled;
-        // }
-        // if (controls.doTurnTurretClockwise()) {
-        //     turret.turnClockwise(0.3);
-        //     turretAutoAlignEnabled = false;
-        // } else if (controls.doTurnTurretCounterclockwise()) {
-        //     turret.turnCounterclockwise(0.3);
-        //     turretAutoAlignEnabled = false;
-        // } else if (turretAutoAlignEnabled) {
-        //     turret.autoAlign();
-        // } else {
-        //     turret.stop();
-        // }
 
         if (controls.doToggleTurretAutoAlign() && turret.getMode() != Turret.Mode.AUTO_ALIGN) {
             turret.setMode(Turret.Mode.AUTO_ALIGN);

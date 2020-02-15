@@ -99,13 +99,13 @@ public class Indexer {
                 liftMotorController.set(ControlMode.PercentOutput, 1);
                 return;
             case SMART_SHOOT:
-                if (Subsystems.shooter.getRPM() < 4900 && !startupTimer.hasElapsed(2.5)) {
+                if (Subsystems.shooter.getRPM() < 4900 && !startupTimer.hasElapsed(3)) {
                     liftMotorController.set(ControlMode.PercentOutput, 0);
                     turnMotorController.set(0);
-                } else if (!startupTimer.hasElapsed(2.65)) {
+                } else if (!startupTimer.hasElapsed(8)) {
                     liftMotorController.set(ControlMode.PercentOutput, 1);
                     turnMotorController.set(0);
-                } else if (!startupTimer.hasElapsed(3.05)) {
+                } else if (!startupTimer.hasElapsed(10)) {
                     liftMotorController.set(ControlMode.PercentOutput, 1);
                     turnMotorController.set(0.5);
                 } else if (turnEncoder.getVelocity() < 300 && !antiJamTimer.hasElapsed(2)) {
