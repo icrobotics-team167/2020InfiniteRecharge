@@ -67,26 +67,26 @@ public class Indexer {
                 liftMotorController.set(ControlMode.PercentOutput, 0);
                 return;
             case FORWARD:
-                turnMotorController.set(0.3);
+                turnMotorController.set(0.2);
                 liftMotorController.set(ControlMode.PercentOutput, 0);
                 return;
             case REVERSE:
-                turnMotorController.set(-0.3);
+                turnMotorController.set(-0.2);
                 liftMotorController.set(ControlMode.PercentOutput, 0);
                 return;
             case SMART_INTAKE:
                 liftMotorController.set(ControlMode.PercentOutput, 0);
                 if (!startupTimer.hasElapsed(0.3)) {
-                    turnMotorController.set(0.3);
+                    turnMotorController.set(0.25);
                     antiJamTimer.reset();
                 } else if (turnEncoder.getVelocity() < 300 && !antiJamTimer.hasElapsed(2)) {
-                    turnMotorController.set(-0.16);
+                    turnMotorController.set(-0.15);
                 } else if (turnEncoder.getVelocity() < 300) {
-                    turnMotorController.set(0.3);
+                    turnMotorController.set(0.25);
                     antiJamTimer.reset();
                     startupTimer.reset();
                 } else {
-                    turnMotorController.set(0.3);
+                    turnMotorController.set(0.25);
                     antiJamTimer.reset();
                 }
                 return;
@@ -110,7 +110,7 @@ public class Indexer {
                     turnMotorController.set(1);
                 } else if (turnEncoder.getVelocity() < 300 && !antiJamTimer.hasElapsed(2)) {
                     liftMotorController.set(ControlMode.PercentOutput, -0.08);
-                    turnMotorController.set(-0.16);
+                    turnMotorController.set(-0.1);
                 } else if (turnEncoder.getVelocity() < 300) {
                     liftMotorController.set(ControlMode.PercentOutput, 1);
                     turnMotorController.set(0);
