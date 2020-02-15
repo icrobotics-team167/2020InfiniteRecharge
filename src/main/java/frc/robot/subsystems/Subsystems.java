@@ -32,4 +32,11 @@ public class Subsystems {
         shooter = Shooter.getInstance();
     }
 
+    public static void setInitialStates() {
+        intake.setMode(Intake.Mode.OFF_UP);
+        indexer.setMode(Indexer.Mode.OFF);
+        turret.setMode(Turret.Mode.OFF);
+        shooter.stop();
+    }
+
 }

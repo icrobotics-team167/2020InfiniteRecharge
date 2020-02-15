@@ -82,6 +82,8 @@ public class Robot extends TimedRobot {
             UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
         }).start();
 
+        Subsystems.setInitialStates();
+
         teleop = new Teleop(controls);
     }
 

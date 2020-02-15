@@ -24,10 +24,6 @@ public class Teleop {
     }
 
     public void init() {
-        intake.setMode(Intake.Mode.OFF_UP);
-        indexer.setMode(Indexer.Mode.OFF);
-        turret.setMode(Turret.Mode.OFF);
-        shooter.stop();
     }
 
     public void periodic() {
