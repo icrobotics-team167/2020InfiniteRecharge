@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import frc.robot.Config;
 
 public class TalonTankDriveBase implements TankDriveBase {
@@ -103,4 +104,23 @@ public class TalonTankDriveBase implements TankDriveBase {
         return !highGear;
     }
 
+    @Override
+    public double getLeftSpeed() {
+        return 0;
+    }
+
+    @Override
+    public double getRightSpeed() {
+        return 0;
+    }
+
+    @Override
+    public void setReferences(double leftSpeed, double rightSpeed) {
+        return;
+    }
+
+    @Override
+    public Rotation2d getGyroHeading() {
+        return Rotation2d.fromDegrees(-navx.getRate());
+    }
 }

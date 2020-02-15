@@ -28,4 +28,7 @@ public class PeriodicTimer {
         return false;
     }
 
+    public double get() {
+        return Timer.getFPGATimestamp();
+    }
 }

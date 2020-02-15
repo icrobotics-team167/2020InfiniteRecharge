@@ -2,12 +2,16 @@ package frc.robot.subsystems.drive;
 
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANEncoder;
+import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
+import com.revrobotics.ControlType;
 import com.revrobotics.EncoderType;
+
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import frc.robot.Config;
 
 public class SparkTankDriveBase implements TankDriveBase {
@@ -19,6 +23,8 @@ public class SparkTankDriveBase implements TankDriveBase {
     private CANEncoder[] rightEncoders;
     private DoubleSolenoid doubleSolenoid;
     private boolean highGear;
+    private CANPIDController[] leftControllers;
+    private CANPIDController[] rightControllers;
 
     // Singleton
     private static SparkTankDriveBase instance;
@@ -58,6 +64,13 @@ public class SparkTankDriveBase implements TankDriveBase {
             Config.Ports.SparkTank.SOLENOID_REVERSE
         );
         highGear = false;
+
+        leftControllers[0] = leftMotorGroup[0].getPIDController();
+        leftControllers[1] = leftMotorGroup[1].getPIDController();
+        leftControllers[2] = leftMotorGroup[2].getPIDController();
+        rightControllers[0] = rightMotorGroup[0].getPIDController();
+        rightControllers[1] = rightMotorGroup[1].getPIDController();
+        rightControllers[2] = rightMotorGroup[2].getPIDController();
     }
 
     @Override
@@ -105,4 +118,30 @@ public class SparkTankDriveBase implements TankDriveBase {
         rightMotorGroup[2].set(1);
     }
 
+    @Override
+    public double getLeftSpeed() {
+        double speedAverage = (leftEncoders[0].getVelocity() + leftEncoders[1].getVelocity() + leftEncoders[2].getVelocity()) / 3;
+        return 0.39898226700466 * (speedAverage / 60);
+    }
+
+    @Override
+    public double getRightSpeed() {
+        double speedAverage = (rightEncoders[0].getVelocity() + rightEncoders[1].getVelocity() + rightEncoders[2].getVelocity()) / 3;
+        return 0.39898226700466 * (speedAverage / 60);
+    }
+
+    @Override
+    public void setReferences(double leftSpeed, double rightSpeed) {
+        for (CANPIDController controller : leftControllers) {
+            controller.setReference(leftSpeed, ControlType.kSmartVelocity);
+        }
+        for (CANPIDController controller : rightControllers) {
+            controller.setReference(rightSpeed, ControlType.kSmartVelocity);
+        }
+    }
+
+    @Override
+    public Rotation2d getGyroHeading() {
+        return Rotation2d.fromDegrees(-navx.getRate());
+    }
 }
