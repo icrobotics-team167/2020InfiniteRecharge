@@ -107,25 +107,25 @@ public class Teleop {
         }
         intake.run();
 
-        switch (intake.getMode()) {
-            case OFF_UP:
-                indexer.setMode(Indexer.Mode.OFF);
-                break;
-            case OFF_DOWN:
-                indexer.setMode(Indexer.Mode.OFF);
-                break;
-            case INTAKE_DOWN:
-                indexer.setMode(Indexer.Mode.SMART_INTAKE);
-                break;
-            case REVERSE_UP:
-                indexer.setMode(Indexer.Mode.SMART_INTAKE);
-                break;
-            case REVERSE_DOWN:
-                indexer.setMode(Indexer.Mode.SMART_SHOOT);
-                break;
-            default:
-                break;
-        }
+        // switch (intake.getMode()) {
+        //     case OFF_UP:
+        //         indexer.setMode(Indexer.Mode.OFF);
+        //         break;
+        //     case OFF_DOWN:
+        //         indexer.setMode(Indexer.Mode.OFF);
+        //         break;
+        //     case INTAKE_DOWN:
+        //         indexer.setMode(Indexer.Mode.SMART_INTAKE);
+        //         break;
+        //     case REVERSE_UP:
+        //         indexer.setMode(Indexer.Mode.SMART_INTAKE);
+        //         break;
+        //     case REVERSE_DOWN:
+        //         indexer.setMode(Indexer.Mode.SMART_SHOOT);
+        //         break;
+        //     default:
+        //         break;
+        // }
         // if (controls.doToggleIntakeForward()) {
         //     if (intakeDown) {
         //         intake.setMode(Intake.Mode.OFF_UP);
@@ -152,7 +152,7 @@ public class Teleop {
             if (shooter.isInShootingMode()) {
                 indexer.setMode(Indexer.Mode.SMART_SHOOT);
             } else {
-                indexer.setMode(Indexer.Mode.OFF);
+                indexer.setMode(Indexer.Mode.SMART_INTAKE);
             }
         }
         indexer.run();
