@@ -13,7 +13,12 @@ public class NullController extends ControlScheme {
     }
 
     @Override
-    public boolean doToggleGearing() {
+    public boolean doSwitchHighGear() {
+        return false;
+    }
+
+    @Override
+    public boolean doSwitchLowGear() {
         return false;
     }
 

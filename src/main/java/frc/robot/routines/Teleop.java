@@ -2,6 +2,7 @@ package frc.robot.routines;
 
 import frc.robot.controls.controlschemes.ControlScheme;
 import frc.robot.subsystems.*;
+import frc.robot.subsystems.drive.SparkTankDriveBase;
 import frc.robot.subsystems.drive.TankDriveBase;
 
 public class Teleop {
@@ -25,6 +26,8 @@ public class Teleop {
     private boolean shooterEnabled = false;
     private boolean indexerTestEnabled = false;
     private boolean turretAutoAlignEnabled = false;
+    private boolean intakeDown = false;
+    private boolean smartShoot = false;
 
     public void init() {
         turretAutoAlignEnabled = false;
@@ -32,8 +35,13 @@ public class Teleop {
 
     public void periodic() {
         driveBase.tankDrive(controls.getTankLeftSpeed(), controls.getTankRightSpeed());
-        if (controls.doToggleGearing()) {
-            driveBase.toggleGearing();
+        // if (driveBase instanceof SparkTankDriveBase) {
+        //     ((SparkTankDriveBase) driveBase).testMotor();
+        // }
+        if (controls.doSwitchHighGear()) {
+            driveBase.setHighGear();
+        } else if (controls.doSwitchLowGear()) {
+            driveBase.setLowGear();
         }
 
         if (controls.doToggleIntakeForward()) {
@@ -118,16 +126,41 @@ public class Teleop {
             default:
                 break;
         }
-        indexer.run();
+        // if (controls.doToggleIntakeForward()) {
+        //     if (intakeDown) {
+        //         intake.setMode(Intake.Mode.OFF_UP);
+        //         intakeDown = false;
+        //     } else {
+        //         intake.setMode(Intake.Mode.INTAKE_DOWN);
+        //         intakeDown = true;
+        //     }
+        // }
+        // intake.run();
+        // if (controls.doToggleIntakeReverse()) {
+        //     if (smartShoot) {
+        //         indexer.setMode(Indexer.Mode.OFF);
+        //         smartShoot = false;
+        //     } else {
+        //         indexer.setMode(Indexer.Mode.SHOOT_FORWARD);
+        //         smartShoot = true;
+        //     }
+        // }
+        // indexer.run();
 
         if (controls.doToggleShooter()) {
             shooterEnabled = !shooterEnabled;
+            if (shooterEnabled) {
+                indexer.setMode(Indexer.Mode.SMART_SHOOT);
+            } else {
+                indexer.setMode(Indexer.Mode.OFF);
+            }
         }
         if (shooterEnabled) {
-            shooter.drive(3700);
+            shooter.drive(5000);
         } else {
             shooter.stop();
         }
+        indexer.run();
 
         if (controls.doToggleTurretAutoAlign()) {
             turretAutoAlignEnabled = !turretAutoAlignEnabled;

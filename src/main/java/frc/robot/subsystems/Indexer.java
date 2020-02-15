@@ -99,7 +99,7 @@ public class Indexer {
                 liftMotorController.set(ControlMode.PercentOutput, 1);
                 return;
             case SMART_SHOOT:
-                if (!startupTimer.hasElapsed(2.5)) {
+                if (Subsystems.shooter.getRPM() < 4900 && !startupTimer.hasElapsed(2.5)) {
                     liftMotorController.set(ControlMode.PercentOutput, 0);
                     turnMotorController.set(0);
                 } else if (!startupTimer.hasElapsed(2.65)) {

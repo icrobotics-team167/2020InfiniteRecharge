@@ -2,6 +2,7 @@ package frc.robot.controls.controlschemes;
 
 import frc.robot.Config;
 import frc.robot.controls.controllers.Controller;
+import frc.robot.controls.controllers.PSController;
 
 public class SingleController extends ControlScheme {
 
@@ -30,13 +31,18 @@ public class SingleController extends ControlScheme {
     }
 
     @Override
-    public boolean doToggleGearing() {
-        return primary.getBButtonToggled();
+    public boolean doSwitchHighGear() {
+        return primary.getLeftStickButton();
+    }
+
+    @Override
+    public boolean doSwitchLowGear() {
+        return primary.getRightStickButton();
     }
 
     @Override
     public boolean doToggleIntakeDown() {
-        return primary.getXButtonToggled();
+        return primary.getBButtonToggled();
     }
 
     @Override

@@ -101,4 +101,8 @@ public class SparkTankDriveBase implements TankDriveBase {
         return !highGear;
     }
 
+    public void testMotor() {
+        rightMotorGroup[2].set(1);
+    }
+
 }
