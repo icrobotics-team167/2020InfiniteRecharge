@@ -44,7 +44,7 @@ public class DoubleController extends ControlScheme {
 
     @Override
     public boolean doToggleIntakeDown() {
-        return primary.getXButtonToggled();
+        return primary.getBButtonToggled();
     }
 
     @Override
