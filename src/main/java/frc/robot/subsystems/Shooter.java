@@ -5,7 +5,6 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config;
 
 public class Shooter {
@@ -18,6 +17,7 @@ public class Shooter {
         return instance;
     }
 
+    private int targetRPM;
     private CANSparkMax leftMotorController;
     private CANSparkMax rightMotorController;
     private CANEncoder leftEncoder;
@@ -45,61 +45,96 @@ public class Shooter {
         rightEncoder = rightMotorController.getEncoder();
         leftEncoder.setPosition(0);
         rightEncoder.setPosition(0);
+
+        rightMotorController.follow(leftMotorController);
     }
 
-    public void drive(int targetRPM) {
+    public void run() {
         int actualRPM = (int) leftEncoder.getVelocity();
 
         if (actualRPM <= targetRPM) {
             leftMotorController.set(1);
-            rightMotorController.set(1);
         } else {
             leftMotorController.set(0);
-            rightMotorController.set(0);
         }
     }
 
-    boolean fullSpeed = true;
-    public void test(int targetRPM) {
-        int actualRPM = (int) leftEncoder.getVelocity();
-        System.out.println("Actual RPM: " + actualRPM);
-        System.out.println("Target RPM: " + targetRPM);
-        SmartDashboard.putNumber("Shooter RPM", actualRPM);
+    // boolean fullSpeed = true;
+    // public void test(int targetRPM) {
+    //     int actualRPM = (int) leftEncoder.getVelocity();
+    //     System.out.println("Actual RPM: " + actualRPM);
+    //     System.out.println("Target RPM: " + targetRPM);
+    //     SmartDashboard.putNumber("Shooter RPM", actualRPM);
 
-        if (!fullSpeed && actualRPM > targetRPM) {
-            fullSpeed = true;
-            leftMotorController.set(0);
-            rightMotorController.set(0);
-        } else if (fullSpeed && actualRPM <= 0) {
-            fullSpeed = false;
-            leftMotorController.set(0.8);
-            rightMotorController.set(0.8);
-        } else if (!fullSpeed && actualRPM <= targetRPM) {
-            leftMotorController.set(0.8);
-            rightMotorController.set(0.8);
-        } else if (fullSpeed && actualRPM > targetRPM) {
-            leftMotorController.set(0);
-            rightMotorController.set(0);
+    //     if (!fullSpeed && actualRPM > targetRPM) {
+    //         fullSpeed = true;
+    //         leftMotorController.set(0);
+    //         rightMotorController.set(0);
+    //     } else if (fullSpeed && actualRPM <= 0) {
+    //         fullSpeed = false;
+    //         leftMotorController.set(0.8);
+    //         rightMotorController.set(0.8);
+    //     } else if (!fullSpeed && actualRPM <= targetRPM) {
+    //         leftMotorController.set(0.8);
+    //         rightMotorController.set(0.8);
+    //     } else if (fullSpeed && actualRPM > targetRPM) {
+    //         leftMotorController.set(0);
+    //         rightMotorController.set(0);
+    //     }
+    // }
+
+    public void setTargetRPM(int targetRPM) {
+        this.targetRPM = targetRPM;
+    }
+
+    public void toggle() {
+        if (targetRPM <= 0) {
+            start();
+        } else {
+            stop();
         }
+    }
+
+    public void start() {
+        setTargetRPM(Config.Settings.SHOOTING_RPM);
     }
 
     public void stop() {
-        leftMotorController.set(0);
-        rightMotorController.set(0);
+        setTargetRPM(-10);
     }
 
-    public void testLeft() {
-        leftMotorController.set(0.2);
-    }
+    // public void testLeft() {
+    //     leftMotorController.set(0.2);
+    // }
 
-    public void testRight() {
-        rightMotorController.set(0.2);
+    // public void testRight() {
+    //     rightMotorController.set(0.2);
+    // }
+
+    public int getTargetRPM() {
+        return targetRPM;
     }
 
     public int getRPM() {
         int leftRPM = (int) leftEncoder.getVelocity();
         int rightRPM = (int) rightEncoder.getVelocity();
         return Math.max(leftRPM, rightRPM);
+    }
+
+    public boolean isInStoppedMode() {
+        return targetRPM <= 0;
+    }
+
+    public boolean isInShootingMode() {
+        return !isInStoppedMode();
+    }
+
+    public boolean isStopped() {
+        return getRPM() <= 0;
+    }
+
+    public boolean isUpToSpeed() {
+        return getRPM() >= Config.Settings.SHOOTING_RPM - 200;
     }
 
     public double getLeftVoltage() {

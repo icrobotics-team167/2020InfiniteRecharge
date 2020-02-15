@@ -148,19 +148,15 @@ public class Teleop {
         // indexer.run();
 
         if (controls.doToggleShooter()) {
-            shooterEnabled = !shooterEnabled;
-            if (shooterEnabled) {
+            shooter.toggle();
+            if (shooter.isInShootingMode()) {
                 indexer.setMode(Indexer.Mode.SMART_SHOOT);
             } else {
                 indexer.setMode(Indexer.Mode.OFF);
             }
         }
-        if (shooterEnabled) {
-            shooter.drive(5000);
-        } else {
-            shooter.stop();
-        }
         indexer.run();
+        shooter.run();
 
         if (controls.doToggleTurretAutoAlign()) {
             turretAutoAlignEnabled = !turretAutoAlignEnabled;

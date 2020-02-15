@@ -20,6 +20,9 @@ public class Config {
         // CPU period (seconds)
         public static final double CPU_PERIOD = 0.02;
 
+        // Shooting RPM
+        public static final int SHOOTING_RPM = 5000;
+
     }
 
     public static final class Tolerances {
