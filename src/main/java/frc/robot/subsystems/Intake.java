@@ -3,8 +3,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.Solenoid;
 import frc.robot.Config;
 
 public class Intake {
@@ -25,16 +24,15 @@ public class Intake {
         REVERSE_DOWN
     }
 
-    private DoubleSolenoid doubleSolenoid;
+    private Solenoid solenoid;
     private TalonSRX motor;
     private Mode mode;
     private boolean downPosition;
 
     private Intake() {
-        doubleSolenoid = new DoubleSolenoid(
+        solenoid = new Solenoid(
             Config.Settings.SPARK_TANK_ENABLED ? Config.Ports.SparkTank.PCM : Config.Ports.TalonTank.PCM,
-            Config.Ports.Intake.SOLENOID_FORWARD,
-            Config.Ports.Intake.SOLENOID_REVERSE
+            Config.Ports.Intake.SOLENOID
         );
         motor = new TalonSRX(Config.Ports.Intake.MOTOR);
         motor.setInverted(true);
@@ -48,31 +46,31 @@ public class Intake {
             case OFF_UP:
                 motor.set(ControlMode.PercentOutput, 0);
                 if (downPosition) {
-                    doubleSolenoid.set(Value.kReverse);
+                    solenoid.set(false);
                 }
                 return;
             case OFF_DOWN:
                 motor.set(ControlMode.PercentOutput, 0);
                 if (!downPosition) {
-                    doubleSolenoid.set(Value.kForward);
+                    solenoid.set(true);
                 }
                 return;
             case INTAKE_DOWN:
                 motor.set(ControlMode.PercentOutput, 0.65);
                 if (!downPosition) {
-                    doubleSolenoid.set(Value.kForward);
+                    solenoid.set(true);
                 }
                 return;
             case REVERSE_UP:
                 motor.set(ControlMode.PercentOutput, -0.3);
                 if (downPosition) {
-                    doubleSolenoid.set(Value.kReverse);
+                    solenoid.set(false);
                 }
                 return;
             case REVERSE_DOWN:
                 motor.set(ControlMode.PercentOutput, -0.65);
                 if (!downPosition) {
-                    doubleSolenoid.set(Value.kForward);
+                    solenoid.set(true);
                 }
                 return;
             default:
