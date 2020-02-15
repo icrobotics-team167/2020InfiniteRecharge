@@ -37,12 +37,16 @@ public interface Controller {
 
     boolean getDpadNeutral();
     boolean getDpadUp();
+    boolean getDpadUpToggled();
     boolean getDpadUpRight();
     boolean getDpadRight();
+    boolean getDpadRightToggled();
     boolean getDpadDownRight();
     boolean getDpadDown();
+    boolean getDpadDownToggled();
     boolean getDpadDownLeft();
     boolean getDpadLeft();
+    boolean getDpadLeftToggled();
     boolean getDpadUpLeft();
 
     boolean getViewButton();

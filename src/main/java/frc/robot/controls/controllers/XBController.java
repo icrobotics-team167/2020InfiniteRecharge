@@ -185,6 +185,19 @@ public class XBController implements Controller {
         return controller.getPOV() == 0;
     }
 
+    private boolean dpadUpToggle = true;
+    @Override
+    public boolean getDpadUpToggled() {
+        if (dpadUpToggle && getDpadUp()) {
+            dpadUpToggle = false;
+            return true;
+        } else if (!getDpadUp()) {
+            dpadUpToggle = true;
+            return true;
+        }
+        return false;
+    }
+
     @Override
     public boolean getDpadUpRight() {
         return controller.getPOV() == 45;
@@ -193,6 +206,19 @@ public class XBController implements Controller {
     @Override
     public boolean getDpadRight() {
         return controller.getPOV() == 90;
+    }
+
+    private boolean dpadRightToggle = true;
+    @Override
+    public boolean getDpadRightToggled() {
+        if (dpadRightToggle && getDpadRight()) {
+            dpadRightToggle = false;
+            return true;
+        } else if (!getDpadRight()) {
+            dpadRightToggle = true;
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -205,6 +231,19 @@ public class XBController implements Controller {
         return controller.getPOV() == 180;
     }
 
+    private boolean dpadDownToggle = true;
+    @Override
+    public boolean getDpadDownToggled() {
+        if (dpadDownToggle && getDpadDown()) {
+            dpadDownToggle = false;
+            return true;
+        } else if (!getDpadDown()) {
+            dpadDownToggle = true;
+            return true;
+        }
+        return false;
+    }
+
     @Override
     public boolean getDpadDownLeft() {
         return controller.getPOV() == 225;
@@ -213,6 +252,19 @@ public class XBController implements Controller {
     @Override
     public boolean getDpadLeft() {
         return controller.getPOV() == 270;
+    }
+
+    private boolean dpadLeftToggle = true;
+    @Override
+    public boolean getDpadLeftToggled() {
+        if (dpadLeftToggle && getDpadLeft()) {
+            dpadLeftToggle = false;
+            return true;
+        } else if (!getDpadLeft()) {
+            dpadLeftToggle = true;
+            return true;
+        }
+        return false;
     }
 
     @Override

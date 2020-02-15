@@ -54,7 +54,7 @@ public class DoubleController extends ControlScheme {
 
     @Override
     public boolean doToggleIntakeReverse() {
-        return primary.getYButtonToggled();
+        return primary.getDpadLeftToggled();
     }
 
     @Override

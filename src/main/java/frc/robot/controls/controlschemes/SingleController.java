@@ -52,7 +52,7 @@ public class SingleController extends ControlScheme {
 
     @Override
     public boolean doToggleIntakeReverse() {
-        return primary.getYButtonToggled();
+        return primary.getDpadLeftToggled();
     }
 
     @Override
