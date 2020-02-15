@@ -1,10 +1,14 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
+
 import frc.robot.Config;
+import frc.robot.util.PeriodicTimer;
 
 public class Indexer {
 
@@ -16,10 +20,23 @@ public class Indexer {
         return instance;
     }
 
+    public static enum Mode {
+        OFF,
+        FORWARD,
+        REVERSE,
+        SMART_INTAKE,
+        SHOOT_FORWARD,
+        SHOOT_REVERSE,
+        SMART_SHOOT
+    }
+
     private CANSparkMax turnMotorController;
-    private double currentSpeed;
+    private CANEncoder turnEncoder;
     private TalonSRX liftMotorController;
-    private boolean shooting;
+    private PeriodicTimer startupTimer;
+    private PeriodicTimer antiJamTimer;
+    private PeriodicTimer liftTimer;
+    private Mode mode;
 
     private Indexer() {
         turnMotorController = new CANSparkMax(Config.Ports.Indexer.TURN_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless);
@@ -30,59 +47,94 @@ public class Indexer {
         turnMotorController.setClosedLoopRampRate(0);
         turnMotorController.setSmartCurrentLimit(80);
         turnMotorController.setSecondaryCurrentLimit(40);
-        currentSpeed = 0;
+
+        turnEncoder = turnMotorController.getEncoder();
 
         liftMotorController = new TalonSRX(Config.Ports.Indexer.LIFT_MOTOR);
         liftMotorController.setInverted(true);
-        shooting = false;
+        liftMotorController.setNeutralMode(NeutralMode.Brake);
+
+        startupTimer = new PeriodicTimer();
+        antiJamTimer = new PeriodicTimer();
+
+        mode = Mode.OFF;
     }
 
-    public void turnIntakeSpeed() {
-        turnMotorController.set(0.3);
-        currentSpeed = 0.3;
+    public void run() {
+        switch (mode) {
+            case OFF:
+                turnMotorController.set(0);
+                liftMotorController.set(ControlMode.PercentOutput, 0);
+                return;
+            case FORWARD:
+                turnMotorController.set(0.3);
+                liftMotorController.set(ControlMode.PercentOutput, 0);
+                return;
+            case REVERSE:
+                turnMotorController.set(-0.3);
+                liftMotorController.set(ControlMode.PercentOutput, 0);
+                return;
+            case SMART_INTAKE:
+                liftMotorController.set(ControlMode.PercentOutput, 0);
+                if (!startupTimer.hasElapsed(0.3)) {
+                    turnMotorController.set(0.3);
+                    antiJamTimer.reset();
+                } else if (turnEncoder.getVelocity() < 300 && !antiJamTimer.hasElapsed(2)) {
+                    turnMotorController.set(-0.16);
+                } else if (turnEncoder.getVelocity() < 300) {
+                    turnMotorController.set(0.3);
+                    antiJamTimer.reset();
+                    startupTimer.reset();
+                } else {
+                    turnMotorController.set(0.3);
+                    antiJamTimer.reset();
+                }
+                return;
+            case SHOOT_FORWARD:
+                turnMotorController.set(1);
+                liftMotorController.set(ControlMode.PercentOutput, 1);
+                return;
+            case SHOOT_REVERSE:
+                turnMotorController.set(-1);
+                liftMotorController.set(ControlMode.PercentOutput, 1);
+                return;
+            case SMART_SHOOT:
+                if (!startupTimer.hasElapsed(0.15)) {
+                    liftMotorController.set(ControlMode.PercentOutput, 1);
+                    turnMotorController.set(0);
+                } else if (!startupTimer.hasElapsed(0.45)) {
+                    liftMotorController.set(ControlMode.PercentOutput, 1);
+                    turnMotorController.set(1);
+                } else if (turnEncoder.getVelocity() < 300 && !antiJamTimer.hasElapsed(2)) {
+                    liftMotorController.set(ControlMode.PercentOutput, -0.08);
+                    turnMotorController.set(-0.16);
+                } else if (turnEncoder.getVelocity() < 300) {
+                    liftMotorController.set(ControlMode.PercentOutput, 1);
+                    turnMotorController.set(0);
+                    antiJamTimer.reset();
+                    startupTimer.reset();
+                } else {
+                    liftMotorController.set(ControlMode.PercentOutput, 1);
+                    turnMotorController.set(1);
+                    antiJamTimer.reset();
+                }
+                return;
+            default:
+                turnMotorController.set(0);
+                liftMotorController.set(ControlMode.PercentOutput, 0);
+                return;
+        }
     }
 
-    public void turnReverseSpeed() {
-        turnMotorController.set(-0.15);
-        currentSpeed = -0.15;
+    public void setMode(Mode mode) {
+        if (mode != this.mode) {
+            this.mode = mode;
+            startupTimer.reset();
+        }
     }
 
-    public void turnShootingSpeed() {
-        turnMotorController.set(1);
-        currentSpeed = 1;
-    }
-
-    public void stopTurning() {
-        turnMotorController.set(0);
-        currentSpeed = 0;
-    }
-
-    public void shoot() {
-        liftMotorController.set(ControlMode.PercentOutput, 1);
-    }
-
-    public void stopShooting() {
-        liftMotorController.set(ControlMode.PercentOutput, 0);
-    }
-
-    public boolean isIntakeSpeed() {
-        return currentSpeed == 0.3;
-    }
-
-    public boolean isReverseSpeed() {
-        return currentSpeed == -0.15;
-    }
-
-    public boolean isShootingSpeed() {
-        return currentSpeed == 1;
-    }
-
-    public boolean isStopped() {
-        return currentSpeed == 0;
-    }
-
-    public boolean isShooting() {
-        return shooting;
+    public Mode getMode() {
+        return mode;
     }
 
 }

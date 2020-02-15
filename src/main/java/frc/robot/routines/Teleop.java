@@ -36,41 +36,89 @@ public class Teleop {
             driveBase.toggleGearing();
         }
 
-        // if (controls.doToggleIntakeForward()) {
-        //     indexerTestEnabled = !indexerTestEnabled;
-        // }
-        // if (indexerTestEnabled) {
-        //     indexer.turnShootingSpeed();
-        //     indexer.shoot();
-        // } else {
-        //     indexer.stopTurning();
-        //     indexer.stopShooting();
-        // }
+        if (controls.doToggleIntakeForward()) {
+            switch (intake.getMode()) {
+                case OFF_UP:
+                    intake.setMode(Intake.Mode.INTAKE_DOWN);
+                    break;
+                case OFF_DOWN:
+                    intake.setMode(Intake.Mode.INTAKE_DOWN);
+                    break;
+                case INTAKE_DOWN:
+                    intake.setMode(Intake.Mode.OFF_DOWN);
+                    break;
+                case REVERSE_UP:
+                    intake.setMode(Intake.Mode.INTAKE_DOWN);
+                    break;
+                case REVERSE_DOWN:
+                    intake.setMode(Intake.Mode.INTAKE_DOWN);
+                    break;
+                default:
+                    break;
+            }
+        } else if (controls.doToggleIntakeReverse()) {
+            switch (intake.getMode()) {
+                case OFF_UP:
+                    intake.setMode(Intake.Mode.REVERSE_UP);
+                    break;
+                case OFF_DOWN:
+                    intake.setMode(Intake.Mode.REVERSE_UP);
+                    break;
+                case INTAKE_DOWN:
+                    intake.setMode(Intake.Mode.REVERSE_DOWN);
+                    break;
+                case REVERSE_UP:
+                    intake.setMode(Intake.Mode.OFF_UP);
+                    break;
+                case REVERSE_DOWN:
+                    intake.setMode(Intake.Mode.OFF_DOWN);
+                    break;
+                default:
+                    break;
+            }
+        } else if (controls.doToggleIntakeDown()) {
+            switch (intake.getMode()) {
+                case OFF_UP:
+                    intake.setMode(Intake.Mode.OFF_DOWN);
+                    break;
+                case OFF_DOWN:
+                    intake.setMode(Intake.Mode.OFF_UP);
+                    break;
+                case INTAKE_DOWN:
+                    intake.setMode(Intake.Mode.OFF_UP);
+                    break;
+                case REVERSE_UP:
+                    intake.setMode(Intake.Mode.REVERSE_DOWN);
+                    break;
+                case REVERSE_DOWN:
+                    intake.setMode(Intake.Mode.REVERSE_UP);
+                    break;
+                default:
+                    break;
+            }
+        }
+        intake.run();
 
-       if (controls.doToggleIntakeExtended()) {
-           intake.toggleExtension();
-       }
-       if (controls.doToggleIntakeForward()) {
-           if (intake.isRunningForward()) {
-               intake.stop();
-           } else {
-               intake.runForward();
-           }
-       } else if (controls.doToggleIntakeReverse()) {
-           if (intake.isRunningReverse()) {
-               intake.stop();
-           } else {
-               intake.runReverse();
-           }
-       } else {
-           if (intake.isRunningForward()) {
-               intake.runForward();
-           } else if (intake.isRunningReverse()) {
-               intake.runReverse();
-           } else {
-               intake.stop();
-           }
-       }
+        switch (intake.getMode()) {
+            case OFF_UP:
+                indexer.setMode(Indexer.Mode.OFF);
+                break;
+            case OFF_DOWN:
+                indexer.setMode(Indexer.Mode.OFF);
+                break;
+            case INTAKE_DOWN:
+                indexer.setMode(Indexer.Mode.SMART_INTAKE);
+                break;
+            case REVERSE_UP:
+                indexer.setMode(Indexer.Mode.SMART_INTAKE);
+                break;
+            case REVERSE_DOWN:
+                indexer.setMode(Indexer.Mode.SMART_SHOOT);
+                break;
+            default:
+                break;
+        }
+        indexer.run();
 
         if (controls.doToggleShooter()) {
             shooterEnabled = !shooterEnabled;
@@ -80,20 +128,6 @@ public class Teleop {
         } else {
             shooter.stop();
         }
-
-       if (intake.isRunningForward()) {
-           indexer.turnIntakeSpeed();
-           indexer.stopShooting();
-       } else if (shooterEnabled) {
-           indexer.turnShootingSpeed();
-           indexer.shoot();
-       } else if (intake.isRunningReverse()) {
-           indexer.turnIntakeSpeed();
-           indexer.stopShooting();
-       } else {
-           indexer.stopTurning();
-           indexer.stopShooting();
-       }
 
         if (controls.doToggleTurretAutoAlign()) {
             turretAutoAlignEnabled = !turretAutoAlignEnabled;

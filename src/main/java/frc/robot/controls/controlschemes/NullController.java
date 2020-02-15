@@ -18,7 +18,7 @@ public class NullController extends ControlScheme {
     }
 
     @Override
-    public boolean doToggleIntakeExtended() {
+    public boolean doToggleIntakeDown() {
         return false;
     }
 
