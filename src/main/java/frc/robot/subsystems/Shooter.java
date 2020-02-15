@@ -57,6 +57,7 @@ public class Shooter {
         } else {
             leftMotorController.set(0);
         }
+        rightMotorController.follow(leftMotorController);
     }
 
     // boolean fullSpeed = true;

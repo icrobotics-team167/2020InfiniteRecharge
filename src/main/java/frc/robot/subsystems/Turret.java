@@ -19,6 +19,14 @@ public class Turret {
         return instance;
     }
 
+    public static enum Mode {
+        OFF,
+        AUTO_ALIGN,
+        TURN_CLOCKWISE,
+        TURN_COUNTERCLOCKWISE
+    }
+
+    private Mode mode;
     private TalonSRX motor;
     private PIDController pid;
     private Limelight limelight;
@@ -30,6 +38,35 @@ public class Turret {
         pid.setSetpoint(-1);
         pid.setTolerance(0.4);
         limelight = Limelight.getInstance();
+        mode = Mode.OFF;
+    }
+
+    public void run() {
+        switch (mode) {
+            case OFF:
+                stop();
+                break;
+            case AUTO_ALIGN:
+                autoAlign();
+                break;
+            case TURN_CLOCKWISE:
+                turnClockwise(0.3);
+                break;
+            case TURN_COUNTERCLOCKWISE:
+                turnCounterclockwise(0.3);
+                break;
+            default:
+                stop();
+                break;
+        }
+    }
+
+    public void setMode(Mode mode) {
+        this.mode = mode;
+    }
+
+    public Mode getMode() {
+        return mode;
     }
 
     public void autoAlign() {

@@ -158,20 +158,33 @@ public class Teleop {
         indexer.run();
         shooter.run();
 
-        if (controls.doToggleTurretAutoAlign()) {
-            turretAutoAlignEnabled = !turretAutoAlignEnabled;
-        }
-        if (controls.doTurnTurretClockwise()) {
-            turret.turnClockwise(0.3);
-            turretAutoAlignEnabled = false;
+        // if (controls.doToggleTurretAutoAlign()) {
+        //     turretAutoAlignEnabled = !turretAutoAlignEnabled;
+        // }
+        // if (controls.doTurnTurretClockwise()) {
+        //     turret.turnClockwise(0.3);
+        //     turretAutoAlignEnabled = false;
+        // } else if (controls.doTurnTurretCounterclockwise()) {
+        //     turret.turnCounterclockwise(0.3);
+        //     turretAutoAlignEnabled = false;
+        // } else if (turretAutoAlignEnabled) {
+        //     turret.autoAlign();
+        // } else {
+        //     turret.stop();
+        // }
+
+        if (controls.doToggleTurretAutoAlign() && turret.getMode() != Turret.Mode.AUTO_ALIGN) {
+            turret.setMode(Turret.Mode.AUTO_ALIGN);
+        } else if (controls.doTurnTurretClockwise()) {
+            turret.setMode(Turret.Mode.TURN_CLOCKWISE);
         } else if (controls.doTurnTurretCounterclockwise()) {
-            turret.turnCounterclockwise(0.3);
-            turretAutoAlignEnabled = false;
-        } else if (turretAutoAlignEnabled) {
-            turret.autoAlign();
+            turret.setMode(Turret.Mode.TURN_COUNTERCLOCKWISE);
+        } else if (turret.getMode() == Turret.Mode.AUTO_ALIGN) {
+            turret.setMode(Turret.Mode.AUTO_ALIGN);
         } else {
-            turret.stop();
+            turret.setMode(Turret.Mode.OFF);
         }
+        turret.run();
     }
 
 }
