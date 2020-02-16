@@ -72,4 +72,7 @@ public class Limelight {
         return distance;
     }
 
+    public boolean isEnabled() {
+        return visionEnabled;
+    }
 }

@@ -41,43 +41,43 @@ public class Intake {
         downPosition = false;
     }
 
-    public void run() {
-        switch (mode) {
-            case OFF_UP:
-                motor.set(ControlMode.PercentOutput, 0);
-                if (downPosition) {
-                    solenoid.set(false);
-                }
-                return;
-            case OFF_DOWN:
-                motor.set(ControlMode.PercentOutput, 0);
-                if (!downPosition) {
-                    solenoid.set(true);
-                }
-                return;
-            case INTAKE_DOWN:
-                motor.set(ControlMode.PercentOutput, 0.65);
-                if (!downPosition) {
-                    solenoid.set(true);
-                }
-                return;
-            case REVERSE_UP:
-                motor.set(ControlMode.PercentOutput, -0.3);
-                if (downPosition) {
-                    solenoid.set(false);
-                }
-                return;
-            case REVERSE_DOWN:
-                motor.set(ControlMode.PercentOutput, -0.65);
-                if (!downPosition) {
-                    solenoid.set(true);
-                }
-                return;
-            default:
-                motor.set(ControlMode.PercentOutput, 0);
-                return;
-        }
-    }
+    // public void run() {
+    //     switch (mode) {
+    //         case OFF_UP:
+    //             motor.set(ControlMode.PercentOutput, 0);
+    //             if (downPosition) {
+    //                 solenoid.set(false);
+    //             }
+    //             return;
+    //         case OFF_DOWN:
+    //             motor.set(ControlMode.PercentOutput, 0);
+    //             if (!downPosition) {
+    //                 solenoid.set(true);
+    //             }
+    //             return;
+    //         case INTAKE_DOWN:
+    //             motor.set(ControlMode.PercentOutput, 0.65);
+    //             if (!downPosition) {
+    //                 solenoid.set(true);
+    //             }
+    //             return;
+    //         case REVERSE_UP:
+    //             motor.set(ControlMode.PercentOutput, -0.3);
+    //             if (downPosition) {
+    //                 solenoid.set(false);
+    //             }
+    //             return;
+    //         case REVERSE_DOWN:
+    //             motor.set(ControlMode.PercentOutput, -0.65);
+    //             if (!downPosition) {
+    //                 solenoid.set(true);
+    //             }
+    //             return;
+    //         default:
+    //             motor.set(ControlMode.PercentOutput, 0);
+    //             return;
+    //     }
+    // }
 
     public void setMode(Mode mode) {
         if (mode != this.mode) {
@@ -89,4 +89,31 @@ public class Intake {
         return mode;
     }
 
+    public void clear() {
+        motor.set(ControlMode.PercentOutput, 0);
+    }
+
+    boolean on = false;
+    public void forward() {
+        on2 = false;
+        if (!on) {
+            motor.set(ControlMode.PercentOutput, 0.3);
+            on = true;
+        } else {
+            motor.set(ControlMode.PercentOutput, 0);
+            on = false;
+        }
+    }
+
+    boolean on2 = false;
+    public void reverse() {
+        on = false;
+        if (!on2) {
+            motor.set(ControlMode.PercentOutput, -0.3);
+            on2 = true;
+        } else {
+            motor.set(ControlMode.PercentOutput, 0);
+            on2 = false;
+        }
+    }
 }

@@ -15,6 +15,7 @@ import frc.robot.controls.controlschemes.NullController;
 import frc.robot.controls.controlschemes.SingleController;
 import frc.robot.routines.Action;
 import frc.robot.routines.Teleop;
+import frc.robot.routines.auto.Auto;
 import frc.robot.routines.auto.AutoRoutine;
 import frc.robot.routines.auto.NullAction;
 import frc.robot.subsystems.Subsystems;
@@ -84,6 +85,7 @@ public class Robot extends TimedRobot {
 
         Subsystems.setInitialStates();
 
+        // auto = new Auto(autoChooser.getSelected());
         teleop = new Teleop(controls);
     }
 
@@ -102,28 +104,13 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-        AutoRoutine autoRoutine = autoChooser.getSelected();
-        switch (autoChooser.getSelected()) {
-//            case FRIENDLY_TRENCH_RUN:
-//                break;
-//            case ENEMY_TENCH_RUN:
-//                break;
-//            case SHOOT_3:
-//                break;
-            case NULL:
-                auto = new NullAction();
-                break;
-            default:
-                auto = new NullAction();
-                break;
-        }
-        auto.exec();
-        System.out.println("Auto selected: " + autoRoutine.name);
+        // auto.exec();
+        // System.out.println("Auto selected: " + autoChooser.getSelected().name);
     }
 
     @Override
     public void autonomousPeriodic() {
-        auto.exec();
+        // auto.exec();
     }
 
     @Override

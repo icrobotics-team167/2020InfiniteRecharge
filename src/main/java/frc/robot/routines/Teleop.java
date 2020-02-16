@@ -1,8 +1,8 @@
 package frc.robot.routines;
 
+import edu.wpi.first.wpilibj.Servo;
 import frc.robot.controls.controlschemes.ControlScheme;
 import frc.robot.subsystems.*;
-import frc.robot.subsystems.drive.SparkTankDriveBase;
 import frc.robot.subsystems.drive.TankDriveBase;
 
 public class Teleop {
@@ -13,6 +13,7 @@ public class Teleop {
     private Indexer indexer;
     private Turret turret;
     private Shooter shooter;
+    private Servo servo;
 
     public Teleop(ControlScheme controls) {
         this.controls = controls;
@@ -21,9 +22,11 @@ public class Teleop {
         indexer = Subsystems.indexer;
         turret = Subsystems.turret;
         shooter = Subsystems.shooter;
+        servo = new Servo(2);
     }
 
     public void init() {
+        intake.clear();
     }
 
     public void periodic() {
@@ -37,66 +40,73 @@ public class Teleop {
             driveBase.setLowGear();
         }
 
+        servo.set(1);
+
         if (controls.doToggleIntakeForward()) {
-            switch (intake.getMode()) {
-                case OFF_UP:
-                    intake.setMode(Intake.Mode.INTAKE_DOWN);
-                    break;
-                case OFF_DOWN:
-                    intake.setMode(Intake.Mode.INTAKE_DOWN);
-                    break;
-                case INTAKE_DOWN:
-                    intake.setMode(Intake.Mode.OFF_DOWN);
-                    break;
-                case REVERSE_UP:
-                    intake.setMode(Intake.Mode.INTAKE_DOWN);
-                    break;
-                case REVERSE_DOWN:
-                    intake.setMode(Intake.Mode.INTAKE_DOWN);
-                    break;
-                default:
-                    break;
-            }
+            intake.forward();
+            indexer.setMode(Indexer.Mode.FORWARD);
+            // switch (intake.getMode()) {
+            //     case OFF_UP:
+            //         intake.setMode(Intake.Mode.INTAKE_DOWN);
+            //         break;
+            //     case OFF_DOWN:
+            //         intake.setMode(Intake.Mode.INTAKE_DOWN);
+            //         break;
+            //     case INTAKE_DOWN:
+            //         intake.setMode(Intake.Mode.OFF_DOWN);
+            //         break;
+            //     case REVERSE_UP:
+            //         intake.setMode(Intake.Mode.INTAKE_DOWN);
+            //         break;
+            //     case REVERSE_DOWN:
+            //         intake.setMode(Intake.Mode.INTAKE_DOWN);
+            //         break;
+            //     default:
+            //         break;
+            // }
         } else if (controls.doToggleIntakeReverse()) {
-            switch (intake.getMode()) {
-                case OFF_UP:
-                    intake.setMode(Intake.Mode.REVERSE_UP);
-                    break;
-                case OFF_DOWN:
-                    intake.setMode(Intake.Mode.REVERSE_UP);
-                    break;
-                case INTAKE_DOWN:
-                    intake.setMode(Intake.Mode.REVERSE_DOWN);
-                    break;
-                case REVERSE_UP:
-                    intake.setMode(Intake.Mode.OFF_UP);
-                    break;
-                case REVERSE_DOWN:
-                    intake.setMode(Intake.Mode.OFF_DOWN);
-                    break;
-                default:
-                    break;
-            }
+            // intake.reverse();
+            System.out.println("test");
+
+            // switch (intake.getMode()) {
+            //     case OFF_UP:
+            //         intake.setMode(Intake.Mode.REVERSE_UP);
+            //         break;
+            //     case OFF_DOWN:
+            //         intake.setMode(Intake.Mode.REVERSE_UP);
+            //         break;
+            //     case INTAKE_DOWN:
+            //         intake.setMode(Intake.Mode.REVERSE_DOWN);
+            //         break;
+            //     case REVERSE_UP:
+            //         intake.setMode(Intake.Mode.OFF_UP);
+            //         break;
+            //     case REVERSE_DOWN:
+            //         intake.setMode(Intake.Mode.OFF_DOWN);
+            //         break;
+            //     default:
+            //         break;
+            // }
         } else if (controls.doToggleIntakeDown()) {
-            switch (intake.getMode()) {
-                case OFF_UP:
-                    intake.setMode(Intake.Mode.OFF_DOWN);
-                    break;
-                case OFF_DOWN:
-                    intake.setMode(Intake.Mode.OFF_UP);
-                    break;
-                case INTAKE_DOWN:
-                    intake.setMode(Intake.Mode.OFF_UP);
-                    break;
-                case REVERSE_UP:
-                    intake.setMode(Intake.Mode.REVERSE_DOWN);
-                    break;
-                case REVERSE_DOWN:
-                    intake.setMode(Intake.Mode.REVERSE_UP);
-                    break;
-                default:
-                    break;
-            }
+            // switch (intake.getMode()) {
+            //     case OFF_UP:
+            //         intake.setMode(Intake.Mode.OFF_DOWN);
+            //         break;
+            //     case OFF_DOWN:
+            //         intake.setMode(Intake.Mode.OFF_UP);
+            //         break;
+            //     case INTAKE_DOWN:
+            //         intake.setMode(Intake.Mode.OFF_UP);
+            //         break;
+            //     case REVERSE_UP:
+            //         intake.setMode(Intake.Mode.REVERSE_DOWN);
+            //         break;
+            //     case REVERSE_DOWN:
+            //         intake.setMode(Intake.Mode.REVERSE_UP);
+            //         break;
+            //     default:
+            //         break;
+            // }
         }
 
         if (controls.doToggleShooter()) {
@@ -107,6 +117,7 @@ public class Teleop {
                 indexer.setMode(Indexer.Mode.OFF);
             }
         }
+        // intake.run();
         indexer.run();
         shooter.run();
 

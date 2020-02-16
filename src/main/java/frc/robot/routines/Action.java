@@ -1,9 +1,8 @@
 package frc.robot.routines;
 
-public abstract class Action {
+import frc.robot.routines.auto.AutoState;
 
-    private boolean init = false;
-    private boolean finished = false;
+public abstract class Action {
 
     public abstract void init();
     public abstract void periodic();
@@ -11,17 +10,29 @@ public abstract class Action {
     public abstract void done();
 
     public void exec() {
-        if (!init) {
+        if (getState() == AutoState.READY) {
             init();
-            init = true;
+            setState(AutoState.PERIODIC);
+        } else if (getState() == AutoState.FAILED) {
+            setState(AutoState.DONE);
+        } else if (getState() == AutoState.PERIODIC) {
+            periodic();
+        } else if (getState() == AutoState.DONE) {
             return;
         }
-        if (isDone() && !finished) {
-            done();
-            finished = true;
-            return;
+
+        if (isDone()) {
+            setState(AutoState.DONE);
         }
-        periodic();
     }
 
+    private AutoState state;
+
+    public AutoState getState() {
+        return state;
+    }
+
+    public void setState(AutoState state) {
+        this.state = state;
+    }
 }

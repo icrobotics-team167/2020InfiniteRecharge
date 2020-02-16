@@ -7,6 +7,7 @@ import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 
+import edu.wpi.first.wpilibj.Servo;
 import frc.robot.Config;
 import frc.robot.util.PeriodicTimer;
 
@@ -37,6 +38,7 @@ public class Indexer {
     private PeriodicTimer antiJamTimer;
     private PeriodicTimer liftTimer;
     private Mode mode;
+    // private Servo servo;
 
     private Indexer() {
         turnMotorController = new CANSparkMax(Config.Ports.Indexer.TURN_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless);
@@ -58,6 +60,8 @@ public class Indexer {
         antiJamTimer = new PeriodicTimer();
 
         mode = Mode.OFF;
+
+        // servo = new Servo(2);
     }
 
     public void run() {
@@ -67,7 +71,7 @@ public class Indexer {
                 liftMotorController.set(ControlMode.PercentOutput, 0);
                 return;
             case FORWARD:
-                turnMotorController.set(0.2);
+                turnMotorController.set(0.15);
                 liftMotorController.set(ControlMode.PercentOutput, 0);
                 return;
             case REVERSE:

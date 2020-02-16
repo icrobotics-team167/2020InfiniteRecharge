@@ -2,7 +2,6 @@ package frc.robot.controls.controlschemes;
 
 import frc.robot.Config;
 import frc.robot.controls.controllers.Controller;
-import frc.robot.controls.controllers.PSController;
 
 public class DoubleController extends ControlScheme {
 
