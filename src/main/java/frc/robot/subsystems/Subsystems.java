@@ -33,7 +33,8 @@ public class Subsystems {
     }
 
     public static void setInitialStates() {
-        intake.setMode(Intake.Mode.OFF_UP);
+        intake.setMode(Intake.Mode.OFF);
+        intake.retract();
         indexer.setMode(Indexer.Mode.OFF);
         turret.setMode(Turret.Mode.OFF);
         shooter.stop();

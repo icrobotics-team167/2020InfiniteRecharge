@@ -17,17 +17,15 @@ public class Intake {
     }
 
     public static enum Mode {
-        OFF_UP,
-        OFF_DOWN,
-        INTAKE_DOWN,
-        REVERSE_UP,
-        REVERSE_DOWN
+        OFF,
+        FORWARD,
+        REVERSE
     }
 
     private Solenoid solenoid;
     private TalonSRX motor;
     private Mode mode;
-    private boolean downPosition;
+    private boolean extended;
 
     private Intake() {
         solenoid = new Solenoid(
@@ -37,47 +35,30 @@ public class Intake {
         motor = new TalonSRX(Config.Ports.Intake.MOTOR);
         motor.setInverted(true);
         motor.setNeutralMode(NeutralMode.Brake);
-        mode = Mode.OFF_UP;
-        downPosition = false;
+        mode = Mode.OFF;
+        extended = false;
     }
 
-    // public void run() {
-    //     switch (mode) {
-    //         case OFF_UP:
-    //             motor.set(ControlMode.PercentOutput, 0);
-    //             if (downPosition) {
-    //                 solenoid.set(false);
-    //             }
-    //             return;
-    //         case OFF_DOWN:
-    //             motor.set(ControlMode.PercentOutput, 0);
-    //             if (!downPosition) {
-    //                 solenoid.set(true);
-    //             }
-    //             return;
-    //         case INTAKE_DOWN:
-    //             motor.set(ControlMode.PercentOutput, 0.65);
-    //             if (!downPosition) {
-    //                 solenoid.set(true);
-    //             }
-    //             return;
-    //         case REVERSE_UP:
-    //             motor.set(ControlMode.PercentOutput, -0.3);
-    //             if (downPosition) {
-    //                 solenoid.set(false);
-    //             }
-    //             return;
-    //         case REVERSE_DOWN:
-    //             motor.set(ControlMode.PercentOutput, -0.65);
-    //             if (!downPosition) {
-    //                 solenoid.set(true);
-    //             }
-    //             return;
-    //         default:
-    //             motor.set(ControlMode.PercentOutput, 0);
-    //             return;
-    //     }
-    // }
+    public void run() {
+        switch (mode) {
+            case OFF:
+                motor.set(ControlMode.PercentOutput, 0);
+                break;
+            case FORWARD:
+                if (extended) {
+                    motor.set(ControlMode.PercentOutput, 0.5);
+                } else {
+                    motor.set(ControlMode.PercentOutput, 0.2);
+                }
+                break;
+            case REVERSE:
+                motor.set(ControlMode.PercentOutput, -0.5);
+                break;
+            default:
+                motor.set(ControlMode.PercentOutput, 0);
+                break;
+        }
+    }
 
     public void setMode(Mode mode) {
         if (mode != this.mode) {
@@ -89,31 +70,22 @@ public class Intake {
         return mode;
     }
 
-    public void clear() {
-        motor.set(ControlMode.PercentOutput, 0);
+    public void extend() {
+        solenoid.set(true);
+        extended = true;
     }
 
-    boolean on = false;
-    public void forward() {
-        on2 = false;
-        if (!on) {
-            motor.set(ControlMode.PercentOutput, 0.3);
-            on = true;
+    public void retract() {
+        solenoid.set(false);
+        extended = false;
+    }
+
+    public void toggleExtension() {
+        if (extended) {
+            retract();
         } else {
-            motor.set(ControlMode.PercentOutput, 0);
-            on = false;
+            extend();
         }
     }
 
-    boolean on2 = false;
-    public void reverse() {
-        on = false;
-        if (!on2) {
-            motor.set(ControlMode.PercentOutput, -0.3);
-            on2 = true;
-        } else {
-            motor.set(ControlMode.PercentOutput, 0);
-            on2 = false;
-        }
-    }
 }

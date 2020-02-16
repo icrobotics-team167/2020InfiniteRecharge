@@ -139,7 +139,7 @@ public class Shooter {
     }
 
     public boolean isUpToSpeed() {
-        return getRPM() >= Config.Settings.SHOOTING_RPM - 200;
+        return getRPM() >= Config.Settings.SHOOTING_RPM - 300;
     }
 
     public double getLeftVoltage() {

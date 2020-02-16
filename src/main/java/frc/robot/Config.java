@@ -88,6 +88,8 @@ public class Config {
         public static final class Indexer {
             public static final int TURN_MOTOR = 10;
             public static final int LIFT_MOTOR = 11;
+            public static final int SERVO = 2;
+            public static final int LIMIT_SWITCH = 0;
         }
 
         // Turret motor controller port

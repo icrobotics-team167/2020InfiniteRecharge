@@ -40,7 +40,7 @@ public class SingleController extends ControlScheme {
     }
 
     @Override
-    public boolean doToggleIntakeDown() {
+    public boolean doToggleIntakeExtension() {
         return primary.getBButtonToggled();
     }
 
@@ -51,7 +51,7 @@ public class SingleController extends ControlScheme {
 
     @Override
     public boolean doToggleIntakeReverse() {
-        return primary.getDpadLeftToggled();
+        return primary.getYButtonToggled();
     }
 
     @Override

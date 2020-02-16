@@ -1,6 +1,5 @@
 package frc.robot.routines;
 
-import edu.wpi.first.wpilibj.Servo;
 import frc.robot.controls.controlschemes.ControlScheme;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.drive.TankDriveBase;
@@ -13,7 +12,6 @@ public class Teleop {
     private Indexer indexer;
     private Turret turret;
     private Shooter shooter;
-    private Servo servo;
 
     public Teleop(ControlScheme controls) {
         this.controls = controls;
@@ -22,11 +20,9 @@ public class Teleop {
         indexer = Subsystems.indexer;
         turret = Subsystems.turret;
         shooter = Subsystems.shooter;
-        servo = new Servo(2);
     }
 
     public void init() {
-        intake.clear();
     }
 
     public void periodic() {
@@ -40,84 +36,45 @@ public class Teleop {
             driveBase.setLowGear();
         }
 
-        servo.set(1);
-
-        if (controls.doToggleIntakeForward()) {
-            intake.forward();
-            indexer.setMode(Indexer.Mode.FORWARD);
-            // switch (intake.getMode()) {
-            //     case OFF_UP:
-            //         intake.setMode(Intake.Mode.INTAKE_DOWN);
-            //         break;
-            //     case OFF_DOWN:
-            //         intake.setMode(Intake.Mode.INTAKE_DOWN);
-            //         break;
-            //     case INTAKE_DOWN:
-            //         intake.setMode(Intake.Mode.OFF_DOWN);
-            //         break;
-            //     case REVERSE_UP:
-            //         intake.setMode(Intake.Mode.INTAKE_DOWN);
-            //         break;
-            //     case REVERSE_DOWN:
-            //         intake.setMode(Intake.Mode.INTAKE_DOWN);
-            //         break;
-            //     default:
-            //         break;
-            // }
-        } else if (controls.doToggleIntakeReverse()) {
-            // intake.reverse();
-            System.out.println("test");
-
-            // switch (intake.getMode()) {
-            //     case OFF_UP:
-            //         intake.setMode(Intake.Mode.REVERSE_UP);
-            //         break;
-            //     case OFF_DOWN:
-            //         intake.setMode(Intake.Mode.REVERSE_UP);
-            //         break;
-            //     case INTAKE_DOWN:
-            //         intake.setMode(Intake.Mode.REVERSE_DOWN);
-            //         break;
-            //     case REVERSE_UP:
-            //         intake.setMode(Intake.Mode.OFF_UP);
-            //         break;
-            //     case REVERSE_DOWN:
-            //         intake.setMode(Intake.Mode.OFF_DOWN);
-            //         break;
-            //     default:
-            //         break;
-            // }
-        } else if (controls.doToggleIntakeDown()) {
-            // switch (intake.getMode()) {
-            //     case OFF_UP:
-            //         intake.setMode(Intake.Mode.OFF_DOWN);
-            //         break;
-            //     case OFF_DOWN:
-            //         intake.setMode(Intake.Mode.OFF_UP);
-            //         break;
-            //     case INTAKE_DOWN:
-            //         intake.setMode(Intake.Mode.OFF_UP);
-            //         break;
-            //     case REVERSE_UP:
-            //         intake.setMode(Intake.Mode.REVERSE_DOWN);
-            //         break;
-            //     case REVERSE_DOWN:
-            //         intake.setMode(Intake.Mode.REVERSE_UP);
-            //         break;
-            //     default:
-            //         break;
-            // }
+        if (controls.doToggleIntakeExtension()) {
+            intake.toggleExtension();
         }
-
-        if (controls.doToggleShooter()) {
-            shooter.toggle();
-            if (shooter.isInShootingMode()) {
-                indexer.setMode(Indexer.Mode.SMART_SHOOT);
+        if (controls.doToggleIntakeForward()) {
+            if (intake.getMode() == Intake.Mode.FORWARD) {
+                intake.setMode(Intake.Mode.OFF);
             } else {
-                indexer.setMode(Indexer.Mode.OFF);
+                intake.setMode(Intake.Mode.FORWARD);
+            }
+        } else if (controls.doToggleIntakeReverse()) {
+            if (intake.getMode() == Intake.Mode.REVERSE) {
+                intake.setMode(Intake.Mode.OFF);
+            } else {
+                intake.setMode(Intake.Mode.REVERSE);
             }
         }
-        // intake.run();
+        intake.run();
+
+        if (controls.doToggleShooter()) {
+            if (indexer.getMode() == Indexer.Mode.SMART_INTAKE) {
+                indexer.setMode(Indexer.Mode.SHOOTER_STARTUP);
+                shooter.start();
+            } else if (indexer.getMode() == Indexer.Mode.SHOOTER_STARTUP) {
+                if (indexer.isReadyToShoot() && shooter.isUpToSpeed()) {
+                    indexer.setMode(Indexer.Mode.SMART_SHOOT);
+                }
+                // Make sure the shooter continues running (although it should already be started)
+                shooter.start();
+            } else {
+                indexer.setMode(Indexer.Mode.SMART_INTAKE);
+                shooter.stop();
+            }
+            // shooter.toggle();
+            // if (shooter.isInShootingMode()) {
+            //     indexer.setMode(Indexer.Mode.SMART_SHOOT);
+            // } else {
+            //     indexer.setMode(Indexer.Mode.SMART_INTAKE);
+            // }
+        }
         indexer.run();
         shooter.run();
 

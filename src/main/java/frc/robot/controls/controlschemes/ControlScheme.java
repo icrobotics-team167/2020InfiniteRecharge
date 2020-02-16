@@ -7,7 +7,7 @@ public abstract class ControlScheme {
     public abstract boolean doSwitchHighGear();
     public abstract boolean doSwitchLowGear();
 
-    public abstract boolean doToggleIntakeDown();
+    public abstract boolean doToggleIntakeExtension();
     public abstract boolean doToggleIntakeForward();
     public abstract boolean doToggleIntakeReverse();
 
