@@ -12,6 +12,7 @@ public class XBController implements Controller {
     public XBController(int port) {
         controller = new XboxController(port);
         this.port = port;
+        System.out.println("XB POV Count: " + controller.getPOVCount());
     }
 
     @Override
@@ -177,12 +178,12 @@ public class XBController implements Controller {
 
     @Override
     public boolean getDpadNeutral() {
-        return controller.getPOV() == -1;
+        return controller.getPOV(0) == -1;
     }
 
     @Override
     public boolean getDpadUp() {
-        return controller.getPOV() == 0;
+        return controller.getPOV(0) == 0;
     }
 
     private boolean dpadUpToggle = true;
@@ -200,12 +201,12 @@ public class XBController implements Controller {
 
     @Override
     public boolean getDpadUpRight() {
-        return controller.getPOV() == 45;
+        return controller.getPOV(0) == 45;
     }
 
     @Override
     public boolean getDpadRight() {
-        return controller.getPOV() == 90;
+        return controller.getPOV(0) == 90;
     }
 
     private boolean dpadRightToggle = true;
@@ -223,12 +224,12 @@ public class XBController implements Controller {
 
     @Override
     public boolean getDpadDownRight() {
-        return controller.getPOV() == 135;
+        return controller.getPOV(0) == 135;
     }
 
     @Override
     public boolean getDpadDown() {
-        return controller.getPOV() == 180;
+        return controller.getPOV(0) == 180;
     }
 
     private boolean dpadDownToggle = true;
@@ -246,12 +247,12 @@ public class XBController implements Controller {
 
     @Override
     public boolean getDpadDownLeft() {
-        return controller.getPOV() == 225;
+        return controller.getPOV(0) == 225;
     }
 
     @Override
     public boolean getDpadLeft() {
-        return controller.getPOV() == 270;
+        return controller.getPOV(0) == 270;
     }
 
     private boolean dpadLeftToggle = true;
@@ -269,7 +270,7 @@ public class XBController implements Controller {
 
     @Override
     public boolean getDpadUpLeft() {
-        return controller.getPOV() == 315;
+        return controller.getPOV(0) == 315;
     }
 
     @Override

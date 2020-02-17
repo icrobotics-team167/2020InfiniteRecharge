@@ -54,32 +54,56 @@ public class Teleop {
         }
         intake.run();
 
-        if (controls.doToggleShooter()) {
+        if (controls.doToggleIndexerIntakeMode()) {
             if (indexer.getMode() == Indexer.Mode.SMART_INTAKE) {
-                indexer.setMode(Indexer.Mode.SHOOTER_STARTUP);
-                shooter.start();
-            } else if (indexer.getMode() == Indexer.Mode.SHOOTER_STARTUP) {
-                if (indexer.isReadyToShoot() && shooter.isUpToSpeed()) {
-                    indexer.setMode(Indexer.Mode.SMART_SHOOT);
-                }
-                // Make sure the shooter continues running (although it should already be started)
-                shooter.start();
+                indexer.setMode(Indexer.Mode.OFF);
             } else {
                 indexer.setMode(Indexer.Mode.SMART_INTAKE);
-                shooter.stop();
             }
-            // shooter.toggle();
-            // if (shooter.isInShootingMode()) {
-            //     indexer.setMode(Indexer.Mode.SMART_SHOOT);
-            // } else {
-            //     indexer.setMode(Indexer.Mode.SMART_INTAKE);
-            // }
+        } else if (controls.doToggleIndexerShooterMode()) {
+            if (indexer.getMode() == Indexer.Mode.SMART_SHOOT) {
+                indexer.setMode(Indexer.Mode.OFF);
+            } else {
+                indexer.setMode(Indexer.Mode.SMART_SHOOT);
+            }
         }
+
+        if (controls.doToggleShooter()) {
+            shooter.toggle();
+        }
+        // if (controls.doToggleShooter()) {
+        //     if (indexer.getMode() == Indexer.Mode.SMART_INTAKE) {
+        //         indexer.setMode(Indexer.Mode.OFF);
+        //     } else {
+        //         indexer.setMode(Indexer.Mode.SMART_INTAKE);
+        //     }
+
+        //     if (indexer.getMode() == Indexer.Mode.OFF) {
+        //         indexer.setMode(Indexer.Mode.SMART_INTAKE);
+        //     } else if (indexer.getMode() == Indexer.Mode.SMART_INTAKE) {
+        //         // indexer.setMode(Indexer.Mode.SHOOTER_STARTUP);
+        //         indexer.setMode(Indexer.Mode.SMART_SHOOT);
+        //         shooter.start();
+        //     } else if (indexer.getMode() == Indexer.Mode.SHOOTER_STARTUP) {
+        //         if (indexer.isReadyToShoot() && shooter.isUpToSpeed()) {
+        //             indexer.setMode(Indexer.Mode.SMART_SHOOT);
+        //         }
+        //         // Make sure the shooter continues running (although it should already be started)
+        //         // shooter.start();
+        //     } else {
+        //         indexer.setMode(Indexer.Mode.OFF);
+        //         shooter.stop();
+        //     }
+        // }
         indexer.run();
         shooter.run();
 
-        if (controls.doToggleTurretAutoAlign() && turret.getMode() != Turret.Mode.AUTO_ALIGN) {
-            turret.setMode(Turret.Mode.AUTO_ALIGN);
+        if (controls.doToggleTurretAutoAlign()) {
+            if (turret.getMode() == Turret.Mode.AUTO_ALIGN) {
+                turret.setMode(Turret.Mode.OFF);
+            } else {
+                turret.setMode(Turret.Mode.AUTO_ALIGN);
+            }
         } else if (controls.doTurnTurretClockwise()) {
             turret.setMode(Turret.Mode.TURN_CLOCKWISE);
         } else if (controls.doTurnTurretCounterclockwise()) {
@@ -89,6 +113,19 @@ public class Teleop {
         } else {
             turret.setMode(Turret.Mode.OFF);
         }
+        // if (controls.doToggleTurretAutoAlign() && turret.getMode() != Turret.Mode.AUTO_ALIGN) {
+        //     turret.setMode(Turret.Mode.AUTO_ALIGN);
+        // } else if (controls.doTurnTurretClockwise()) {
+        //     turret.setMode(Turret.Mode.TURN_CLOCKWISE);
+        // } else if (controls.doTurnTurretCounterclockwise()) {
+        //     turret.setMode(Turret.Mode.TURN_COUNTERCLOCKWISE);
+        // } else if (controls.doToggleTurretAutoAlign()) {
+        //     turret.setMode(Turret.Mode.OFF);
+        // } else if (turret.getMode() == Turret.Mode.AUTO_ALIGN) {
+        //     turret.setMode(Turret.Mode.AUTO_ALIGN);
+        // } else {
+        //     turret.setMode(Turret.Mode.OFF);
+        // }
         turret.run();
     }
 

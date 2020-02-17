@@ -54,8 +54,18 @@ public class SparkTankDriveBase implements TankDriveBase {
         leftEncoders = new CANEncoder[3];
         rightEncoders = new CANEncoder[3];
         for (int i = 0; i <= 2; i++) {
+            leftMotorGroup[i].restoreFactoryDefaults();
+            rightMotorGroup[i].restoreFactoryDefaults();
             leftEncoders[i] = leftMotorGroup[i].getEncoder(EncoderType.kHallSensor, 4096);
             rightEncoders[i] = rightMotorGroup[i].getEncoder(EncoderType.kHallSensor, 4096);
+            leftMotorGroup[i].setSmartCurrentLimit(80);
+            leftMotorGroup[i].setSecondaryCurrentLimit(60);
+            rightMotorGroup[i].setSmartCurrentLimit(80);
+            rightMotorGroup[i].setSecondaryCurrentLimit(60);
+            leftMotorGroup[i].setOpenLoopRampRate(0);
+            leftMotorGroup[i].setClosedLoopRampRate(0);
+            rightMotorGroup[i].setOpenLoopRampRate(0);
+            rightMotorGroup[i].setClosedLoopRampRate(0);
         }
 
         doubleSolenoid = new DoubleSolenoid(

@@ -76,43 +76,49 @@ public class Indexer {
                 turnMotorController.set(0);
                 liftMotorController.set(ControlMode.PercentOutput, 0);
                 servo.set(0.5);
+                liftTimer.reset();
                 return;
             case FORWARD:
                 turnMotorController.set(0.15);
                 liftMotorController.set(ControlMode.PercentOutput, 0);
                 servo.set(1);
+                liftTimer.reset();
                 return;
             case REVERSE:
                 turnMotorController.set(-0.2);
                 liftMotorController.set(ControlMode.PercentOutput, 0);
                 servo.set(1);
+                liftTimer.reset();
                 return;
             case SMART_INTAKE:
                 servo.set(1);
                 liftMotorController.set(ControlMode.PercentOutput, 0);
                 if (!startupTimer.hasElapsed(0.3)) {
-                    turnMotorController.set(0.25);
+                    turnMotorController.set(0.15);
                     antiJamTimer.reset();
-                } else if (turnEncoder.getVelocity() < 300 && !antiJamTimer.hasElapsed(2)) {
-                    turnMotorController.set(-0.15);
-                } else if (turnEncoder.getVelocity() < 300) {
-                    turnMotorController.set(0.25);
+                } else if (turnEncoder.getVelocity() < 30 && !antiJamTimer.hasElapsed(1.3)) {
+                    turnMotorController.set(-0.10);
+                } else if (turnEncoder.getVelocity() < 30) {
+                    turnMotorController.set(0.15);
                     antiJamTimer.reset();
                     startupTimer.reset();
                 } else {
-                    turnMotorController.set(0.25);
+                    turnMotorController.set(0.15);
                     antiJamTimer.reset();
                 }
+                liftTimer.reset();
                 return;
             case SHOOT_FORWARD:
                 servo.set(1);
                 turnMotorController.set(0.5);
                 liftMotorController.set(ControlMode.PercentOutput, 1);
+                liftTimer.reset();
                 return;
             case SHOOT_REVERSE:
                 servo.set(1);
                 turnMotorController.set(-0.5);
                 liftMotorController.set(ControlMode.PercentOutput, 1);
+                liftTimer.reset();
                 return;
             case SHOOTER_STARTUP:
                 servo.set(1);
@@ -126,29 +132,32 @@ public class Indexer {
                 }
             case SMART_SHOOT:
                 servo.set(1);
-                if (!liftTimer.hasElapsed(0.75)) {
+                if (!liftTimer.hasElapsed(1.25)) {
                     liftMotorController.set(ControlMode.PercentOutput, 1);
                     turnMotorController.set(0);
-                } else if (!startupTimer.hasElapsed(2)) {
+                    antiJamTimer.reset();
+                } else if (!startupTimer.hasElapsed(2.5)) {
                     liftMotorController.set(ControlMode.PercentOutput, 1);
-                    turnMotorController.set(0.6);
-                } else if (turnEncoder.getVelocity() < 300 && !antiJamTimer.hasElapsed(2)) {
+                    turnMotorController.set(0.1);
+                    antiJamTimer.reset();
+                } else if (turnEncoder.getVelocity() < 75 && !antiJamTimer.hasElapsed(1.3)) {
                     liftMotorController.set(ControlMode.PercentOutput, -0.08);
                     turnMotorController.set(-0.1);
-                } else if (turnEncoder.getVelocity() < 300) {
+                } else if (turnEncoder.getVelocity() < 75) {
                     liftMotorController.set(ControlMode.PercentOutput, 1);
                     turnMotorController.set(0);
                     antiJamTimer.reset();
                     startupTimer.reset();
                 } else {
                     liftMotorController.set(ControlMode.PercentOutput, 1);
-                    turnMotorController.set(0.6);
+                    turnMotorController.set(0.1);
                     antiJamTimer.reset();
                 }
                 return;
             default:
                 turnMotorController.set(0);
                 liftMotorController.set(ControlMode.PercentOutput, 0);
+                liftTimer.reset();
                 return;
         }
     }

@@ -43,6 +43,16 @@ public class NullController extends ControlScheme {
     }
 
     @Override
+    public boolean doToggleIndexerIntakeMode() {
+        return false;
+    }
+    
+    @Override
+    public boolean doToggleIndexerShooterMode() {
+        return false;
+    }
+
+    @Override
     public boolean doToggleTurretAutoAlign() {
         return false;
     }

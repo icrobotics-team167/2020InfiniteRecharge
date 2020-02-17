@@ -62,6 +62,16 @@ public class DoubleController extends ControlScheme {
     }
 
     @Override
+    public boolean doToggleIndexerIntakeMode() {
+        return primary.getViewButtonToggled();
+    }
+    
+    @Override
+    public boolean doToggleIndexerShooterMode() {
+        return primary.getMenuButtonToggled();
+    }
+
+    @Override
     public boolean doToggleTurretAutoAlign() {
         return primary.getAButtonToggled();
     }
