@@ -85,7 +85,7 @@ public class Robot extends TimedRobot {
 
         Subsystems.setInitialStates();
 
-        // auto = new Auto(autoChooser.getSelected());
+        auto = new Auto(AutoRoutine.FRIENDLY_TRENCH_RUN);
         teleop = new Teleop(controls);
     }
 
@@ -104,13 +104,13 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-        // auto.exec();
+        auto.exec();
         // System.out.println("Auto selected: " + autoChooser.getSelected().name);
     }
 
     @Override
     public void autonomousPeriodic() {
-        // auto.exec();
+        auto.exec();
     }
 
     @Override

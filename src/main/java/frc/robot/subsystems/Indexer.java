@@ -47,7 +47,7 @@ public class Indexer {
         turnMotorController = new CANSparkMax(Config.Ports.Indexer.TURN_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless);
         turnMotorController.restoreFactoryDefaults();
         turnMotorController.setIdleMode(CANSparkMax.IdleMode.kBrake);
-        turnMotorController.setInverted(true);
+        turnMotorController.setInverted(false);
         turnMotorController.setOpenLoopRampRate(0);
         turnMotorController.setClosedLoopRampRate(0);
         turnMotorController.setSmartCurrentLimit(80);
@@ -138,7 +138,7 @@ public class Indexer {
                     antiJamTimer.reset();
                 } else if (!startupTimer.hasElapsed(2.5)) {
                     liftMotorController.set(ControlMode.PercentOutput, 1);
-                    turnMotorController.set(0.1);
+                    turnMotorController.set(0.375);
                     antiJamTimer.reset();
                 } else if (turnEncoder.getVelocity() < 75 && !antiJamTimer.hasElapsed(1.3)) {
                     liftMotorController.set(ControlMode.PercentOutput, -0.08);
@@ -150,7 +150,7 @@ public class Indexer {
                     startupTimer.reset();
                 } else {
                     liftMotorController.set(ControlMode.PercentOutput, 1);
-                    turnMotorController.set(0.1);
+                    turnMotorController.set(0.375);
                     antiJamTimer.reset();
                 }
                 return;

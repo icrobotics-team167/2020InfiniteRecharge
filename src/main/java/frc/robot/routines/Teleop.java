@@ -113,19 +113,6 @@ public class Teleop {
         } else {
             turret.setMode(Turret.Mode.OFF);
         }
-        // if (controls.doToggleTurretAutoAlign() && turret.getMode() != Turret.Mode.AUTO_ALIGN) {
-        //     turret.setMode(Turret.Mode.AUTO_ALIGN);
-        // } else if (controls.doTurnTurretClockwise()) {
-        //     turret.setMode(Turret.Mode.TURN_CLOCKWISE);
-        // } else if (controls.doTurnTurretCounterclockwise()) {
-        //     turret.setMode(Turret.Mode.TURN_COUNTERCLOCKWISE);
-        // } else if (controls.doToggleTurretAutoAlign()) {
-        //     turret.setMode(Turret.Mode.OFF);
-        // } else if (turret.getMode() == Turret.Mode.AUTO_ALIGN) {
-        //     turret.setMode(Turret.Mode.AUTO_ALIGN);
-        // } else {
-        //     turret.setMode(Turret.Mode.OFF);
-        // }
         turret.run();
     }
 
