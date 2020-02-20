@@ -10,14 +10,19 @@ public abstract class Action {
     public abstract void done();
 
     public void exec() {
+        System.out.println("0");
         if (getState() == AutoState.READY) {
-            init();
+            System.out.println("1");
             setState(AutoState.PERIODIC);
+            init();
         } else if (getState() == AutoState.FAILED) {
+            System.out.println("2");
             setState(AutoState.DONE);
         } else if (getState() == AutoState.PERIODIC) {
+            System.out.println("3");
             periodic();
         } else if (getState() == AutoState.DONE) {
+            System.out.println("4");
             return;
         }
 

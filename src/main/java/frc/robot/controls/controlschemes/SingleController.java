@@ -61,12 +61,17 @@ public class SingleController extends ControlScheme {
 
     @Override
     public boolean doToggleIndexerIntakeMode() {
-        return primary.getViewButtonToggled();
+        return primary.getLeftTriggerToggled();
     }
     
     @Override
     public boolean doToggleIndexerShooterMode() {
         return primary.getMenuButtonToggled();
+    }
+
+    @Override
+    public boolean doToggleIndexerOmniReverseMode() {
+        return primary.getYButtonToggled();
     }
 
     @Override

@@ -47,7 +47,7 @@ public class Indexer {
         turnMotorController = new CANSparkMax(Config.Ports.Indexer.TURN_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless);
         turnMotorController.restoreFactoryDefaults();
         turnMotorController.setIdleMode(CANSparkMax.IdleMode.kBrake);
-        turnMotorController.setInverted(false);
+        turnMotorController.setInverted(true);
         turnMotorController.setOpenLoopRampRate(0);
         turnMotorController.setClosedLoopRampRate(0);
         turnMotorController.setSmartCurrentLimit(80);
@@ -92,18 +92,21 @@ public class Indexer {
                 return;
             case SMART_INTAKE:
                 servo.set(1);
-                liftMotorController.set(ControlMode.PercentOutput, 0);
                 if (!startupTimer.hasElapsed(0.3)) {
                     turnMotorController.set(0.15);
+                    liftMotorController.set(ControlMode.PercentOutput, 0);
                     antiJamTimer.reset();
-                } else if (turnEncoder.getVelocity() < 30 && !antiJamTimer.hasElapsed(1.3)) {
+                } else if (turnEncoder.getVelocity() < 30 && !antiJamTimer.hasElapsed(2)) {
                     turnMotorController.set(-0.10);
+                    liftMotorController.set(ControlMode.PercentOutput, -0.15);
                 } else if (turnEncoder.getVelocity() < 30) {
                     turnMotorController.set(0.15);
+                    liftMotorController.set(ControlMode.PercentOutput, 0);
                     antiJamTimer.reset();
                     startupTimer.reset();
                 } else {
                     turnMotorController.set(0.15);
+                    liftMotorController.set(ControlMode.PercentOutput, 0);
                     antiJamTimer.reset();
                 }
                 liftTimer.reset();
@@ -133,24 +136,24 @@ public class Indexer {
             case SMART_SHOOT:
                 servo.set(1);
                 if (!liftTimer.hasElapsed(1.25)) {
-                    liftMotorController.set(ControlMode.PercentOutput, 1);
+                    liftMotorController.set(ControlMode.PercentOutput, 0.35);
                     turnMotorController.set(0);
                     antiJamTimer.reset();
                 } else if (!startupTimer.hasElapsed(2.5)) {
-                    liftMotorController.set(ControlMode.PercentOutput, 1);
-                    turnMotorController.set(0.375);
+                    liftMotorController.set(ControlMode.PercentOutput, 0.35);
+                    turnMotorController.set(0.25);
                     antiJamTimer.reset();
-                } else if (turnEncoder.getVelocity() < 75 && !antiJamTimer.hasElapsed(1.3)) {
-                    liftMotorController.set(ControlMode.PercentOutput, -0.08);
-                    turnMotorController.set(-0.1);
-                } else if (turnEncoder.getVelocity() < 75) {
-                    liftMotorController.set(ControlMode.PercentOutput, 1);
+                } else if (turnEncoder.getVelocity() < 40 && !antiJamTimer.hasElapsed(2)) {
+                    liftMotorController.set(ControlMode.PercentOutput, -0.15);
+                    turnMotorController.set(-0.15);
+                } else if (turnEncoder.getVelocity() < 40) {
+                    liftMotorController.set(ControlMode.PercentOutput, 0.35);
                     turnMotorController.set(0);
                     antiJamTimer.reset();
                     startupTimer.reset();
                 } else {
-                    liftMotorController.set(ControlMode.PercentOutput, 1);
-                    turnMotorController.set(0.375);
+                    liftMotorController.set(ControlMode.PercentOutput, 0.35);
+                    turnMotorController.set(0.25);
                     antiJamTimer.reset();
                 }
                 return;

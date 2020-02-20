@@ -75,12 +75,14 @@ public class SparkTankDriveBase implements TankDriveBase {
         );
         highGear = false;
 
-        // leftControllers[0] = leftMotorGroup[0].getPIDController();
-        // leftControllers[1] = leftMotorGroup[1].getPIDController();
-        // leftControllers[2] = leftMotorGroup[2].getPIDController();
-        // rightControllers[0] = rightMotorGroup[0].getPIDController();
-        // rightControllers[1] = rightMotorGroup[1].getPIDController();
-        // rightControllers[2] = rightMotorGroup[2].getPIDController();
+        leftControllers = new CANPIDController[3];
+        rightControllers = new CANPIDController[3];
+        leftControllers[0] = leftMotorGroup[0].getPIDController();
+        leftControllers[1] = leftMotorGroup[1].getPIDController();
+        leftControllers[2] = leftMotorGroup[2].getPIDController();
+        rightControllers[0] = rightMotorGroup[0].getPIDController();
+        rightControllers[1] = rightMotorGroup[1].getPIDController();
+        rightControllers[2] = rightMotorGroup[2].getPIDController();
     }
 
     @Override

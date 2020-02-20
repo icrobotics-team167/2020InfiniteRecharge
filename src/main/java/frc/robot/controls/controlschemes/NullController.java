@@ -53,6 +53,11 @@ public class NullController extends ControlScheme {
     }
 
     @Override
+    public boolean doToggleIndexerOmniReverseMode() {
+        return false;
+    }
+
+    @Override
     public boolean doToggleTurretAutoAlign() {
         return false;
     }

@@ -63,8 +63,9 @@ public class Auto extends Action {
     public void periodic() {
         odometry.update(Subsystems.driveBase.getGyroHeading(), Subsystems.driveBase.getLeftSpeed(), Subsystems.driveBase.getRightSpeed());
 
+        System.out.println(timer.get());
         DifferentialDriveWheelSpeeds targetWheelSpeeds = kinematics.toWheelSpeeds(follower.calculate(
-            pose.get(), 
+            odometry.getPoseMeters(), 
             trajectory.sample(timer.get()))
         );
         
@@ -73,7 +74,8 @@ public class Auto extends Action {
 
     @Override
     public boolean isDone() {
-        return timer.hasElapsed(trajectory.getTotalTimeSeconds());
+        // return timer.hasElapsed(trajectory.getTotalTimeSeconds());
+        return false;
     }
 
     @Override
