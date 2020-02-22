@@ -52,7 +52,7 @@ public class Intake {
                 }
                 break;
             case REVERSE:
-                motor.set(ControlMode.PercentOutput, -0.35);
+                motor.set(ControlMode.PercentOutput, -0.6);
                 break;
             default:
                 motor.set(ControlMode.PercentOutput, 0);

@@ -66,10 +66,8 @@ public class Teleop {
 
         if (controls.doToggleIndexerAlignMode()) {
             if (indexer.getMode() == Indexer.Mode.GAP_ALIGNMENT) {
-                System.out.println("Turn gap alignment mode off");
                 indexer.setMode(Indexer.Mode.OFF);
             } else {
-                System.out.println("Turn gap alignment mode on");
                 indexer.setMode(Indexer.Mode.GAP_ALIGNMENT);
             }
         } else if (controls.doToggleIndexerShooterMode()) {
