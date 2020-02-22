@@ -38,22 +38,37 @@ public class NullController extends ControlScheme {
     }
 
     @Override
-    public boolean doToggleShooter() {
+    public boolean doToggleIndexerAlignMode() {
         return false;
     }
 
-    @Override
-    public boolean doToggleIndexerIntakeMode() {
-        return false;
-    }
-    
     @Override
     public boolean doToggleIndexerShooterMode() {
         return false;
     }
 
     @Override
-    public boolean doToggleIndexerOmniReverseMode() {
+    public boolean doToggleIndexerForward() {
+        return false;
+    }
+
+    @Override
+    public boolean doToggleIndexerReverse() {
+        return false;
+    }
+
+    @Override
+    public boolean doToggleLiftMotorForward() {
+        return false;
+    }
+
+    @Override
+    public boolean doToggleLiftMotorReverse() {
+        return false;
+    }
+
+    @Override
+    public boolean doToggleShooter() {
         return false;
     }
 

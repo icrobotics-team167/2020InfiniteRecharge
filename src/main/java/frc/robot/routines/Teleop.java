@@ -1,7 +1,5 @@
 package frc.robot.routines;
 
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.controls.controlschemes.ControlScheme;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.drive.TankDriveBase;
@@ -25,6 +23,11 @@ public class Teleop {
     }
 
     public void init() {
+        intake.setMode(Intake.Mode.OFF);
+        intake.retract();
+        indexer.setMode(Indexer.Mode.OFF);
+        turret.setMode(Turret.Mode.OFF);
+        shooter.stop();
     }
 
     public void periodic() {
@@ -42,70 +45,128 @@ public class Teleop {
             intake.toggleExtension();
         }
         if (controls.doToggleIntakeForward()) {
-            // if (indexer.getMode() == Indexer.Mode.SMART_INTAKE) {
-            //     indexer.setMode(Indexer.Mode.OFF);
-            // } else {
-            //     indexer.setMode(Indexer.Mode.SMART_INTAKE);
-            // }
-// remove maybe
-
             if (intake.getMode() == Intake.Mode.FORWARD) {
                 intake.setMode(Intake.Mode.OFF);
+                indexer.setMode(Indexer.Mode.OFF);
             } else {
                 intake.setMode(Intake.Mode.FORWARD);
+                indexer.setMode(Indexer.Mode.SMART_INTAKE);
             }
         } else if (controls.doToggleIntakeReverse()) {
             if (intake.getMode() == Intake.Mode.REVERSE) {
                 intake.setMode(Intake.Mode.OFF);
+                indexer.setMode(Indexer.Mode.OFF);
             } else {
                 intake.setMode(Intake.Mode.REVERSE);
+                indexer.setMode(Indexer.Mode.SMART_INTAKE);
             }
         }
         intake.run();
 
-        if (controls.doToggleIndexerIntakeMode()) {
-            if (indexer.getMode() == Indexer.Mode.SMART_INTAKE) {
+        if (controls.doToggleIndexerAlignMode()) {
+            if (indexer.getMode() == Indexer.Mode.GAP_ALIGNMENT) {
+                System.out.println("gap alignment mode off");
                 indexer.setMode(Indexer.Mode.OFF);
             } else {
-                indexer.setMode(Indexer.Mode.SMART_INTAKE);
+                System.out.println("gap alignment mode on");
+                indexer.setMode(Indexer.Mode.GAP_ALIGNMENT);
             }
         } else if (controls.doToggleIndexerShooterMode()) {
             if (indexer.getMode() == Indexer.Mode.SMART_SHOOT) {
                 indexer.setMode(Indexer.Mode.OFF);
-            } else {
+            } else if (shooter.isUpToSpeed() && indexer.isGapAligned()) {
                 indexer.setMode(Indexer.Mode.SMART_SHOOT);
             }
+        } else if (controls.doToggleIndexerForward()) {
+            Indexer.Mode currentMode = indexer.getMode();
+            if (currentMode == Indexer.Mode.TURN_OFF_LIFT_FORWARD) {
+                indexer.setMode(Indexer.Mode.TURN_FORWARD_LIFT_FORWARD);
+            } else if (currentMode == Indexer.Mode.TURN_OFF_LIFT_REVERSE) {
+                indexer.setMode(Indexer.Mode.TURN_FORWARD_LIFT_REVERSE);
+            } else if (currentMode == Indexer.Mode.TURN_FORWARD_LIFT_OFF) {
+                indexer.setMode(Indexer.Mode.OFF);
+            } else if (currentMode == Indexer.Mode.TURN_FORWARD_LIFT_FORWARD) {
+                indexer.setMode(Indexer.Mode.TURN_OFF_LIFT_FORWARD);
+            } else if (currentMode == Indexer.Mode.TURN_FORWARD_LIFT_REVERSE) {
+                indexer.setMode(Indexer.Mode.TURN_OFF_LIFT_REVERSE);
+            } else if (currentMode == Indexer.Mode.TURN_REVERSE_LIFT_OFF) {
+                indexer.setMode(Indexer.Mode.TURN_FORWARD_LIFT_OFF);
+            } else if (currentMode == Indexer.Mode.TURN_REVERSE_LIFT_FORWARD) {
+                indexer.setMode(Indexer.Mode.TURN_FORWARD_LIFT_FORWARD);
+            } else if (currentMode == Indexer.Mode.TURN_REVERSE_LIFT_REVERSE) {
+                indexer.setMode(Indexer.Mode.TURN_FORWARD_LIFT_REVERSE);
+            } else {
+                indexer.setMode(Indexer.Mode.TURN_FORWARD_LIFT_OFF);
+            }
+        } else if (controls.doToggleIndexerReverse()) {
+            Indexer.Mode currentMode = indexer.getMode();
+            if (currentMode == Indexer.Mode.TURN_OFF_LIFT_FORWARD) {
+                indexer.setMode(Indexer.Mode.TURN_REVERSE_LIFT_FORWARD);
+            } else if (currentMode == Indexer.Mode.TURN_OFF_LIFT_REVERSE) {
+                indexer.setMode(Indexer.Mode.TURN_REVERSE_LIFT_REVERSE);
+            } else if (currentMode == Indexer.Mode.TURN_FORWARD_LIFT_OFF) {
+                indexer.setMode(Indexer.Mode.TURN_REVERSE_LIFT_OFF);
+            } else if (currentMode == Indexer.Mode.TURN_FORWARD_LIFT_FORWARD) {
+                indexer.setMode(Indexer.Mode.TURN_REVERSE_LIFT_FORWARD);
+            } else if (currentMode == Indexer.Mode.TURN_FORWARD_LIFT_REVERSE) {
+                indexer.setMode(Indexer.Mode.TURN_REVERSE_LIFT_REVERSE);
+            } else if (currentMode == Indexer.Mode.TURN_REVERSE_LIFT_OFF) {
+                indexer.setMode(Indexer.Mode.OFF);
+            } else if (currentMode == Indexer.Mode.TURN_REVERSE_LIFT_FORWARD) {
+                indexer.setMode(Indexer.Mode.TURN_OFF_LIFT_FORWARD);
+            } else if (currentMode == Indexer.Mode.TURN_REVERSE_LIFT_REVERSE) {
+                indexer.setMode(Indexer.Mode.TURN_OFF_LIFT_REVERSE);
+            } else {
+                indexer.setMode(Indexer.Mode.TURN_REVERSE_LIFT_OFF);
+            }
+        } else if (controls.doToggleLiftMotorForward()) {
+            Indexer.Mode currentMode = indexer.getMode();
+            if (currentMode == Indexer.Mode.TURN_OFF_LIFT_FORWARD) {
+                indexer.setMode(Indexer.Mode.OFF);
+            } else if (currentMode == Indexer.Mode.TURN_OFF_LIFT_REVERSE) {
+                indexer.setMode(Indexer.Mode.TURN_OFF_LIFT_FORWARD);
+            } else if (currentMode == Indexer.Mode.TURN_FORWARD_LIFT_OFF) {
+                indexer.setMode(Indexer.Mode.TURN_FORWARD_LIFT_FORWARD);
+            } else if (currentMode == Indexer.Mode.TURN_FORWARD_LIFT_FORWARD) {
+                indexer.setMode(Indexer.Mode.TURN_FORWARD_LIFT_OFF);
+            } else if (currentMode == Indexer.Mode.TURN_FORWARD_LIFT_REVERSE) {
+                indexer.setMode(Indexer.Mode.TURN_FORWARD_LIFT_FORWARD);
+            } else if (currentMode == Indexer.Mode.TURN_REVERSE_LIFT_OFF) {
+                indexer.setMode(Indexer.Mode.TURN_REVERSE_LIFT_FORWARD);
+            } else if (currentMode == Indexer.Mode.TURN_REVERSE_LIFT_FORWARD) {
+                indexer.setMode(Indexer.Mode.TURN_REVERSE_LIFT_OFF);
+            } else if (currentMode == Indexer.Mode.TURN_REVERSE_LIFT_REVERSE) {
+                indexer.setMode(Indexer.Mode.TURN_REVERSE_LIFT_FORWARD);
+            } else {
+                indexer.setMode(Indexer.Mode.TURN_OFF_LIFT_FORWARD);
+            }
+        } else if (controls.doToggleLiftMotorReverse()) {
+            Indexer.Mode currentMode = indexer.getMode();
+            if (currentMode == Indexer.Mode.TURN_OFF_LIFT_FORWARD) {
+                indexer.setMode(Indexer.Mode.TURN_OFF_LIFT_REVERSE);
+            } else if (currentMode == Indexer.Mode.TURN_OFF_LIFT_REVERSE) {
+                indexer.setMode(Indexer.Mode.OFF);
+            } else if (currentMode == Indexer.Mode.TURN_FORWARD_LIFT_OFF) {
+                indexer.setMode(Indexer.Mode.TURN_FORWARD_LIFT_REVERSE);
+            } else if (currentMode == Indexer.Mode.TURN_FORWARD_LIFT_FORWARD) {
+                indexer.setMode(Indexer.Mode.TURN_FORWARD_LIFT_REVERSE);
+            } else if (currentMode == Indexer.Mode.TURN_FORWARD_LIFT_REVERSE) {
+                indexer.setMode(Indexer.Mode.TURN_FORWARD_LIFT_OFF);
+            } else if (currentMode == Indexer.Mode.TURN_REVERSE_LIFT_OFF) {
+                indexer.setMode(Indexer.Mode.TURN_REVERSE_LIFT_REVERSE);
+            } else if (currentMode == Indexer.Mode.TURN_REVERSE_LIFT_FORWARD) {
+                indexer.setMode(Indexer.Mode.TURN_REVERSE_LIFT_REVERSE);
+            } else if (currentMode == Indexer.Mode.TURN_REVERSE_LIFT_REVERSE) {
+                indexer.setMode(Indexer.Mode.TURN_REVERSE_LIFT_OFF);
+            } else {
+                indexer.setMode(Indexer.Mode.TURN_OFF_LIFT_REVERSE);
+            }
         }
+        indexer.run();
         
-
         if (controls.doToggleShooter()) {
             shooter.toggle();
         }
-        // if (controls.doToggleShooter()) {
-        //     if (indexer.getMode() == Indexer.Mode.SMART_INTAKE) {
-        //         indexer.setMode(Indexer.Mode.OFF);
-        //     } else {
-        //         indexer.setMode(Indexer.Mode.SMART_INTAKE);
-        //     }
-
-        //     if (indexer.getMode() == Indexer.Mode.OFF) {
-        //         indexer.setMode(Indexer.Mode.SMART_INTAKE);
-        //     } else if (indexer.getMode() == Indexer.Mode.SMART_INTAKE) {
-        //         // indexer.setMode(Indexer.Mode.SHOOTER_STARTUP);
-        //         indexer.setMode(Indexer.Mode.SMART_SHOOT);
-        //         shooter.start();
-        //     } else if (indexer.getMode() == Indexer.Mode.SHOOTER_STARTUP) {
-        //         if (indexer.isReadyToShoot() && shooter.isUpToSpeed()) {
-        //             indexer.setMode(Indexer.Mode.SMART_SHOOT);
-        //         }
-        //         // Make sure the shooter continues running (although it should already be started)
-        //         // shooter.start();
-        //     } else {
-        //         indexer.setMode(Indexer.Mode.OFF);
-        //         shooter.stop();
-        //     }
-        // }
-        indexer.run();
         shooter.run();
 
         if (controls.doToggleTurretAutoAlign()) {
@@ -124,9 +185,6 @@ public class Teleop {
             turret.setMode(Turret.Mode.OFF);
         }
         turret.run();
-
-
-        // new SpeedControllerGroup(speedController, speedControllers)
     }
 
 }

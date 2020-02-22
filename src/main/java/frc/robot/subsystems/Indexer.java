@@ -24,18 +24,25 @@ public class Indexer {
 
     public static enum Mode {
         OFF,
-        FORWARD,
-        REVERSE,
+        TURN_OFF_LIFT_FORWARD,
+        TURN_OFF_LIFT_REVERSE,
+        TURN_FORWARD_LIFT_OFF,
+        TURN_FORWARD_LIFT_FORWARD,
+        TURN_FORWARD_LIFT_REVERSE,
+        TURN_REVERSE_LIFT_OFF,
+        TURN_REVERSE_LIFT_FORWARD,
+        TURN_REVERSE_LIFT_REVERSE,
         SMART_INTAKE,
-        SHOOT_FORWARD,
-        SHOOT_REVERSE,
-        SHOOTER_STARTUP,
+        LIFT_FORWARD,
+        LIFT_REVERSE,
+        GAP_ALIGNMENT,
         SMART_SHOOT
     }
 
     private CANSparkMax turnMotorController;
     private CANEncoder turnEncoder;
     private DigitalInput limitSwitch;
+    private boolean gapAligned;
     private TalonSRX liftMotorController;
     private Servo servo;
     private PeriodicTimer startupTimer;
@@ -56,6 +63,7 @@ public class Indexer {
         turnEncoder = turnMotorController.getEncoder();
 
         limitSwitch = new DigitalInput(Config.Ports.Indexer.LIMIT_SWITCH);
+        gapAligned = false;
 
         liftMotorController = new TalonSRX(Config.Ports.Indexer.LIFT_MOTOR);
         liftMotorController.setInverted(true);
@@ -78,15 +86,51 @@ public class Indexer {
                 servo.set(0.5);
                 liftTimer.reset();
                 return;
-            case FORWARD:
+            case TURN_OFF_LIFT_FORWARD:
+                turnMotorController.set(0);
+                liftMotorController.set(ControlMode.PercentOutput, 0.35);
+                servo.set(1);
+                liftTimer.reset();
+                return;
+            case TURN_OFF_LIFT_REVERSE:
+                turnMotorController.set(0);
+                liftMotorController.set(ControlMode.PercentOutput, -0.35);
+                servo.set(1);
+                liftTimer.reset();
+                return;
+            case TURN_FORWARD_LIFT_OFF:
                 turnMotorController.set(0.15);
                 liftMotorController.set(ControlMode.PercentOutput, 0);
                 servo.set(1);
                 liftTimer.reset();
                 return;
-            case REVERSE:
-                turnMotorController.set(-0.2);
+            case TURN_FORWARD_LIFT_FORWARD:
+                turnMotorController.set(0.15);
+                liftMotorController.set(ControlMode.PercentOutput, 0.35);
+                servo.set(1);
+                liftTimer.reset();
+                return;
+            case TURN_FORWARD_LIFT_REVERSE:
+                turnMotorController.set(0.15);
+                liftMotorController.set(ControlMode.PercentOutput, -0.35);
+                servo.set(1);
+                liftTimer.reset();
+                return;
+            case TURN_REVERSE_LIFT_OFF:
+                turnMotorController.set(-0.15);
                 liftMotorController.set(ControlMode.PercentOutput, 0);
+                servo.set(1);
+                liftTimer.reset();
+                return;
+            case TURN_REVERSE_LIFT_FORWARD:
+                turnMotorController.set(-0.15);
+                liftMotorController.set(ControlMode.PercentOutput, 0.35);
+                servo.set(1);
+                liftTimer.reset();
+                return;
+            case TURN_REVERSE_LIFT_REVERSE:
+                turnMotorController.set(-0.15);
+                liftMotorController.set(ControlMode.PercentOutput, -0.35);
                 servo.set(1);
                 liftTimer.reset();
                 return;
@@ -97,7 +141,7 @@ public class Indexer {
                     liftMotorController.set(ControlMode.PercentOutput, 0);
                     antiJamTimer.reset();
                 } else if (turnEncoder.getVelocity() < 30 && !antiJamTimer.hasElapsed(2)) {
-                    turnMotorController.set(-0.10);
+                    turnMotorController.set(-0.15);
                     liftMotorController.set(ControlMode.PercentOutput, -0.15);
                 } else if (turnEncoder.getVelocity() < 30) {
                     turnMotorController.set(0.15);
@@ -111,35 +155,27 @@ public class Indexer {
                 }
                 liftTimer.reset();
                 return;
-            case SHOOT_FORWARD:
+            case GAP_ALIGNMENT:
                 servo.set(1);
-                turnMotorController.set(0.5);
-                liftMotorController.set(ControlMode.PercentOutput, 1);
-                liftTimer.reset();
-                return;
-            case SHOOT_REVERSE:
-                servo.set(1);
-                turnMotorController.set(-0.5);
-                liftMotorController.set(ControlMode.PercentOutput, 1);
-                liftTimer.reset();
-                return;
-            case SHOOTER_STARTUP:
-                servo.set(1);
-                if (!limitSwitch.get()) {
+                System.out.println("gap alignment mode");
+                if (gapAligned || !limitSwitch.get()) {
+                    System.out.println("aligned");
+                    gapAligned = true;
+                    turnMotorController.set(0);
+                    liftMotorController.set(ControlMode.PercentOutput, 0.35);
+                } else {
+                    System.out.println("spinning");
                     turnMotorController.set(0.15);
                     liftMotorController.set(ControlMode.PercentOutput, 0);
                     liftTimer.reset();
-                } else {
-                    turnMotorController.set(0);
-                    liftMotorController.set(ControlMode.PercentOutput, 1);
                 }
             case SMART_SHOOT:
                 servo.set(1);
-                if (!liftTimer.hasElapsed(1.25)) {
+                if (!liftTimer.hasElapsed(0.6)) {
                     liftMotorController.set(ControlMode.PercentOutput, 0.35);
                     turnMotorController.set(0);
                     antiJamTimer.reset();
-                } else if (!startupTimer.hasElapsed(2.5)) {
+                } else if (!startupTimer.hasElapsed(1.2)) {
                     liftMotorController.set(ControlMode.PercentOutput, 0.35);
                     turnMotorController.set(0.25);
                     antiJamTimer.reset();
@@ -165,18 +201,17 @@ public class Indexer {
         }
     }
 
-    public boolean isReadyToShoot() {
-        return limitSwitch.get();
+    public boolean isGapAligned() {
+        return gapAligned;
     }
 
     public void setMode(Mode mode) {
+        System.out.println("changed mode");
         if (mode != this.mode) {
-            this.mode = mode;
             startupTimer.reset();
-            if (mode == Mode.SHOOTER_STARTUP) {
-                liftTimer.reset();
-            }
+            gapAligned = false;
         }
+        this.mode = mode;
     }
 
     public Mode getMode() {

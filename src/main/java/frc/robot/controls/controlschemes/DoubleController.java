@@ -33,12 +33,12 @@ public class DoubleController extends ControlScheme {
 
     @Override
     public boolean doSwitchHighGear() {
-        return primary.getLeftStickButton();
+        return primary.getRightStickButton();
     }
 
     @Override
     public boolean doSwitchLowGear() {
-        return primary.getRightStickButton();
+        return primary.getLeftStickButton();
     }
 
     @Override
@@ -48,32 +48,47 @@ public class DoubleController extends ControlScheme {
 
     @Override
     public boolean doToggleIntakeForward() {
-        return primary.getLeftTriggerToggled();
+        return secondary.getAButtonToggled();
     }
 
     @Override
     public boolean doToggleIntakeReverse() {
-        return primary.getYButtonToggled();
+        return secondary.getBButtonToggled();
+    }
+
+    @Override
+    public boolean doToggleIndexerAlignMode() {
+        return secondary.getLeftTriggerToggled();
+    }
+
+    @Override
+    public boolean doToggleIndexerShooterMode() {
+        return primary.getRightTriggerToggled();
+    }
+
+    @Override
+    public boolean doToggleIndexerForward() {
+        return secondary.getLeftBumperToggled();
+    }
+
+    @Override
+    public boolean doToggleIndexerReverse() {
+        return secondary.getRightBumperToggled();
+    }
+
+    @Override
+    public boolean doToggleLiftMotorForward() {
+        return secondary.getXButtonToggled();
+    }
+
+    @Override
+    public boolean doToggleLiftMotorReverse() {
+        return secondary.getYButtonToggled();
     }
 
     @Override
     public boolean doToggleShooter() {
         return primary.getRightTriggerToggled();
-    }
-
-    @Override
-    public boolean doToggleIndexerIntakeMode() {
-        return primary.getViewButtonToggled();
-    }
-    
-    @Override
-    public boolean doToggleIndexerShooterMode() {
-        return primary.getMenuButtonToggled();
-    }
-
-    @Override
-    public boolean doToggleIndexerOmniReverseMode() {
-        return primary.getYButtonToggled();
     }
 
     @Override

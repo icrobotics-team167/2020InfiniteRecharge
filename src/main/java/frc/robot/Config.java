@@ -11,7 +11,7 @@ public class Config {
 
         // Controllers
         public static final ControllerType PRIMARY_CONTROLLER_TYPE = ControllerType.PS;
-        public static final ControllerType SECONDARY_CONTROLLER_TYPE = ControllerType.NONE;
+        public static final ControllerType SECONDARY_CONTROLLER_TYPE = ControllerType.XB;
 
         // Dead zones
         public static final boolean TANK_DEAD_ZONE_ENABLED = true;
@@ -21,7 +21,7 @@ public class Config {
         public static final double CPU_PERIOD = 0.02;
 
         // Shooting RPM
-        public static final int SHOOTING_RPM = 4421;
+        public static final int SHOOTING_RPM = 4400;
 
     }
 
@@ -31,7 +31,7 @@ public class Config {
         public static final double TRIGGER_PRESSED_THRESHOLD = 0.2;
 
         // Tank drive dead zone size
-        public static final double TANK_DEAD_ZONE_SIZE = 0.07;
+        public static final double TANK_DEAD_ZONE_SIZE = 0.14;
 
         // Turret manual turn dead zone size
         public static final double TURRET_TURN_DEAD_ZONE_SIZE = 0.03;

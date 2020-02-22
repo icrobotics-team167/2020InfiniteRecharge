@@ -11,10 +11,14 @@ public abstract class ControlScheme {
     public abstract boolean doToggleIntakeForward();
     public abstract boolean doToggleIntakeReverse();
 
-    public abstract boolean doToggleShooter();
-    public abstract boolean doToggleIndexerIntakeMode();
+    public abstract boolean doToggleIndexerAlignMode();
     public abstract boolean doToggleIndexerShooterMode();
-    public abstract boolean doToggleIndexerOmniReverseMode();
+    public abstract boolean doToggleIndexerForward();
+    public abstract boolean doToggleIndexerReverse();
+    public abstract boolean doToggleLiftMotorForward();
+    public abstract boolean doToggleLiftMotorReverse();
+
+    public abstract boolean doToggleShooter();
 
     public abstract boolean doToggleTurretAutoAlign();
     public abstract boolean doTurnTurretClockwise();

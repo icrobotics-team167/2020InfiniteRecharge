@@ -40,14 +40,13 @@ public class XBController implements Controller {
         return controller.getTriggerAxis(GenericHID.Hand.kLeft) >= Math.abs(Config.Tolerances.TRIGGER_PRESSED_THRESHOLD);
     }
 
-    private boolean leftTriggerToggle = true;
+    private boolean leftTriggerPrevious = false;
+    private boolean leftTriggerCurrent = false;
     @Override
     public boolean getLeftTriggerToggled() {
-        if (leftTriggerToggle && getLeftTrigger()) {
-            leftTriggerToggle = false;
-            return true;
-        } else if (!getLeftTrigger()) {
-            leftTriggerToggle = true;
+        leftTriggerPrevious = leftTriggerCurrent;
+        leftTriggerCurrent = getLeftTrigger();
+        if (leftTriggerCurrent && !leftTriggerPrevious) {
             return true;
         }
         return false;
@@ -73,14 +72,13 @@ public class XBController implements Controller {
         return controller.getTriggerAxis(GenericHID.Hand.kRight) >= Math.abs(Config.Tolerances.TRIGGER_PRESSED_THRESHOLD);
     }
 
-    private boolean rightTriggerToggle = true;
+    private boolean rightTriggerPrevious = false;
+    private boolean rightTriggerCurrent = false;
     @Override
     public boolean getRightTriggerToggled() {
-        if (rightTriggerToggle && getRightTrigger()) {
-            rightTriggerToggle = false;
-            return true;
-        } else if (!getRightTrigger()) {
-            rightTriggerToggle = true;
+        rightTriggerPrevious = rightTriggerCurrent;
+        rightTriggerCurrent = getRightTrigger();
+        if (rightTriggerCurrent && !rightTriggerPrevious) {
             return true;
         }
         return false;
@@ -186,14 +184,13 @@ public class XBController implements Controller {
         return controller.getPOV(0) == 0;
     }
 
-    private boolean dpadUpToggle = true;
+    private boolean dpadUpPrevious = false;
+    private boolean dpadUpCurrent = false;
     @Override
     public boolean getDpadUpToggled() {
-        if (dpadUpToggle && getDpadUp()) {
-            dpadUpToggle = false;
-            return true;
-        } else if (!getDpadUp()) {
-            dpadUpToggle = true;
+        dpadUpPrevious = dpadUpCurrent;
+        dpadUpCurrent = getDpadUp();
+        if (dpadUpCurrent && !dpadUpPrevious) {
             return true;
         }
         return false;
@@ -209,14 +206,13 @@ public class XBController implements Controller {
         return controller.getPOV(0) == 90;
     }
 
-    private boolean dpadRightToggle = true;
+    private boolean dpadRightPrevious = false;
+    private boolean dpadRightCurrent = false;
     @Override
     public boolean getDpadRightToggled() {
-        if (dpadRightToggle && getDpadRight()) {
-            dpadRightToggle = false;
-            return true;
-        } else if (!getDpadRight()) {
-            dpadRightToggle = true;
+        dpadRightPrevious = dpadRightCurrent;
+        dpadRightCurrent = getDpadRight();
+        if (dpadRightCurrent && !dpadRightPrevious) {
             return true;
         }
         return false;
@@ -232,14 +228,13 @@ public class XBController implements Controller {
         return controller.getPOV(0) == 180;
     }
 
-    private boolean dpadDownToggle = true;
+    private boolean dpadDownPrevious = false;
+    private boolean dpadDownCurrent = false;
     @Override
     public boolean getDpadDownToggled() {
-        if (dpadDownToggle && getDpadDown()) {
-            dpadDownToggle = false;
-            return true;
-        } else if (!getDpadDown()) {
-            dpadDownToggle = true;
+        dpadDownPrevious = dpadDownCurrent;
+        dpadDownCurrent = getDpadDown();
+        if (dpadDownCurrent && !dpadDownPrevious) {
             return true;
         }
         return false;
@@ -255,14 +250,13 @@ public class XBController implements Controller {
         return controller.getPOV(0) == 270;
     }
 
-    private boolean dpadLeftToggle = true;
+    private boolean dpadLeftPrevious = false;
+    private boolean dpadLeftCurrent = false;
     @Override
     public boolean getDpadLeftToggled() {
-        if (dpadLeftToggle && getDpadLeft()) {
-            dpadLeftToggle = false;
-            return true;
-        } else if (!getDpadLeft()) {
-            dpadLeftToggle = true;
+        dpadLeftPrevious = dpadLeftCurrent;
+        dpadLeftCurrent = getDpadLeft();
+        if (dpadLeftCurrent && !dpadLeftPrevious) {
             return true;
         }
         return false;
