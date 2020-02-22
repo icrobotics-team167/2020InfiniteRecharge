@@ -2,6 +2,7 @@ package frc.robot.routines;
 
 import frc.robot.controls.controlschemes.ControlScheme;
 import frc.robot.subsystems.*;
+import frc.robot.subsystems.drive.SparkTankDriveBase;
 import frc.robot.subsystems.drive.TankDriveBase;
 
 public class Teleop {
@@ -32,9 +33,9 @@ public class Teleop {
 
     public void periodic() {
         driveBase.tankDrive(controls.getTankLeftSpeed(), controls.getTankRightSpeed());
-        // if (driveBase instanceof SparkTankDriveBase) {
-        //     ((SparkTankDriveBase) driveBase).testMotor();
-        // }
+        if (driveBase instanceof SparkTankDriveBase) {
+            ((SparkTankDriveBase) driveBase).testMotor();
+        }
         if (controls.doSwitchHighGear()) {
             driveBase.setHighGear();
         } else if (controls.doSwitchLowGear()) {
@@ -65,10 +66,10 @@ public class Teleop {
 
         if (controls.doToggleIndexerAlignMode()) {
             if (indexer.getMode() == Indexer.Mode.GAP_ALIGNMENT) {
-                System.out.println("gap alignment mode off");
+                System.out.println("Turn gap alignment mode off");
                 indexer.setMode(Indexer.Mode.OFF);
             } else {
-                System.out.println("gap alignment mode on");
+                System.out.println("Turn gap alignment mode on");
                 indexer.setMode(Indexer.Mode.GAP_ALIGNMENT);
             }
         } else if (controls.doToggleIndexerShooterMode()) {
@@ -163,7 +164,7 @@ public class Teleop {
             }
         }
         indexer.run();
-        
+
         if (controls.doToggleShooter()) {
             shooter.toggle();
         }

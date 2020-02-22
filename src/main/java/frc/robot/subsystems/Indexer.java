@@ -23,20 +23,24 @@ public class Indexer {
     }
 
     public static enum Mode {
-        OFF,
-        TURN_OFF_LIFT_FORWARD,
-        TURN_OFF_LIFT_REVERSE,
-        TURN_FORWARD_LIFT_OFF,
-        TURN_FORWARD_LIFT_FORWARD,
-        TURN_FORWARD_LIFT_REVERSE,
-        TURN_REVERSE_LIFT_OFF,
-        TURN_REVERSE_LIFT_FORWARD,
-        TURN_REVERSE_LIFT_REVERSE,
-        SMART_INTAKE,
-        LIFT_FORWARD,
-        LIFT_REVERSE,
-        GAP_ALIGNMENT,
-        SMART_SHOOT
+        OFF("OFF"),
+        TURN_OFF_LIFT_FORWARD("TURN_OFF_LIFT_FORWARD"),
+        TURN_OFF_LIFT_REVERSE("TURN_OFF_LIFT_REVERSE"),
+        TURN_FORWARD_LIFT_OFF("TURN_FORWARD_LIFT_OFF"),
+        TURN_FORWARD_LIFT_FORWARD("TURN_FORWARD_LIFT_FORWARD"),
+        TURN_FORWARD_LIFT_REVERSE("TURN_FORWARD_LIFT_REVERSE"),
+        TURN_REVERSE_LIFT_OFF("TURN_REVERSE_LIFT_OFF"),
+        TURN_REVERSE_LIFT_FORWARD("TURN_REVERSE_LIFT_FORWARD"),
+        TURN_REVERSE_LIFT_REVERSE("TURN_REVERSE_LIFT_REVERSE"),
+        SMART_INTAKE("SMART_INTAKE"),
+        GAP_ALIGNMENT("GAP_ALIGNMENT"),
+        SMART_SHOOT("SMART_SHOOT");
+
+        public final String name;
+
+        Mode(String name) {
+            this.name = name;
+        }
     }
 
     private CANSparkMax turnMotorController;
@@ -157,14 +161,16 @@ public class Indexer {
                 return;
             case GAP_ALIGNMENT:
                 servo.set(1);
-                System.out.println("gap alignment mode");
+                System.out.println("gapAligned " + gapAligned);
+                System.out.println("!limitSwitch.get() " + !limitSwitch.get());
                 if (gapAligned || !limitSwitch.get()) {
-                    System.out.println("aligned");
+                    System.out.println("Indexer gap alignment finished");
                     gapAligned = true;
                     turnMotorController.set(0);
                     liftMotorController.set(ControlMode.PercentOutput, 0.35);
                 } else {
-                    System.out.println("spinning");
+                    System.out.println("Indexer gap alignment spinning");
+                    gapAligned = false;
                     turnMotorController.set(0.15);
                     liftMotorController.set(ControlMode.PercentOutput, 0);
                     liftTimer.reset();
@@ -206,11 +212,11 @@ public class Indexer {
     }
 
     public void setMode(Mode mode) {
-        System.out.println("changed mode");
+        System.out.println("Changed indexer mode to Indexer.Mode." + mode.name);
         if (mode != this.mode) {
             startupTimer.reset();
-            gapAligned = false;
         }
+        gapAligned = false;
         this.mode = mode;
     }
 
