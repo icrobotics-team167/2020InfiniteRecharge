@@ -1,5 +1,7 @@
 package frc.robot.routines;
 
+import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.controls.controlschemes.ControlScheme;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.drive.TankDriveBase;
@@ -40,11 +42,11 @@ public class Teleop {
             intake.toggleExtension();
         }
         if (controls.doToggleIntakeForward()) {
-            if (indexer.getMode() == Indexer.Mode.SMART_INTAKE) {
-                indexer.setMode(Indexer.Mode.OFF);
-            } else {
-                indexer.setMode(Indexer.Mode.SMART_INTAKE);
-            }
+            // if (indexer.getMode() == Indexer.Mode.SMART_INTAKE) {
+            //     indexer.setMode(Indexer.Mode.OFF);
+            // } else {
+            //     indexer.setMode(Indexer.Mode.SMART_INTAKE);
+            // }
 // remove maybe
 
             if (intake.getMode() == Intake.Mode.FORWARD) {
@@ -61,13 +63,12 @@ public class Teleop {
         }
         intake.run();
 
-        // if (controls.doToggleIndexerIntakeMode()) {
-        if (false) {
-            // if (indexer.getMode() == Indexer.Mode.SMART_INTAKE) {
-            //     indexer.setMode(Indexer.Mode.OFF);
-            // } else {
-            //     indexer.setMode(Indexer.Mode.SMART_INTAKE);
-            // }
+        if (controls.doToggleIndexerIntakeMode()) {
+            if (indexer.getMode() == Indexer.Mode.SMART_INTAKE) {
+                indexer.setMode(Indexer.Mode.OFF);
+            } else {
+                indexer.setMode(Indexer.Mode.SMART_INTAKE);
+            }
         } else if (controls.doToggleIndexerShooterMode()) {
             if (indexer.getMode() == Indexer.Mode.SMART_SHOOT) {
                 indexer.setMode(Indexer.Mode.OFF);
@@ -75,6 +76,7 @@ public class Teleop {
                 indexer.setMode(Indexer.Mode.SMART_SHOOT);
             }
         }
+        
 
         if (controls.doToggleShooter()) {
             shooter.toggle();
@@ -122,6 +124,9 @@ public class Teleop {
             turret.setMode(Turret.Mode.OFF);
         }
         turret.run();
+
+
+        // new SpeedControllerGroup(speedController, speedControllers)
     }
 
 }

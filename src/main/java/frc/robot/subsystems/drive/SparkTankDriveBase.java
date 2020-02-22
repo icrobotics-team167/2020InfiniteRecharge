@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import frc.robot.Config;
 
+
 public class SparkTankDriveBase implements TankDriveBase {
 
     private AHRS navx;
@@ -133,13 +134,13 @@ public class SparkTankDriveBase implements TankDriveBase {
     @Override
     public double getLeftSpeed() {
         double speedAverage = (leftEncoders[0].getVelocity() + leftEncoders[1].getVelocity() + leftEncoders[2].getVelocity()) / 3;
-        return 0.39898226700466 * (speedAverage / 60);
+        return 0.39898226700466 * (speedAverage / 60) / 2.83; // low gear - 7.5
     }
 
     @Override
     public double getRightSpeed() {
         double speedAverage = (rightEncoders[0].getVelocity() + rightEncoders[1].getVelocity() + rightEncoders[2].getVelocity()) / 3;
-        return 0.39898226700466 * (speedAverage / 60);
+        return 0.39898226700466 * (speedAverage / 60) / 2.83;
     }
 
     @Override
