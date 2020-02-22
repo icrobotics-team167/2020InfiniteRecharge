@@ -67,23 +67,23 @@ public class DoubleController extends ControlScheme {
     }
 
     @Override
-    public boolean doToggleIndexerForward() {
-        return secondary.getLeftBumperToggled();
+    public boolean doIndexerForward() {
+        return secondary.getLeftBumper();
     }
 
     @Override
-    public boolean doToggleIndexerReverse() {
-        return secondary.getRightBumperToggled();
+    public boolean doIndexerReverse() {
+        return secondary.getRightBumper();
     }
 
     @Override
-    public boolean doToggleLiftMotorForward() {
-        return secondary.getXButtonToggled();
+    public boolean doLiftMotorForward() {
+        return secondary.getXButton();
     }
 
     @Override
-    public boolean doToggleLiftMotorReverse() {
-        return secondary.getYButtonToggled();
+    public boolean doLiftMotorReverse() {
+        return secondary.getYButton();
     }
 
     @Override

@@ -48,22 +48,22 @@ public class NullController extends ControlScheme {
     }
 
     @Override
-    public boolean doToggleIndexerForward() {
+    public boolean doIndexerForward() {
         return false;
     }
 
     @Override
-    public boolean doToggleIndexerReverse() {
+    public boolean doIndexerReverse() {
         return false;
     }
 
     @Override
-    public boolean doToggleLiftMotorForward() {
+    public boolean doLiftMotorForward() {
         return false;
     }
 
     @Override
-    public boolean doToggleLiftMotorReverse() {
+    public boolean doLiftMotorReverse() {
         return false;
     }
 

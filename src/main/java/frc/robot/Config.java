@@ -21,7 +21,7 @@ public class Config {
         public static final double CPU_PERIOD = 0.02;
 
         // Shooting RPM
-        public static final int SHOOTING_RPM = 4400;
+        public static final int SHOOTING_RPM = 5000;
 
     }
 
