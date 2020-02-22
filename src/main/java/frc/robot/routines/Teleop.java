@@ -32,10 +32,10 @@ public class Teleop {
     }
 
     public void periodic() {
-        driveBase.tankDrive(controls.getTankLeftSpeed(), controls.getTankRightSpeed());
-        if (driveBase instanceof SparkTankDriveBase) {
-            ((SparkTankDriveBase) driveBase).testMotor();
-        }
+        // driveBase.tankDrive(controls.getTankLeftSpeed(), controls.getTankRightSpeed());
+        // if (driveBase instanceof SparkTankDriveBase) {
+        //     ((SparkTankDriveBase) driveBase).testMotor();
+        // }
         if (controls.doSwitchHighGear()) {
             driveBase.setHighGear();
         } else if (controls.doSwitchLowGear()) {

@@ -161,20 +161,17 @@ public class Indexer {
                 return;
             case GAP_ALIGNMENT:
                 servo.set(1);
-                System.out.println("gapAligned " + gapAligned);
-                System.out.println("!limitSwitch.get() " + !limitSwitch.get());
                 if (gapAligned || !limitSwitch.get()) {
-                    System.out.println("Indexer gap alignment finished");
                     gapAligned = true;
                     turnMotorController.set(0);
                     liftMotorController.set(ControlMode.PercentOutput, 0.35);
                 } else {
-                    System.out.println("Indexer gap alignment spinning");
                     gapAligned = false;
                     turnMotorController.set(0.15);
                     liftMotorController.set(ControlMode.PercentOutput, 0);
                     liftTimer.reset();
                 }
+                return;
             case SMART_SHOOT:
                 servo.set(1);
                 if (!liftTimer.hasElapsed(0.6)) {
