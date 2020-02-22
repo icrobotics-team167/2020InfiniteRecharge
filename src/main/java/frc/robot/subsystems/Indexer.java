@@ -92,25 +92,25 @@ public class Indexer {
                 return;
             case TURN_OFF_LIFT_FORWARD:
                 turnMotorController.set(0);
-                liftMotorController.set(ControlMode.PercentOutput, 0.35);
+                liftMotorController.set(ControlMode.PercentOutput, 0);
                 servo.set(1);
                 liftTimer.reset();
                 return;
             case TURN_OFF_LIFT_REVERSE:
                 turnMotorController.set(0);
-                liftMotorController.set(ControlMode.PercentOutput, -0.35);
+                liftMotorController.set(ControlMode.PercentOutput, 0);
                 servo.set(1);
                 liftTimer.reset();
                 return;
             case TURN_FORWARD_LIFT_OFF:
                 turnMotorController.set(0.15);
-                liftMotorController.set(ControlMode.PercentOutput, 0);
+                liftMotorController.set(ControlMode.PercentOutput, -0.35);
                 servo.set(1);
                 liftTimer.reset();
                 return;
             case TURN_FORWARD_LIFT_FORWARD:
                 turnMotorController.set(0.15);
-                liftMotorController.set(ControlMode.PercentOutput, 0.35);
+                liftMotorController.set(ControlMode.PercentOutput, -0.35);
                 servo.set(1);
                 liftTimer.reset();
                 return;
@@ -122,13 +122,13 @@ public class Indexer {
                 return;
             case TURN_REVERSE_LIFT_OFF:
                 turnMotorController.set(-0.15);
-                liftMotorController.set(ControlMode.PercentOutput, 0);
+                liftMotorController.set(ControlMode.PercentOutput, -0.35);
                 servo.set(1);
                 liftTimer.reset();
                 return;
             case TURN_REVERSE_LIFT_FORWARD:
                 turnMotorController.set(-0.15);
-                liftMotorController.set(ControlMode.PercentOutput, 0.35);
+                liftMotorController.set(ControlMode.PercentOutput, -0.35);
                 servo.set(1);
                 liftTimer.reset();
                 return;
@@ -142,19 +142,19 @@ public class Indexer {
                 servo.set(1);
                 if (!startupTimer.hasElapsed(0.3)) {
                     turnMotorController.set(0.15);
-                    liftMotorController.set(ControlMode.PercentOutput, 0);
+                    liftMotorController.set(ControlMode.PercentOutput, -0.1);
                     antiJamTimer.reset();
                 } else if (turnEncoder.getVelocity() < 30 && !antiJamTimer.hasElapsed(2)) {
                     turnMotorController.set(-0.15);
                     liftMotorController.set(ControlMode.PercentOutput, -0.15);
                 } else if (turnEncoder.getVelocity() < 30) {
                     turnMotorController.set(0.15);
-                    liftMotorController.set(ControlMode.PercentOutput, 0);
+                    liftMotorController.set(ControlMode.PercentOutput, -0.1);
                     antiJamTimer.reset();
                     startupTimer.reset();
                 } else {
                     turnMotorController.set(0.15);
-                    liftMotorController.set(ControlMode.PercentOutput, 0);
+                    liftMotorController.set(ControlMode.PercentOutput, -0.1);
                     antiJamTimer.reset();
                 }
                 liftTimer.reset();

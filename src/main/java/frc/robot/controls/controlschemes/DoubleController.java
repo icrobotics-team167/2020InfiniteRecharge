@@ -92,8 +92,8 @@ public class DoubleController extends ControlScheme {
     }
 
     @Override
-    public boolean doToggleTurretAutoAlign() {
-        return primary.getAButtonToggled();
+    public boolean doAutoAlignTurret() {
+        return primary.getLeftTrigger();
     }
 
     @Override

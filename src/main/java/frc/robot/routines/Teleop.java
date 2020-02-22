@@ -32,7 +32,7 @@ public class Teleop {
     }
 
     public void periodic() {
-        // driveBase.tankDrive(controls.getTankLeftSpeed(), controls.getTankRightSpeed());
+        driveBase.tankDrive(controls.getTankLeftSpeed(), controls.getTankRightSpeed());
         // if (driveBase instanceof SparkTankDriveBase) {
         //     ((SparkTankDriveBase) driveBase).testMotor();
         // }
@@ -170,18 +170,19 @@ public class Teleop {
         }
         shooter.run();
 
-        if (controls.doToggleTurretAutoAlign()) {
-            if (turret.getMode() == Turret.Mode.AUTO_ALIGN) {
-                turret.setMode(Turret.Mode.OFF);
-            } else {
-                turret.setMode(Turret.Mode.AUTO_ALIGN);
-            }
+        if (controls.doAutoAlignTurret()) {
+            turret.setMode(Turret.Mode.AUTO_ALIGN);
+            // if (turret.getMode() == Turret.Mode.AUTO_ALIGN) {
+            //     turret.setMode(Turret.Mode.OFF);
+            // } else {
+            //     turret.setMode(Turret.Mode.AUTO_ALIGN);
+            // }
         } else if (controls.doTurnTurretClockwise()) {
             turret.setMode(Turret.Mode.TURN_CLOCKWISE);
         } else if (controls.doTurnTurretCounterclockwise()) {
             turret.setMode(Turret.Mode.TURN_COUNTERCLOCKWISE);
-        } else if (turret.getMode() == Turret.Mode.AUTO_ALIGN) {
-            turret.setMode(Turret.Mode.AUTO_ALIGN);
+        // } else if (turret.getMode() == Turret.Mode.AUTO_ALIGN) {
+        //     turret.setMode(Turret.Mode.AUTO_ALIGN);
         } else {
             turret.setMode(Turret.Mode.OFF);
         }

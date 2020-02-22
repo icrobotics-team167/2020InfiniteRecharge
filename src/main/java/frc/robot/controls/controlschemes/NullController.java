@@ -73,7 +73,7 @@ public class NullController extends ControlScheme {
     }
 
     @Override
-    public boolean doToggleTurretAutoAlign() {
+    public boolean doAutoAlignTurret() {
         return false;
     }
 

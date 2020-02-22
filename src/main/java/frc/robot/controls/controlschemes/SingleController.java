@@ -90,8 +90,8 @@ public class SingleController extends ControlScheme {
     }
 
     @Override
-    public boolean doToggleTurretAutoAlign() {
-        return primary.getAButtonToggled();
+    public boolean doAutoAlignTurret() {
+        return primary.getAButton();
     }
 
     @Override

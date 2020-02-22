@@ -20,7 +20,7 @@ public abstract class ControlScheme {
 
     public abstract boolean doToggleShooter();
 
-    public abstract boolean doToggleTurretAutoAlign();
+    public abstract boolean doAutoAlignTurret();
     public abstract boolean doTurnTurretClockwise();
     public abstract boolean doTurnTurretCounterclockwise();
 
