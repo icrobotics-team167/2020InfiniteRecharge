@@ -160,13 +160,14 @@ public class Indexer {
                 liftTimer.reset();
                 return;
             case GAP_ALIGNMENT:
-                servo.set(1);
                 if (gapAligned || !limitSwitch.get()) {
                     gapAligned = true;
+                    servo.set(0.5);
                     turnMotorController.set(0);
                     liftMotorController.set(ControlMode.PercentOutput, 0.35);
                 } else {
                     gapAligned = false;
+                    servo.set(1);
                     turnMotorController.set(0.15);
                     liftMotorController.set(ControlMode.PercentOutput, 0);
                     liftTimer.reset();
@@ -213,7 +214,9 @@ public class Indexer {
         if (mode != this.mode) {
             startupTimer.reset();
         }
-        gapAligned = false;
+        if (mode != Mode.OFF) {
+            gapAligned = false;
+        }
         this.mode = mode;
     }
 

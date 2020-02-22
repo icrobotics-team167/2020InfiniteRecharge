@@ -88,7 +88,7 @@ public class DoubleController extends ControlScheme {
 
     @Override
     public boolean doToggleShooter() {
-        return primary.getRightTriggerToggled();
+        return secondary.getRightTriggerToggled();
     }
 
     @Override
