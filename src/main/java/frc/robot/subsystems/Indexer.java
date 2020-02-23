@@ -89,7 +89,7 @@ public class Indexer {
                     turnMotorController.set(0.15);
                     liftMotorController.set(0);
                     antiJamTimer.reset();
-                } else if (turnEncoder.getVelocity() < 30 && !antiJamTimer.hasElapsed(2)) {
+                } else if (turnEncoder.getVelocity() < 30 && !antiJamTimer.hasElapsed(1.5)) {
                     turnMotorController.set(-0.15);
                     liftMotorController.set(0);
                 } else if (turnEncoder.getVelocity() < 30) {
@@ -129,7 +129,7 @@ public class Indexer {
                     liftMotorController.set(0.35);
                     turnMotorController.set(0.25);
                     antiJamTimer.reset();
-                } else if (turnEncoder.getVelocity() < 40 && !antiJamTimer.hasElapsed(2)) {
+                } else if (turnEncoder.getVelocity() < 40 && !antiJamTimer.hasElapsed(1.5)) {
                     liftMotorController.set(0);
                     turnMotorController.set(-0.15);
                 } else if (turnEncoder.getVelocity() < 40) {
@@ -156,6 +156,14 @@ public class Indexer {
 
     public boolean isGapAligned() {
         return gapAligned;
+    }
+
+    public boolean isRunningAntiJam() {
+        return antiJamTimer.hasElapsed(0.04);
+    }
+
+    public boolean isShooting() {
+        return mode == Mode.SMART_SHOOT;
     }
 
     public void setMode(Mode mode) {

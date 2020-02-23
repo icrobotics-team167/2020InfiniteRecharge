@@ -105,6 +105,8 @@ public class Robot extends TimedRobot {
         SmartDashboard.putNumber("shooter/right/voltage", Subsystems.shooter.getRightVoltage());
 
         SmartDashboard.putBoolean("indexer/gapAligned", Subsystems.indexer.isGapAligned());
+        SmartDashboard.putBoolean("indexer/isRunningAntiJam", Subsystems.indexer.isRunningAntiJam());
+        SmartDashboard.putBoolean("indexer/isShooting", Subsystems.indexer.isShooting());
     }
 
     @Override
