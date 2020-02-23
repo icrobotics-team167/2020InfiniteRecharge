@@ -45,13 +45,8 @@ public class SingleController extends ControlScheme {
     }
 
     @Override
-    public boolean doToggleIntakeForward() {
-        return primary.getAButtonToggled();
-    }
-
-    @Override
-    public boolean doToggleIntakeReverse() {
-        return primary.getYButtonToggled();
+    public double getIndexerSpeed() {
+        return 0;
     }
 
     @Override
@@ -60,18 +55,13 @@ public class SingleController extends ControlScheme {
     }
 
     @Override
-    public boolean doToggleIndexerShooterMode() {
+    public boolean doIndexerShooterMode() {
         return primary.getMenuButtonToggled();
     }
 
     @Override
-    public boolean doIndexerForward() {
-        return false;
-    }
-
-    @Override
-    public boolean doIndexerReverse() {
-        return false;
+    public double getIntakeSpeed() {
+        return 0;
     }
 
     @Override
@@ -102,6 +92,16 @@ public class SingleController extends ControlScheme {
     @Override
     public boolean doTurnTurretCounterclockwise() {
         return primary.getLeftBumper();
+    }
+
+    @Override
+    public boolean doGroundIntake() {
+        return false;
+    }
+
+    @Override
+    public boolean doHumanPlayerIntake() {
+        return false;
     }
 
 }

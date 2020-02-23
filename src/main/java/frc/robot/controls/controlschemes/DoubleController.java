@@ -47,13 +47,9 @@ public class DoubleController extends ControlScheme {
     }
 
     @Override
-    public boolean doToggleIntakeForward() {
-        return secondary.getAButtonToggled();
-    }
-
-    @Override
-    public boolean doToggleIntakeReverse() {
-        return secondary.getBButtonToggled();
+    public double getIntakeSpeed() { 
+        if (secondary.getRightStickY() < 0.2) return 0;
+        return secondary.getRightStickY() * 0.5;
     }
 
     @Override
@@ -62,18 +58,14 @@ public class DoubleController extends ControlScheme {
     }
 
     @Override
-    public boolean doToggleIndexerShooterMode() {
-        return primary.getRightTriggerToggled();
+    public boolean doIndexerShooterMode() {
+        return primary.getRightTrigger();
     }
 
     @Override
-    public boolean doIndexerForward() {
-        return secondary.getLeftBumper();
-    }
-
-    @Override
-    public boolean doIndexerReverse() {
-        return secondary.getRightBumper();
+    public double getIndexerSpeed() {
+        if (secondary.getLeftStickX() < 0.2) return 0;
+        return secondary.getLeftStickX() * 0.5;
     }
 
     @Override
@@ -104,6 +96,16 @@ public class DoubleController extends ControlScheme {
     @Override
     public boolean doTurnTurretCounterclockwise() {
         return primary.getLeftBumper();
+    }
+
+    @Override
+    public boolean doGroundIntake() {
+        return secondary.getRightTrigger();
+    }
+
+    @Override
+    public boolean doHumanPlayerIntake() {
+        return secondary.getLeftTrigger();
     }
 
 }

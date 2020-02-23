@@ -19,13 +19,15 @@ public class Intake {
     public static enum Mode {
         OFF,
         FORWARD,
-        REVERSE
+        REVERSE,
+        MANUAL
     }
 
     private Solenoid solenoid;
     private TalonSRX motor;
     private Mode mode;
     private boolean extended;
+    private double manualSpeed;
 
     private Intake() {
         solenoid = new Solenoid(
@@ -58,6 +60,8 @@ public class Intake {
                     motor.set(ControlMode.PercentOutput, -0.3);
                 }
                 break;
+            case MANUAL:
+                motor.set(ControlMode.PercentOutput, manualSpeed);
             default:
                 motor.set(ControlMode.PercentOutput, 0);
                 break;
@@ -90,6 +94,10 @@ public class Intake {
         } else {
             extend();
         }
+    }
+
+    public void setSpeed(double speed) {
+        manualSpeed = speed;
     }
 
 }

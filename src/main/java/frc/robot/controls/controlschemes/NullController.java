@@ -28,13 +28,8 @@ public class NullController extends ControlScheme {
     }
 
     @Override
-    public boolean doToggleIntakeForward() {
-        return false;
-    }
-
-    @Override
-    public boolean doToggleIntakeReverse() {
-        return false;
+    public double getIntakeSpeed() {
+        return 0;
     }
 
     @Override
@@ -43,18 +38,13 @@ public class NullController extends ControlScheme {
     }
 
     @Override
-    public boolean doToggleIndexerShooterMode() {
+    public boolean doIndexerShooterMode() {
         return false;
     }
 
     @Override
-    public boolean doIndexerForward() {
-        return false;
-    }
-
-    @Override
-    public boolean doIndexerReverse() {
-        return false;
+    public double getIndexerSpeed() {
+        return 0;
     }
 
     @Override
@@ -87,4 +77,14 @@ public class NullController extends ControlScheme {
         return false;
     }
 
+    @Override
+    public boolean doGroundIntake() {
+        return false;
+    }
+
+    @Override
+    public boolean doHumanPlayerIntake() {
+        return false;
+    }
+    
 }

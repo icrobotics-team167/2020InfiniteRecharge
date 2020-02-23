@@ -4,17 +4,20 @@ public abstract class ControlScheme {
 
     public abstract double getTankLeftSpeed();
     public abstract double getTankRightSpeed();
+
     public abstract boolean doSwitchHighGear();
     public abstract boolean doSwitchLowGear();
 
     public abstract boolean doToggleIntakeExtension();
-    public abstract boolean doToggleIntakeForward();
-    public abstract boolean doToggleIntakeReverse();
+
+    public abstract boolean doGroundIntake();
+    public abstract boolean doHumanPlayerIntake();
 
     public abstract boolean doToggleIndexerAlignMode();
-    public abstract boolean doToggleIndexerShooterMode();
-    public abstract boolean doIndexerForward();
-    public abstract boolean doIndexerReverse();
+    public abstract boolean doIndexerShooterMode();
+
+    public abstract double getIndexerSpeed();
+    public abstract double getIntakeSpeed();
     public abstract boolean doLiftMotorForward();
     public abstract boolean doLiftMotorReverse();
 
@@ -23,5 +26,7 @@ public abstract class ControlScheme {
     public abstract boolean doAutoAlignTurret();
     public abstract boolean doTurnTurretClockwise();
     public abstract boolean doTurnTurretCounterclockwise();
+
+
 
 }

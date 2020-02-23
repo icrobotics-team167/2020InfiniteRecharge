@@ -24,17 +24,10 @@ public class Indexer {
 
     public static enum Mode {
         OFF("OFF"),
-        TURN_OFF_LIFT_FORWARD("TURN_OFF_LIFT_FORWARD"),
-        TURN_OFF_LIFT_REVERSE("TURN_OFF_LIFT_REVERSE"),
-        TURN_FORWARD_LIFT_OFF("TURN_FORWARD_LIFT_OFF"),
-        TURN_FORWARD_LIFT_FORWARD("TURN_FORWARD_LIFT_FORWARD"),
-        TURN_FORWARD_LIFT_REVERSE("TURN_FORWARD_LIFT_REVERSE"),
-        TURN_REVERSE_LIFT_OFF("TURN_REVERSE_LIFT_OFF"),
-        TURN_REVERSE_LIFT_FORWARD("TURN_REVERSE_LIFT_FORWARD"),
-        TURN_REVERSE_LIFT_REVERSE("TURN_REVERSE_LIFT_REVERSE"),
         SMART_INTAKE("SMART_INTAKE"),
         GAP_ALIGNMENT("GAP_ALIGNMENT"),
-        SMART_SHOOT("SMART_SHOOT");
+        SMART_SHOOT("SMART_SHOOT"),
+        MANUAL("MANUAL");
 
         public final String name;
 
@@ -53,6 +46,9 @@ public class Indexer {
     private PeriodicTimer liftTimer;
     private PeriodicTimer antiJamTimer;
     private Mode mode;
+
+    private double liftSpeed;
+    private double indexerSpeed;
 
     private Indexer() {
         turnMotorController = new CANSparkMax(Config.Ports.Indexer.TURN_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless);
@@ -90,54 +86,6 @@ public class Indexer {
                 servo.set(0.5);
                 liftTimer.reset();
                 return;
-            case TURN_OFF_LIFT_FORWARD:
-                turnMotorController.set(0);
-                liftMotorController.set(ControlMode.PercentOutput, 0.35);
-                servo.set(1);
-                liftTimer.reset();
-                return;
-            case TURN_OFF_LIFT_REVERSE:
-                turnMotorController.set(0);
-                liftMotorController.set(ControlMode.PercentOutput, -0.35);
-                servo.set(1);
-                liftTimer.reset();
-                return;
-            case TURN_FORWARD_LIFT_OFF:
-                turnMotorController.set(0.15);
-                liftMotorController.set(ControlMode.PercentOutput, 0);
-                servo.set(1);
-                liftTimer.reset();
-                return;
-            case TURN_FORWARD_LIFT_FORWARD:
-                turnMotorController.set(0.15);
-                liftMotorController.set(ControlMode.PercentOutput, 0.35);
-                servo.set(1);
-                liftTimer.reset();
-                return;
-            case TURN_FORWARD_LIFT_REVERSE:
-                turnMotorController.set(0.15);
-                liftMotorController.set(ControlMode.PercentOutput, -0.35);
-                servo.set(1);
-                liftTimer.reset();
-                return;
-            case TURN_REVERSE_LIFT_OFF:
-                turnMotorController.set(-0.15);
-                liftMotorController.set(ControlMode.PercentOutput, 0);
-                servo.set(1);
-                liftTimer.reset();
-                return;
-            case TURN_REVERSE_LIFT_FORWARD:
-                turnMotorController.set(-0.15);
-                liftMotorController.set(ControlMode.PercentOutput, 0.35);
-                servo.set(1);
-                liftTimer.reset();
-                return;
-            case TURN_REVERSE_LIFT_REVERSE:
-                turnMotorController.set(-0.15);
-                liftMotorController.set(ControlMode.PercentOutput, -0.35);
-                servo.set(1);
-                liftTimer.reset();
-                return;
             case SMART_INTAKE:
                 servo.set(1);
                 if (!startupTimer.hasElapsed(0.3)) {
@@ -164,7 +112,8 @@ public class Indexer {
                     gapAligned = true;
                     servo.set(0.5);
                     turnMotorController.set(0);
-                    liftMotorController.set(ControlMode.PercentOutput, 0.35);
+                    liftMotorController.set(ControlMode.PercentOutput, 0);
+                    liftTimer.reset();
                 } else {
                     gapAligned = false;
                     servo.set(1);
@@ -197,6 +146,9 @@ public class Indexer {
                     antiJamTimer.reset();
                 }
                 return;
+            case MANUAL:
+                liftMotorController.set(ControlMode.PercentOutput, liftSpeed);
+                turnMotorController.set(indexerSpeed);
             default:
                 turnMotorController.set(0);
                 liftMotorController.set(ControlMode.PercentOutput, 0);
@@ -222,6 +174,14 @@ public class Indexer {
 
     public Mode getMode() {
         return mode;
+    }
+
+    public void setLiftSpeed(double speed) {
+        liftSpeed = speed;
+    } 
+
+    public void setIndexerSpeed(double speed) {
+        indexerSpeed = speed;
     }
 
 }
