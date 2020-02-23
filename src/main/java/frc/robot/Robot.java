@@ -100,8 +100,11 @@ public class Robot extends TimedRobot {
         SmartDashboard.putNumber("limelight/distance", Subsystems.limelight.distance());
 
         SmartDashboard.putNumber("shooter/rpm", Subsystems.shooter.getRPM());
+        SmartDashboard.putBoolean("shooter/upToSpeed", Subsystems.shooter.isUpToSpeed());
         SmartDashboard.putNumber("shooter/left/voltage", Subsystems.shooter.getLeftVoltage());
         SmartDashboard.putNumber("shooter/right/voltage", Subsystems.shooter.getRightVoltage());
+
+        SmartDashboard.putBoolean("indexer/gapAligned", Subsystems.indexer.isGapAligned());
     }
 
     @Override
