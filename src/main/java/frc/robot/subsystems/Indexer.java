@@ -43,9 +43,8 @@ public class Indexer {
     private PeriodicTimer liftTimer;
     private PeriodicTimer antiJamTimer;
     private Mode mode;
-
-    private double liftSpeed;
-    private double indexerSpeed;
+    private double manualTurnSpeed;
+    private double manualLiftSpeed;
 
     private Indexer() {
         turnMotorController = new CANSparkMax(Config.Ports.Indexer.TURN_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless);
@@ -109,15 +108,13 @@ public class Indexer {
                     gapAligned = true;
                     servo.set(0.5);
                     turnMotorController.set(0);
-                    liftMotorController.set(0);
-                    liftTimer.reset();
                 } else {
                     gapAligned = false;
                     servo.set(1);
                     turnMotorController.set(0.15);
-                    liftMotorController.set(0);
-                    liftTimer.reset();
                 }
+                liftMotorController.set(0);
+                liftTimer.reset();
                 return;
             case SMART_SHOOT:
                 servo.set(1);
@@ -144,8 +141,11 @@ public class Indexer {
                 }
                 return;
             case MANUAL:
-                liftMotorController.set(liftSpeed);
-                turnMotorController.set(indexerSpeed);
+                servo.set(1);
+                turnMotorController.set(manualTurnSpeed);
+                liftMotorController.set(manualLiftSpeed);
+                liftTimer.reset();
+                return;
             default:
                 turnMotorController.set(0);
                 liftMotorController.set(0);
@@ -167,7 +167,6 @@ public class Indexer {
     }
 
     public void setMode(Mode mode) {
-        System.out.println("Changed indexer mode to Indexer.Mode." + mode.name);
         if (mode != this.mode) {
             startupTimer.reset();
         }
@@ -181,12 +180,12 @@ public class Indexer {
         return mode;
     }
 
-    public void setLiftSpeed(double speed) {
-        liftSpeed = speed;
+    public void setManualTurnSpeed(double speed) {
+        manualTurnSpeed = speed;
     }
 
-    public void setIndexerSpeed(double speed) {
-        indexerSpeed = speed;
+    public void setManualLiftSpeed(double speed) {
+        manualLiftSpeed = speed;
     }
 
 }

@@ -33,12 +33,17 @@ public class DoubleController extends ControlScheme {
 
     @Override
     public boolean doSwitchHighGear() {
-        return primary.getRightStickButton();
+        return primary.getRightStickButtonToggled();
     }
 
     @Override
     public boolean doSwitchLowGear() {
-        return primary.getLeftStickButton();
+        return primary.getLeftStickButtonToggled();
+    }
+
+    @Override
+    public boolean doToggleGearing() {
+        return false;
     }
 
     @Override
@@ -47,9 +52,44 @@ public class DoubleController extends ControlScheme {
     }
 
     @Override
-    public double getIntakeSpeed() { 
-        if (secondary.getRightStickY() < 0.2) return 0;
-        return secondary.getRightStickY() * 0.5;
+    public boolean doGroundIntake() {
+        return secondary.getLeftTrigger();
+    }
+
+    @Override
+    public boolean doToggleGroundIntakeExtension() {
+        return secondary.getLeftTriggerToggled();
+    }
+
+    @Override
+    public boolean doHumanPlayerIntake() {
+        return secondary.getRightTrigger();
+    }
+
+    @Override
+    public boolean doToggleHumanPlayerIntakeRetraction() {
+        return secondary.getRightTriggerToggled();
+    }
+
+    @Override
+    public boolean doRunIntakeManually() {
+        return getIntakeManualSpeed() != 0;
+    }
+
+    @Override
+    public double getIntakeManualSpeed() {
+        if (!Config.Settings.INTAKE_DEAD_ZONE_ENABLED) {
+            return 0.5 * secondary.getRightStickY();
+        }
+        double speed = secondary.getRightStickY();
+        double deadZoneSize = Math.abs(Config.Tolerances.INTAKE_DEAD_ZONE_SIZE);
+        if (Math.abs(speed) < deadZoneSize) {
+            return 0;
+        } else if (speed > 0) {
+            return ((0.5 * speed) / (1 - deadZoneSize)) - ((0.5 * deadZoneSize) / (1 - deadZoneSize));
+        } else {
+            return ((0.5 * speed) / (1 - deadZoneSize)) + ((0.5 * deadZoneSize) / (1 - deadZoneSize));
+        }
     }
 
     @Override
@@ -63,18 +103,33 @@ public class DoubleController extends ControlScheme {
     }
 
     @Override
-    public double getIndexerSpeed() {
-        if (secondary.getLeftStickX() < 0.2) return 0;
-        return secondary.getLeftStickX() * 0.5;
+    public boolean doRunIndexerManually() {
+        return getIndexerManualSpeed() != 0;
     }
 
     @Override
-    public boolean doLiftMotorForward() {
+    public double getIndexerManualSpeed() {
+        if (!Config.Settings.INDEXER_DEAD_ZONE_ENABLED) {
+            return 0.5 * secondary.getLeftStickX();
+        }
+        double speed = secondary.getLeftStickX();
+        double deadZoneSize = Math.abs(Config.Tolerances.INDEXER_DEAD_ZONE_SIZE);
+        if (Math.abs(speed) < deadZoneSize) {
+            return 0;
+        } else if (speed > 0) {
+            return ((0.5 * speed) / (1 - deadZoneSize)) - ((0.5 * deadZoneSize) / (1 - deadZoneSize));
+        } else {
+            return ((0.5 * speed) / (1 - deadZoneSize)) + ((0.5 * deadZoneSize) / (1 - deadZoneSize));
+        }
+    }
+
+    @Override
+    public boolean doLiftMotorForwardManually() {
         return secondary.getXButton();
     }
 
     @Override
-    public boolean doLiftMotorReverse() {
+    public boolean doLiftMotorReverseManually() {
         return secondary.getYButton();
     }
 
@@ -96,16 +151,6 @@ public class DoubleController extends ControlScheme {
     @Override
     public boolean doTurnTurretCounterclockwise() {
         return primary.getLeftBumper();
-    }
-
-    @Override
-    public boolean doGroundIntake() {
-        return secondary.getRightTrigger();
-    }
-
-    @Override
-    public boolean doHumanPlayerIntake() {
-        return secondary.getLeftTrigger();
     }
 
 }

@@ -2,7 +2,6 @@ package frc.robot.routines;
 
 import frc.robot.controls.controlschemes.ControlScheme;
 import frc.robot.subsystems.*;
-import frc.robot.subsystems.drive.SparkTankDriveBase;
 import frc.robot.subsystems.drive.TankDriveBase;
 
 public class Teleop {
@@ -32,53 +31,68 @@ public class Teleop {
     }
 
     public void periodic() {
+        // Drive base
         driveBase.tankDrive(controls.getTankLeftSpeed(), controls.getTankRightSpeed());
-        // if (driveBase instanceof SparkTankDriveBase) {
-        //     ((SparkTankDriveBase) driveBase).testMotor();
-        // }
-
         if (controls.doSwitchHighGear()) {
             driveBase.setHighGear();
         } else if (controls.doSwitchLowGear()) {
             driveBase.setLowGear();
+        } else if (controls.doToggleGearing()) {
+            driveBase.toggleGearing();
         }
 
+        // Intake and indexer
         if (controls.doToggleIntakeExtension()) {
             intake.toggleExtension();
-        }
-
-        if (controls.doGroundIntake()) {
+        } else if (controls.doToggleGroundIntakeExtension()) {
             intake.extend();
-            intake.setMode(Intake.Mode.FORWARD);
-            indexer.setMode(Indexer.Mode.SMART_INTAKE);
-        } else if (controls.doHumanPlayerIntake()) {
+        } else if (controls.doToggleHumanPlayerIntakeRetraction()) {
             intake.retract();
+        }
+        if (controls.doGroundIntake() || controls.doHumanPlayerIntake()) {
             intake.setMode(Intake.Mode.FORWARD);
-            indexer.setMode(Indexer.Mode.SMART_INTAKE);
+            if (indexer.getMode() == Indexer.Mode.GAP_ALIGNMENT && !indexer.isGapAligned()) {
+                indexer.setMode(Indexer.Mode.SMART_INTAKE);
+            }
+        } else if (controls.doRunIntakeManually()) {
+            intake.setManualSpeed(controls.getIntakeManualSpeed());
+            intake.setMode(Intake.Mode.MANUAL);
+        } else {
+            intake.setMode(Intake.Mode.OFF);
+        }
+        intake.run();
+        if (controls.doRunIndexerManually() || controls.doLiftMotorForwardManually() || controls.doLiftMotorReverseManually()) {
+            indexer.setManualTurnSpeed(controls.getIndexerManualSpeed());
+            if (controls.doLiftMotorForwardManually()) {
+                indexer.setManualLiftSpeed(0.35);
+            } else if (controls.doLiftMotorReverseManually()) {
+                indexer.setManualLiftSpeed(-0.35);
+            } else {
+                indexer.setManualLiftSpeed(0);
+            }
+            indexer.setMode(Indexer.Mode.MANUAL);
+        } else if (controls.doIndexerShooterMode()) {
+            if ((indexer.isGapAligned() && shooter.isUpToSpeed()) || indexer.getMode() == Indexer.Mode.SMART_SHOOT) {
+                indexer.setMode(Indexer.Mode.SMART_SHOOT);
+            }
         } else if (controls.doToggleIndexerAlignMode()) {
             if (indexer.getMode() == Indexer.Mode.GAP_ALIGNMENT) {
                 indexer.setMode(Indexer.Mode.OFF);
-            } else if (indexer.getMode() == Indexer.Mode.OFF) {
+            } else {
                 indexer.setMode(Indexer.Mode.GAP_ALIGNMENT);
             }
-        } else if (controls.doIndexerShooterMode() && indexer.isGapAligned() && shooter.isUpToSpeed()) {
-            indexer.setMode(Indexer.Mode.SMART_SHOOT);
-        } else {
-            indexer.setMode(Indexer.Mode.MANUAL);
-            indexer.setIndexerSpeed(controls.getIndexerSpeed());
-            indexer.setLiftSpeed(controls.doLiftMotorForward() ? 0.35 : (controls.doLiftMotorReverse() ? -0.35 : 0));
-
-            intake.setMode(Intake.Mode.MANUAL);
-            intake.setSpeed(controls.getIntakeSpeed());
+        } else if (indexer.getMode() != Indexer.Mode.GAP_ALIGNMENT && !controls.doGroundIntake() && !controls.doHumanPlayerIntake()) {
+            indexer.setMode(Indexer.Mode.OFF);
         }
-        intake.run();
         indexer.run();
 
+        // Shooter
         if (controls.doToggleShooter()) {
             shooter.toggle();
         }
         shooter.run();
 
+        // Turret
         if (controls.doAutoAlignTurret()) {
             turret.setMode(Turret.Mode.AUTO_ALIGN);
         } else if (controls.doTurnTurretClockwise()) {

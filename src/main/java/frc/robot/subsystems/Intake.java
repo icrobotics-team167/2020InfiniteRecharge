@@ -96,7 +96,7 @@ public class Intake {
         }
     }
 
-    public void setSpeed(double speed) {
+    public void setManualSpeed(double speed) {
         manualSpeed = speed;
     }
 

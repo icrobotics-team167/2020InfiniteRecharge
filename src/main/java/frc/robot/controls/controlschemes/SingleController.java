@@ -40,12 +40,42 @@ public class SingleController extends ControlScheme {
     }
 
     @Override
+    public boolean doToggleGearing() {
+        return false;
+    }
+
+    @Override
     public boolean doToggleIntakeExtension() {
         return primary.getBButtonToggled();
     }
 
     @Override
-    public double getIndexerSpeed() {
+    public boolean doGroundIntake() {
+        return primary.getLeftBumper();
+    }
+
+    @Override
+    public boolean doToggleGroundIntakeExtension() {
+        return primary.getLeftBumperToggled();
+    }
+
+    @Override
+    public boolean doHumanPlayerIntake() {
+        return primary.getRightBumper();
+    }
+
+    @Override
+    public boolean doToggleHumanPlayerIntakeRetraction() {
+        return primary.getRightBumperToggled();
+    }
+
+    @Override
+    public boolean doRunIntakeManually() {
+        return getIntakeManualSpeed() != 0;
+    }
+
+    @Override
+    public double getIntakeManualSpeed() {
         return 0;
     }
 
@@ -56,27 +86,32 @@ public class SingleController extends ControlScheme {
 
     @Override
     public boolean doIndexerShooterMode() {
-        return primary.getMenuButtonToggled();
+        return primary.getRightTrigger();
     }
 
     @Override
-    public double getIntakeSpeed() {
+    public boolean doRunIndexerManually() {
+        return getIndexerManualSpeed() != 0;
+    }
+
+    @Override
+    public double getIndexerManualSpeed() {
         return 0;
     }
 
     @Override
-    public boolean doLiftMotorForward() {
+    public boolean doLiftMotorForwardManually() {
         return false;
     }
 
     @Override
-    public boolean doLiftMotorReverse() {
+    public boolean doLiftMotorReverseManually() {
         return false;
     }
 
     @Override
     public boolean doToggleShooter() {
-        return primary.getRightTriggerToggled();
+        return primary.getYButtonToggled();
     }
 
     @Override
@@ -86,22 +121,12 @@ public class SingleController extends ControlScheme {
 
     @Override
     public boolean doTurnTurretClockwise() {
-        return primary.getRightBumper();
+        return primary.getMenuButton();
     }
 
     @Override
     public boolean doTurnTurretCounterclockwise() {
-        return primary.getLeftBumper();
-    }
-
-    @Override
-    public boolean doGroundIntake() {
-        return false;
-    }
-
-    @Override
-    public boolean doHumanPlayerIntake() {
-        return false;
+        return primary.getViewButton();
     }
 
 }

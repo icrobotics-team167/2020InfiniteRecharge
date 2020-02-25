@@ -15,7 +15,8 @@ public class Config {
 
         // Dead zones
         public static final boolean TANK_DEAD_ZONE_ENABLED = true;
-        public static final boolean TURRET_TURN_DEAD_ZONE_ENABLED = true;
+        public static final boolean INTAKE_DEAD_ZONE_ENABLED = true;
+        public static final boolean INDEXER_DEAD_ZONE_ENABLED = true;
 
         // CPU period (seconds)
         public static final double CPU_PERIOD = 0.02;
@@ -31,10 +32,13 @@ public class Config {
         public static final double TRIGGER_PRESSED_THRESHOLD = 0.2;
 
         // Tank drive dead zone size
-        public static final double TANK_DEAD_ZONE_SIZE = 0.14;
+        public static final double TANK_DEAD_ZONE_SIZE = 0.08;
 
-        // Turret manual turn dead zone size
-        public static final double TURRET_TURN_DEAD_ZONE_SIZE = 0.03;
+        // Intake manual speed dead zone size
+        public static final double INTAKE_DEAD_ZONE_SIZE = 0.2;
+
+        // Indexer manual speed dead zone size
+        public static final double INDEXER_DEAD_ZONE_SIZE = 0.2;
 
     }
 

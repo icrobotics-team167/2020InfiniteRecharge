@@ -23,12 +23,42 @@ public class NullController extends ControlScheme {
     }
 
     @Override
+    public boolean doToggleGearing() {
+        return false;
+    }
+
+    @Override
     public boolean doToggleIntakeExtension() {
         return false;
     }
 
     @Override
-    public double getIntakeSpeed() {
+    public boolean doGroundIntake() {
+        return false;
+    }
+
+    @Override
+    public boolean doToggleGroundIntakeExtension() {
+        return false;
+    }
+
+    @Override
+    public boolean doHumanPlayerIntake() {
+        return false;
+    }
+
+    @Override
+    public boolean doToggleHumanPlayerIntakeRetraction() {
+        return false;
+    }
+
+    @Override
+    public boolean doRunIntakeManually() {
+        return false;
+    }
+
+    @Override
+    public double getIntakeManualSpeed() {
         return 0;
     }
 
@@ -43,17 +73,22 @@ public class NullController extends ControlScheme {
     }
 
     @Override
-    public double getIndexerSpeed() {
-        return 0;
-    }
-
-    @Override
-    public boolean doLiftMotorForward() {
+    public boolean doRunIndexerManually() {
         return false;
     }
 
     @Override
-    public boolean doLiftMotorReverse() {
+    public double getIndexerManualSpeed() {
+        return 0;
+    }
+
+    @Override
+    public boolean doLiftMotorForwardManually() {
+        return false;
+    }
+
+    @Override
+    public boolean doLiftMotorReverseManually() {
         return false;
     }
 
@@ -77,14 +112,4 @@ public class NullController extends ControlScheme {
         return false;
     }
 
-    @Override
-    public boolean doGroundIntake() {
-        return false;
-    }
-
-    @Override
-    public boolean doHumanPlayerIntake() {
-        return false;
-    }
-    
 }
