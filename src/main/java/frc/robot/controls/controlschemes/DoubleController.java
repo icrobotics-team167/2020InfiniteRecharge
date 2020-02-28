@@ -2,6 +2,7 @@ package frc.robot.controls.controlschemes;
 
 import frc.robot.Config;
 import frc.robot.controls.controllers.Controller;
+import frc.robot.controls.controllers.PSController;
 
 public class DoubleController extends ControlScheme {
 
@@ -53,22 +54,22 @@ public class DoubleController extends ControlScheme {
 
     @Override
     public boolean doGroundIntake() {
-        return secondary.getLeftTrigger();
-    }
-
-    @Override
-    public boolean doToggleGroundIntakeExtension() {
-        return secondary.getLeftTriggerToggled();
-    }
-
-    @Override
-    public boolean doHumanPlayerIntake() {
         return secondary.getRightTrigger();
     }
 
     @Override
-    public boolean doToggleHumanPlayerIntakeRetraction() {
+    public boolean doToggleGroundIntakeExtension() {
         return secondary.getRightTriggerToggled();
+    }
+
+    @Override
+    public boolean doHumanPlayerIntake() {
+        return secondary.getLeftTrigger();
+    }
+
+    @Override
+    public boolean doToggleHumanPlayerIntakeRetraction() {
+        return secondary.getLeftTriggerToggled();
     }
 
     @Override
@@ -151,6 +152,32 @@ public class DoubleController extends ControlScheme {
     @Override
     public boolean doTurnTurretCounterclockwise() {
         return primary.getLeftBumper();
+    }
+
+    @Override
+    public boolean doToggleClimbExtension() {
+        if (primary.isPSController()) {
+            return ((PSController) primary).getTouchpadButtonToggled();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean doClimbUp() {
+        return primary.getRightTrigger();
+    }
+
+    @Override
+    public boolean doClimbDown() {
+        return primary.getLeftTrigger();
+    }
+
+    @Override
+    public boolean doClimbReset() {
+        if (primary.isPSController()) {
+            return ((PSController) primary).getPSButton();
+        }
+        return false;
     }
 
 }

@@ -65,6 +65,7 @@ public class TalonTankDriveBase implements TankDriveBase {
 
     @Override
     public void tankDrive(double leftSpeed, double rightSpeed) {
+        System.out.println(leftSpeed);
         for (TalonSRX motorController : leftMotorGroup) {
             motorController.set(ControlMode.PercentOutput, -leftSpeed);
         }

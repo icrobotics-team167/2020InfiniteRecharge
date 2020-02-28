@@ -13,6 +13,7 @@ public class Subsystems {
     public static final Limelight limelight;
     public static final Turret turret;
     public static final Shooter shooter;
+    public static final Climb climb;
 
     static {
         if (Config.Settings.SPARK_TANK_ENABLED) {
@@ -30,9 +31,20 @@ public class Subsystems {
         turret = Turret.getInstance();
 
         shooter = Shooter.getInstance();
+
+        climb = Climb.getInstance();
     }
 
     public static void setInitialStates() {
+        intake.setMode(Intake.Mode.OFF);
+        intake.retract();
+        indexer.setMode(Indexer.Mode.OFF);
+        turret.setMode(Turret.Mode.OFF);
+        shooter.stop();
+        climb.reset();
+    }
+
+    public static void setClimbStates() {
         intake.setMode(Intake.Mode.OFF);
         intake.retract();
         indexer.setMode(Indexer.Mode.OFF);

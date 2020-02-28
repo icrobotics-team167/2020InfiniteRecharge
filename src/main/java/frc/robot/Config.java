@@ -105,6 +105,13 @@ public class Config {
             public static final int RIGHT = 9;
         }
 
+        // Climb ports
+        public static final class Climb {
+            public static final int LOWER = 5;
+            public static final int UPPER = 10;
+            public static final int WINCH = 15;
+        }
+
     }
 
 }
