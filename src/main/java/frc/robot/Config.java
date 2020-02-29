@@ -11,7 +11,7 @@ public class Config {
 
         // Controllers
         public static final ControllerType PRIMARY_CONTROLLER_TYPE = ControllerType.PS;
-        public static final ControllerType SECONDARY_CONTROLLER_TYPE = ControllerType.XB;
+        public static final ControllerType SECONDARY_CONTROLLER_TYPE = ControllerType.PS;
 
         // Dead zones
         public static final boolean TANK_DEAD_ZONE_ENABLED = true;
@@ -22,7 +22,7 @@ public class Config {
         public static final double CPU_PERIOD = 0.02;
 
         // Shooting RPM
-        public static final int SHOOTING_RPM = 5000;
+        public static final int SHOOTING_RPM = 4400;
 
     }
 

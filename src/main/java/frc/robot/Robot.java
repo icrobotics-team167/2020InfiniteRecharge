@@ -80,9 +80,9 @@ public class Robot extends TimedRobot {
             controls = new NullController();
         }
 
-        // new Thread(() -> {
-        //     UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
-        // }).start();
+        new Thread(() -> {
+            UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+        }).start();
 
         Subsystems.setInitialStates();
 

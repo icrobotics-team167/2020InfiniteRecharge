@@ -84,14 +84,14 @@ public class Indexer {
                 return;
             case SMART_INTAKE:
                 servo.set(1);
-                if (!startupTimer.hasElapsed(0.5)) {
+                if (!startupTimer.hasElapsed(1)) {
                     turnMotorController.set(0.15);
                     liftMotorController.set(0);
                     antiJamTimer.reset();
-                } else if (turnEncoder.getVelocity() < 1200 && !antiJamTimer.hasElapsed(1.5)) {
+                } else if (turnEncoder.getVelocity() < 900 && !antiJamTimer.hasElapsed(1.5)) {
                     turnMotorController.set(-0.15);
                     liftMotorController.set(0);
-                } else if (turnEncoder.getVelocity() < 1200) {
+                } else if (turnEncoder.getVelocity() < 900) {
                     turnMotorController.set(0.15);
                     liftMotorController.set(0);
                     antiJamTimer.reset();
@@ -119,24 +119,24 @@ public class Indexer {
             case SMART_SHOOT:
                 servo.set(1);
                 if (!liftTimer.hasElapsed(0.6)) {
-                    liftMotorController.set(0.595);
+                    liftMotorController.set(0.65);
                     turnMotorController.set(0);
                     antiJamTimer.reset();
                 } else if (!startupTimer.hasElapsed(1)) {
-                    liftMotorController.set(0.595);
-                    turnMotorController.set(0.25);
+                    liftMotorController.set(0.65);
+                    turnMotorController.set(0.3);
                     antiJamTimer.reset();
-                } else if (turnEncoder.getVelocity() < 2000 && !antiJamTimer.hasElapsed(1.5)) {
+                } else if (turnEncoder.getVelocity() < 1500 && !antiJamTimer.hasElapsed(1.5)) {
                     liftMotorController.set(0);
                     turnMotorController.set(-0.15);
-                } else if (turnEncoder.getVelocity() < 2000) {
-                    liftMotorController.set(0.595);
+                } else if (turnEncoder.getVelocity() < 1500) {
+                    liftMotorController.set(0.65);
                     turnMotorController.set(0);
                     antiJamTimer.reset();
                     startupTimer.reset();
                 } else {
-                    liftMotorController.set(0.595);
-                    turnMotorController.set(0.25);
+                    liftMotorController.set(0.65);
+                    turnMotorController.set(0.3);
                     antiJamTimer.reset();
                 }
                 return;
