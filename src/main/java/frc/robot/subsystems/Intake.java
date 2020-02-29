@@ -48,9 +48,9 @@ public class Intake {
                 break;
             case FORWARD:
                 if (extended) {
-                    motor.set(ControlMode.PercentOutput, 0.35);
+                    motor.set(ControlMode.PercentOutput, 0.651);
                 } else {
-                    motor.set(ControlMode.PercentOutput, 0.2);
+                    motor.set(ControlMode.PercentOutput, 0.4);
                 }
                 break;
             case REVERSE:
@@ -62,6 +62,7 @@ public class Intake {
                 break;
             case MANUAL:
                 motor.set(ControlMode.PercentOutput, manualSpeed);
+                break;
             default:
                 motor.set(ControlMode.PercentOutput, 0);
                 break;

@@ -51,8 +51,8 @@ public class Indexer {
         turnMotorController.restoreFactoryDefaults();
         turnMotorController.setIdleMode(CANSparkMax.IdleMode.kBrake);
         turnMotorController.setInverted(true);
-        turnMotorController.setOpenLoopRampRate(0);
-        turnMotorController.setClosedLoopRampRate(0);
+        turnMotorController.setOpenLoopRampRate(0.75);
+        turnMotorController.setClosedLoopRampRate(0.75);
         turnMotorController.setSmartCurrentLimit(80);
         turnMotorController.setSecondaryCurrentLimit(40);
 
@@ -62,7 +62,7 @@ public class Indexer {
         gapAligned = false;
 
         liftMotorController = new CANSparkMax(Config.Ports.Indexer.LIFT_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless);
-        liftMotorController.setInverted(true);
+        liftMotorController.setInverted(false);
         liftMotorController.setIdleMode(CANSparkMax.IdleMode.kBrake);
 
         servo = new Servo(Config.Ports.Indexer.SERVO);
@@ -84,14 +84,14 @@ public class Indexer {
                 return;
             case SMART_INTAKE:
                 servo.set(1);
-                if (!startupTimer.hasElapsed(0.3)) {
+                if (!startupTimer.hasElapsed(0.5)) {
                     turnMotorController.set(0.15);
                     liftMotorController.set(0);
                     antiJamTimer.reset();
-                } else if (turnEncoder.getVelocity() < 30 && !antiJamTimer.hasElapsed(1.5)) {
+                } else if (turnEncoder.getVelocity() < 1200 && !antiJamTimer.hasElapsed(1.5)) {
                     turnMotorController.set(-0.15);
                     liftMotorController.set(0);
-                } else if (turnEncoder.getVelocity() < 30) {
+                } else if (turnEncoder.getVelocity() < 1200) {
                     turnMotorController.set(0.15);
                     liftMotorController.set(0);
                     antiJamTimer.reset();
@@ -119,23 +119,23 @@ public class Indexer {
             case SMART_SHOOT:
                 servo.set(1);
                 if (!liftTimer.hasElapsed(0.6)) {
-                    liftMotorController.set(0.35);
+                    liftMotorController.set(0.595);
                     turnMotorController.set(0);
                     antiJamTimer.reset();
-                } else if (!startupTimer.hasElapsed(1.2)) {
-                    liftMotorController.set(0.35);
+                } else if (!startupTimer.hasElapsed(1)) {
+                    liftMotorController.set(0.595);
                     turnMotorController.set(0.25);
                     antiJamTimer.reset();
-                } else if (turnEncoder.getVelocity() < 40 && !antiJamTimer.hasElapsed(1.5)) {
+                } else if (turnEncoder.getVelocity() < 2000 && !antiJamTimer.hasElapsed(1.5)) {
                     liftMotorController.set(0);
                     turnMotorController.set(-0.15);
-                } else if (turnEncoder.getVelocity() < 40) {
-                    liftMotorController.set(0.35);
+                } else if (turnEncoder.getVelocity() < 2000) {
+                    liftMotorController.set(0.595);
                     turnMotorController.set(0);
                     antiJamTimer.reset();
                     startupTimer.reset();
                 } else {
-                    liftMotorController.set(0.35);
+                    liftMotorController.set(0.595);
                     turnMotorController.set(0.25);
                     antiJamTimer.reset();
                 }
@@ -154,6 +154,10 @@ public class Indexer {
         }
     }
 
+    public boolean isLimitSwitchAligned() {
+        return !limitSwitch.get();
+    }
+
     public boolean isGapAligned() {
         return gapAligned;
     }
@@ -166,7 +170,18 @@ public class Indexer {
         return mode == Mode.SMART_SHOOT;
     }
 
+    public double getTurnRPM() {
+        return turnEncoder.getVelocity();
+    }
+
     public void setMode(Mode mode) {
+        if (mode == Mode.GAP_ALIGNMENT) {
+            turnMotorController.setOpenLoopRampRate(0);
+            turnMotorController.setClosedLoopRampRate(0);
+        } else {
+            turnMotorController.setOpenLoopRampRate(0.75);
+            turnMotorController.setClosedLoopRampRate(0.75);
+        }
         if (mode != this.mode) {
             startupTimer.reset();
         }

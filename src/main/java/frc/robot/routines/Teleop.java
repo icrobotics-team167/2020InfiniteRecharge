@@ -49,14 +49,21 @@ public class Teleop {
                 intake.toggleExtension();
             } else if (controls.doToggleGroundIntakeExtension()) {
                 intake.extend();
+                intake.setMode(Intake.Mode.FORWARD);
+                indexer.setMode(Indexer.Mode.SMART_INTAKE);
             } else if (controls.doToggleHumanPlayerIntakeRetraction()) {
                 intake.retract();
+                intake.setMode(Intake.Mode.FORWARD);
+                indexer.setMode(Indexer.Mode.SMART_INTAKE);
             }
             if (controls.doGroundIntake() || controls.doHumanPlayerIntake()) {
                 intake.setMode(Intake.Mode.FORWARD);
-                if (indexer.getMode() == Indexer.Mode.GAP_ALIGNMENT && !indexer.isGapAligned()) {
+                if (indexer.getMode() != Indexer.Mode.GAP_ALIGNMENT && indexer.getMode() != Indexer.Mode.SMART_SHOOT) {
                     indexer.setMode(Indexer.Mode.SMART_INTAKE);
                 }
+                // if (indexer.getMode() == Indexer.Mode.GAP_ALIGNMENT && !indexer.isGapAligned()) {
+                //     indexer.setMode(Indexer.Mode.SMART_INTAKE);
+                // }
             } else if (controls.doRunIntakeManually()) {
                 intake.setManualSpeed(controls.getIntakeManualSpeed());
                 intake.setMode(Intake.Mode.MANUAL);
@@ -67,9 +74,9 @@ public class Teleop {
             if (controls.doRunIndexerManually() || controls.doLiftMotorForwardManually() || controls.doLiftMotorReverseManually()) {
                 indexer.setManualTurnSpeed(controls.getIndexerManualSpeed());
                 if (controls.doLiftMotorForwardManually()) {
-                    indexer.setManualLiftSpeed(0.35);
+                    indexer.setManualLiftSpeed(0.595);
                 } else if (controls.doLiftMotorReverseManually()) {
-                    indexer.setManualLiftSpeed(-0.35);
+                    indexer.setManualLiftSpeed(-0.595);
                 } else {
                     indexer.setManualLiftSpeed(0);
                 }

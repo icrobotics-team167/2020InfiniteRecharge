@@ -14,7 +14,6 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import frc.robot.Config;
 
-
 public class SparkTankDriveBase implements TankDriveBase {
 
     private AHRS navx;

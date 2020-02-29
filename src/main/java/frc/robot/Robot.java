@@ -107,6 +107,8 @@ public class Robot extends TimedRobot {
         SmartDashboard.putBoolean("indexer/gapAligned", Subsystems.indexer.isGapAligned());
         SmartDashboard.putBoolean("indexer/isRunningAntiJam", Subsystems.indexer.isRunningAntiJam());
         SmartDashboard.putBoolean("indexer/isShooting", Subsystems.indexer.isShooting());
+
+        SmartDashboard.putNumber("indexer/rpm", Subsystems.indexer.getTurnRPM());
     }
 
     @Override

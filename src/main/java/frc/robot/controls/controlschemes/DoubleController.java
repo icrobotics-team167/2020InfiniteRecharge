@@ -95,7 +95,7 @@ public class DoubleController extends ControlScheme {
 
     @Override
     public boolean doToggleIndexerAlignMode() {
-        return secondary.getLeftTriggerToggled();
+        return secondary.getLeftBumperToggled();
     }
 
     @Override
@@ -111,16 +111,16 @@ public class DoubleController extends ControlScheme {
     @Override
     public double getIndexerManualSpeed() {
         if (!Config.Settings.INDEXER_DEAD_ZONE_ENABLED) {
-            return 0.5 * secondary.getLeftStickX();
+            return -0.35 * secondary.getLeftStickX();
         }
         double speed = secondary.getLeftStickX();
         double deadZoneSize = Math.abs(Config.Tolerances.INDEXER_DEAD_ZONE_SIZE);
         if (Math.abs(speed) < deadZoneSize) {
             return 0;
         } else if (speed > 0) {
-            return ((0.5 * speed) / (1 - deadZoneSize)) - ((0.5 * deadZoneSize) / (1 - deadZoneSize));
+            return -1 * (((0.35 * speed) / (1 - deadZoneSize)) - ((0.35 * deadZoneSize) / (1 - deadZoneSize)));
         } else {
-            return ((0.5 * speed) / (1 - deadZoneSize)) + ((0.5 * deadZoneSize) / (1 - deadZoneSize));
+            return -1 * (((0.35 * speed) / (1 - deadZoneSize)) + ((0.35 * deadZoneSize) / (1 - deadZoneSize)));
         }
     }
 
@@ -136,7 +136,7 @@ public class DoubleController extends ControlScheme {
 
     @Override
     public boolean doToggleShooter() {
-        return secondary.getRightTriggerToggled();
+        return secondary.getRightBumperToggled();
     }
 
     @Override
@@ -158,8 +158,9 @@ public class DoubleController extends ControlScheme {
     public boolean doToggleClimbExtension() {
         if (primary.isPSController()) {
             return ((PSController) primary).getTouchpadButtonToggled();
+        } else {
+            return primary.getMenuButtonToggled();
         }
-        return false;
     }
 
     @Override
@@ -176,8 +177,9 @@ public class DoubleController extends ControlScheme {
     public boolean doClimbReset() {
         if (primary.isPSController()) {
             return ((PSController) primary).getPSButton();
+        } else {
+            return primary.getViewButton();
         }
-        return false;
     }
 
 }
