@@ -47,7 +47,8 @@ public class Auto extends Action {
         timer.reset();
 
         follower = new RamseteController();
-        kinematics = new DifferentialDriveKinematics(Units.feetToMeters(2));
+        // Track width calculated with robot characterization
+        kinematics = new DifferentialDriveKinematics(0.678673198);
         odometry = new DifferentialDriveOdometry(Subsystems.driveBase.getGyroHeading(), trajectory.getInitialPose());
     }
 

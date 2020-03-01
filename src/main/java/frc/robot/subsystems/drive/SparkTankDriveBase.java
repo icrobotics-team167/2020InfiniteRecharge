@@ -11,6 +11,7 @@ import com.revrobotics.EncoderType;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.util.Units;
 import frc.robot.Config;
@@ -28,6 +29,9 @@ public class SparkTankDriveBase implements TankDriveBase {
     private CANEncoder rightEncoder;
     private CANPIDController leftPID;
     private CANPIDController rightPID;
+    private double previousLeftSpeed;
+    private double previousRightSpeed;
+    private SimpleMotorFeedforward feedforward;
     private DoubleSolenoid doubleSolenoid;
     private boolean highGear;
 
@@ -68,16 +72,21 @@ public class SparkTankDriveBase implements TankDriveBase {
         rightMaster.setOpenLoopRampRate(0);
         rightMaster.setClosedLoopRampRate(0);
 
+        previousLeftSpeed = 0;
+        previousRightSpeed = 0;
+        feedforward = new SimpleMotorFeedforward(0.169, 3.49, 0.532);
+
+        final double kP = 6e-4;
+        final double kI = 0;
+        final double kD = 0;
         leftPID = leftMaster.getPIDController();
-        leftPID.setP(6e-4);
-        leftPID.setI(0);
-        leftPID.setD(0);
-        leftPID.setFF(0.1);
+        leftPID.setP(kP);
+        leftPID.setI(kI);
+        leftPID.setD(kD);
         rightPID = rightMaster.getPIDController();
-        rightPID.setP(6e-4);
-        rightPID.setI(0);
-        rightPID.setD(0);
-        rightPID.setFF(0.1);
+        rightPID.setP(kP);
+        rightPID.setI(kI);
+        rightPID.setD(kD);
 
         leftSlave1.follow(leftMaster);
         leftSlave2.follow(leftMaster);
@@ -161,11 +170,18 @@ public class SparkTankDriveBase implements TankDriveBase {
     @Override
     public void setReferences(double leftMetersPerSecond, double rightMetersPerSecond) {
         double leftSpeed = metersPerSecondToRPM(leftMetersPerSecond);
+        double leftFF = feedforward.calculate(leftMetersPerSecond, (leftMetersPerSecond - previousLeftSpeed) / Config.Settings.CPU_PERIOD);
+        leftPID.setFF(leftFF);
         leftPID.setReference(leftSpeed, ControlType.kVelocity);
         System.out.println("Left RPM: " + leftSpeed);
+        System.out.println("Left FF: " + leftFF);
+
         double rightSpeed = metersPerSecondToRPM(rightMetersPerSecond);
+        double rightFF = feedforward.calculate(rightMetersPerSecond, (rightMetersPerSecond - previousRightSpeed) / Config.Settings.CPU_PERIOD);
+        rightPID.setFF(rightFF);
         rightPID.setReference(rightSpeed, ControlType.kVelocity);
         System.out.println("Right RPM: " + rightSpeed);
+        System.out.println("Right FF: " + rightFF);
     }
 
     @Override

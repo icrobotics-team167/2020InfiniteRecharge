@@ -121,8 +121,8 @@ public class TalonTankDriveBase implements TankDriveBase {
     }
 
     @Override
-    public void setReferences(double leftSpeed, double rightSpeed) {
-
+    public void setReferences(double leftMetersPerSecond, double rightMetersPerSecond) {
+        
     }
 
     @Override
