@@ -72,12 +72,12 @@ public class Config {
         public static final class SparkTank {
             public static final int PCM = 2;
 
-            public static final int LEFT_1 = 6;
-            public static final int LEFT_2 = 7;
-            public static final int LEFT_3 = 8;
-            public static final int RIGHT_1 = 3;
-            public static final int RIGHT_2 = 4;
-            public static final int RIGHT_3 = 5;
+            public static final int LEFT_1 = 3;
+            public static final int LEFT_2 = 4;
+            public static final int LEFT_3 = 5;
+            public static final int RIGHT_1 = 6;
+            public static final int RIGHT_2 = 7;
+            public static final int RIGHT_3 = 8;
             public static final int SOLENOID_FORWARD = 1;
             public static final int SOLENOID_REVERSE = 2;
         }

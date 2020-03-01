@@ -36,6 +36,8 @@ public class Subsystems {
     }
 
     public static void setInitialStates() {
+        driveBase.resetEncoders();
+        driveBase.setLowGear();
         intake.setMode(Intake.Mode.OFF);
         intake.retract();
         indexer.setMode(Indexer.Mode.OFF);

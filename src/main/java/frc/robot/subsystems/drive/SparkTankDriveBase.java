@@ -18,10 +18,14 @@ import frc.robot.Config;
 public class SparkTankDriveBase implements TankDriveBase {
 
     private AHRS navx;
-    private CANSparkMax[] leftMotorGroup;
-    private CANSparkMax[] rightMotorGroup;
-    private CANEncoder[] leftEncoders;
-    private CANEncoder[] rightEncoders;
+    private CANSparkMax leftMaster;
+    private CANSparkMax leftSlave1;
+    private CANSparkMax leftSlave2;
+    private CANSparkMax rightMaster;
+    private CANSparkMax rightSlave1;
+    private CANSparkMax rightSlave2;
+    private CANEncoder leftEncoder;
+    private CANEncoder rightEncoder;
     private CANPIDController leftPID;
     private CANPIDController rightPID;
     private DoubleSolenoid doubleSolenoid;
@@ -43,35 +47,42 @@ public class SparkTankDriveBase implements TankDriveBase {
             DriverStation.reportError("Error initializing the navX over SPI: " + e.toString(), e.getStackTrace());
         }
 
-        leftMotorGroup = new CANSparkMax[3];
-        leftMotorGroup[0] = new CANSparkMax(Config.Ports.SparkTank.LEFT_1, CANSparkMaxLowLevel.MotorType.kBrushless);
-        leftMotorGroup[1] = new CANSparkMax(Config.Ports.SparkTank.LEFT_2, CANSparkMaxLowLevel.MotorType.kBrushless);
-        leftMotorGroup[2] = new CANSparkMax(Config.Ports.SparkTank.LEFT_3, CANSparkMaxLowLevel.MotorType.kBrushless);
-        rightMotorGroup = new CANSparkMax[3];
-        rightMotorGroup[0] = new CANSparkMax(Config.Ports.SparkTank.RIGHT_1, CANSparkMaxLowLevel.MotorType.kBrushless);
-        rightMotorGroup[1] = new CANSparkMax(Config.Ports.SparkTank.RIGHT_2, CANSparkMaxLowLevel.MotorType.kBrushless);
-        rightMotorGroup[2] = new CANSparkMax(Config.Ports.SparkTank.RIGHT_3, CANSparkMaxLowLevel.MotorType.kBrushless);
+        leftMaster = new CANSparkMax(Config.Ports.SparkTank.LEFT_1, CANSparkMaxLowLevel.MotorType.kBrushless);
+        leftSlave1 = new CANSparkMax(Config.Ports.SparkTank.LEFT_2, CANSparkMaxLowLevel.MotorType.kBrushless);
+        leftSlave2 = new CANSparkMax(Config.Ports.SparkTank.LEFT_3, CANSparkMaxLowLevel.MotorType.kBrushless);
+        rightMaster = new CANSparkMax(Config.Ports.SparkTank.RIGHT_1, CANSparkMaxLowLevel.MotorType.kBrushless);
+        rightSlave1 = new CANSparkMax(Config.Ports.SparkTank.RIGHT_2, CANSparkMaxLowLevel.MotorType.kBrushless);
+        rightSlave2 = new CANSparkMax(Config.Ports.SparkTank.RIGHT_3, CANSparkMaxLowLevel.MotorType.kBrushless);
 
-        leftMotorGroup[0].restoreFactoryDefaults();
-        rightMotorGroup[0].restoreFactoryDefaults();
-        leftEncoders[0] = leftMotorGroup[0].getEncoder(EncoderType.kHallSensor, 4096);
-        rightEncoders[0] = rightMotorGroup[0].getEncoder(EncoderType.kHallSensor, 4096);
-        leftMotorGroup[0].setSmartCurrentLimit(80);
-        leftMotorGroup[0].setSecondaryCurrentLimit(60);
-        rightMotorGroup[0].setSmartCurrentLimit(80);
-        rightMotorGroup[0].setSecondaryCurrentLimit(60);
-        leftMotorGroup[0].setOpenLoopRampRate(0);
-        leftMotorGroup[0].setClosedLoopRampRate(0);
-        rightMotorGroup[0].setOpenLoopRampRate(0);
-        rightMotorGroup[0].setClosedLoopRampRate(0);
+        leftMaster.restoreFactoryDefaults();
+        rightMaster.restoreFactoryDefaults();
+        leftMaster.setInverted(true);
+        leftEncoder = leftMaster.getEncoder(EncoderType.kHallSensor, 4096);
+        rightEncoder = rightMaster.getEncoder(EncoderType.kHallSensor, 4096);
+        leftMaster.setSmartCurrentLimit(80);
+        leftMaster.setSecondaryCurrentLimit(60);
+        rightMaster.setSmartCurrentLimit(80);
+        rightMaster.setSecondaryCurrentLimit(60);
+        leftMaster.setOpenLoopRampRate(0);
+        leftMaster.setClosedLoopRampRate(0);
+        rightMaster.setOpenLoopRampRate(0);
+        rightMaster.setClosedLoopRampRate(0);
 
-        leftPID = leftMotorGroup[0].getPIDController();
-        rightPID = rightMotorGroup[0].getPIDController();
+        leftPID = leftMaster.getPIDController();
+        leftPID.setP(6e-4);
+        leftPID.setI(0);
+        leftPID.setD(0);
+        leftPID.setFF(0.1);
+        rightPID = rightMaster.getPIDController();
+        rightPID.setP(6e-4);
+        rightPID.setI(0);
+        rightPID.setD(0);
+        rightPID.setFF(0.1);
 
-        leftMotorGroup[1].follow(leftMotorGroup[0]);
-        leftMotorGroup[2].follow(leftMotorGroup[0]);
-        rightMotorGroup[1].follow(rightMotorGroup[0]);
-        rightMotorGroup[2].follow(rightMotorGroup[0]);
+        leftSlave1.follow(leftMaster);
+        leftSlave2.follow(leftMaster);
+        rightSlave1.follow(rightMaster);
+        rightSlave2.follow(rightMaster);
 
         doubleSolenoid = new DoubleSolenoid(
             Config.Settings.SPARK_TANK_ENABLED ? Config.Ports.SparkTank.PCM : Config.Ports.TalonTank.PCM,
@@ -84,12 +95,8 @@ public class SparkTankDriveBase implements TankDriveBase {
 
     @Override
     public void tankDrive(double leftSpeed, double rightSpeed) {
-        for (CANSparkMax motorController : leftMotorGroup) {
-            motorController.set(-leftSpeed);
-        }
-        for (CANSparkMax motorController : rightMotorGroup) {
-            motorController.set(rightSpeed);
-        }
+        rightMaster.set(-leftSpeed);
+        leftMaster.set(-rightSpeed);
     }
 
     @Override
@@ -124,8 +131,14 @@ public class SparkTankDriveBase implements TankDriveBase {
     }
 
     @Override
+    public void resetEncoders() {
+        leftEncoder.setPosition(0);
+        rightEncoder.setPosition(0);
+    }
+
+    @Override
     public double getLeftEncoderPosition() {
-        double encoderValue = leftEncoders[0].getPosition();
+        double encoderValue = leftEncoder.getPosition();
 
         if (highGear) {
             return Units.inchesToMeters(encoderValue * 5 * Math.PI / 4.17);
@@ -136,7 +149,7 @@ public class SparkTankDriveBase implements TankDriveBase {
 
     @Override
     public double getRightEncoderPosition() {
-        double encoderValue = rightEncoders[0].getPosition();
+        double encoderValue = rightEncoder.getPosition();
 
         if (highGear) {
             return Units.inchesToMeters(encoderValue * 5 * Math.PI / 4.17);
@@ -147,8 +160,12 @@ public class SparkTankDriveBase implements TankDriveBase {
 
     @Override
     public void setReferences(double leftMetersPerSecond, double rightMetersPerSecond) {
-        leftPID.setReference(metersPerSecondToRPM(leftMetersPerSecond), ControlType.kVelocity);
-        rightPID.setReference(metersPerSecondToRPM(rightMetersPerSecond), ControlType.kVelocity);
+        double leftSpeed = metersPerSecondToRPM(leftMetersPerSecond);
+        leftPID.setReference(leftSpeed, ControlType.kVelocity);
+        System.out.println("Left RPM: " + leftSpeed);
+        double rightSpeed = metersPerSecondToRPM(rightMetersPerSecond);
+        rightPID.setReference(rightSpeed, ControlType.kVelocity);
+        System.out.println("Right RPM: " + rightSpeed);
     }
 
     @Override
@@ -158,14 +175,10 @@ public class SparkTankDriveBase implements TankDriveBase {
 
     private double metersPerSecondToRPM(double metersPerSecond) {
         if (highGear) {
-            return 60 * Units.metersToInches(metersPerSecond) / (5 * Math.PI * 11.03);
-        } else {
             return 60 * Units.metersToInches(metersPerSecond) / (5 * Math.PI * 4.17);
+        } else {
+            return 60 * Units.metersToInches(metersPerSecond) / (5 * Math.PI * 11.03);
         }
-    }
-
-    public void testMotor() {
-        rightMotorGroup[2].set(1);
     }
 
 }

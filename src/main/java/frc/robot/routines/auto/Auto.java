@@ -35,7 +35,7 @@ public class Auto extends Action {
             setState(AutoState.READY);
         } catch (IOException ex) {
             DriverStation.reportError("Unable to open trajectory: " + trajectoryFileName, ex.getStackTrace());
-            setState(AutoState.FAILED);
+            setState(AutoState.EXIT);
         }
 
         timer = new PeriodicTimer();
@@ -43,6 +43,7 @@ public class Auto extends Action {
 
     @Override
     public void init() {
+        Subsystems.driveBase.resetEncoders();
         timer.reset();
 
         follower = new RamseteController();
@@ -52,9 +53,11 @@ public class Auto extends Action {
 
     @Override
     public void periodic() {
-        System.out.println("Gyro heading (radians): " + Subsystems.driveBase.getGyroHeading());
-        System.out.println("Left encoder (meters): " + Subsystems.driveBase.getLeftEncoderPosition());
-        System.out.println("Right encoder (meters): " + Subsystems.driveBase.getRightEncoderPosition());
+        Subsystems.intake.retract();
+
+        // System.out.println("Gyro heading (radians): " + Subsystems.driveBase.getGyroHeading());
+        // System.out.println("Left encoder (meters): " + Subsystems.driveBase.getLeftEncoderPosition());
+        // System.out.println("Right encoder (meters): " + Subsystems.driveBase.getRightEncoderPosition());
 
         odometry.update(Subsystems.driveBase.getGyroHeading(), Subsystems.driveBase.getLeftEncoderPosition(), Subsystems.driveBase.getRightEncoderPosition());
 
@@ -63,8 +66,8 @@ public class Auto extends Action {
             trajectory.sample(timer.get())
         ));
 
-        System.out.println("Left target (m/s): " + targetWheelSpeeds.leftMetersPerSecond);
-        System.out.println("Right target (m/s): " + targetWheelSpeeds.rightMetersPerSecond + "\n");
+        // System.out.println("Left target (m/s): " + targetWheelSpeeds.leftMetersPerSecond);
+        // System.out.println("Right target (m/s): " + targetWheelSpeeds.rightMetersPerSecond + "\n");
 
         Subsystems.driveBase.setReferences(targetWheelSpeeds.leftMetersPerSecond, targetWheelSpeeds.rightMetersPerSecond);
     }
@@ -76,6 +79,7 @@ public class Auto extends Action {
 
     @Override
     public void done() {
+
     }
 
 }

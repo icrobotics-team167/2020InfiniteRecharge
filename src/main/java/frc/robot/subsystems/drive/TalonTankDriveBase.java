@@ -106,6 +106,11 @@ public class TalonTankDriveBase implements TankDriveBase {
     }
 
     @Override
+    public void resetEncoders() {
+        
+    }
+
+    @Override
     public double getLeftEncoderPosition() {
         return 0;
     }

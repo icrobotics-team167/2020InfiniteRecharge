@@ -1,9 +1,10 @@
 package frc.robot.routines.auto;
 
 public enum AutoState {
-    READY, // constructed
-    FAILED, // error pulling trajectory
-    PERIODIC, // periodic
-    CLEANUP,
-    DONE, // done
+    READY,
+    INIT,
+    PERIODIC,
+    DONE,
+    FINISHED,
+    EXIT
 }

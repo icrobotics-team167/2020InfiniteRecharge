@@ -14,6 +14,7 @@ import frc.robot.controls.controlschemes.DoubleController;
 import frc.robot.controls.controlschemes.NullController;
 import frc.robot.controls.controlschemes.SingleController;
 import frc.robot.routines.Action;
+import frc.robot.routines.Routine;
 import frc.robot.routines.Teleop;
 import frc.robot.routines.auto.Auto;
 import frc.robot.routines.auto.AutoRoutine;
@@ -34,7 +35,6 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
         autoChooser.setDefaultOption(AutoRoutine.NULL.name, AutoRoutine.NULL);
-        autoChooser.addOption(AutoRoutine.FRIENDLY_TRENCH_RUN.name, AutoRoutine.FRIENDLY_TRENCH_RUN);
         autoChooser.addOption(AutoRoutine.ENEMY_TENCH_RUN.name, AutoRoutine.ENEMY_TENCH_RUN);
         autoChooser.addOption(AutoRoutine.SHOOT_3.name, AutoRoutine.SHOOT_3);
         SmartDashboard.putData("Autonomous Routines", autoChooser);
@@ -84,12 +84,25 @@ public class Robot extends TimedRobot {
 
         Subsystems.setInitialStates();
 
-        auto = new Auto(AutoRoutine.FRIENDLY_TRENCH_RUN);
+        auto = new Routine(new Action[] {
+            // new Auto(AutoRoutine.FTR1),
+            // new Auto(AutoRoutine.FTR2),
+            // new Auto(AutoRoutine.FTR3),
+            // new Auto(AutoRoutine.FTR4),
+            // new Auto(AutoRoutine.FTR5),
+            new Auto(AutoRoutine.CIRCLE),
+        });
+        // auto = new Auto(AutoRoutine.FRIENDLY_TRENCH_RUN);
         teleop = new Teleop(controls);
     }
 
     @Override
     public void robotPeriodic() {
+        SmartDashboard.putNumber("drive/leftEncoder", Subsystems.driveBase.getLeftEncoderPosition());
+        SmartDashboard.putNumber("drive/rightEncoder", Subsystems.driveBase.getRightEncoderPosition());
+        // System.out.println("Left encoder: " + Subsystems.driveBase.getLeftEncoderPosition());
+        // System.out.println("Right encoder: " + Subsystems.driveBase.getRightEncoderPosition());
+
         SmartDashboard.putNumber("limelight/tx", Subsystems.limelight.tx());
         SmartDashboard.putNumber("limelight/ty", Subsystems.limelight.ty());
         SmartDashboard.putNumber("limelight/ta", Subsystems.limelight.ta());
@@ -110,18 +123,21 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-         auto.exec();
-         System.out.println("Auto selected: " + autoChooser.getSelected().name);
+        Subsystems.driveBase.resetEncoders();
+        Subsystems.driveBase.setLowGear();
+        auto.exec();
+        System.out.println("Auto selected: " + autoChooser.getSelected().name);
     }
 
     @Override
     public void autonomousPeriodic() {
-         auto.exec();
+        auto.exec();
     }
 
     @Override
     public void teleopInit() {
         teleop.init();
+        Subsystems.driveBase.resetEncoders();
     }
 
     @Override

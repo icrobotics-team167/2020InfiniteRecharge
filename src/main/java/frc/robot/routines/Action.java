@@ -9,34 +9,45 @@ public abstract class Action {
     public abstract boolean isDone();
     public abstract void done();
 
+    protected AutoState state;
+
     public void exec() {
-        if (getState() == AutoState.READY) {
-            setState(AutoState.PERIODIC);
-            init();
-        } else if (getState() == AutoState.FAILED) {
-            setState(AutoState.DONE);
-        } else if (getState() == AutoState.PERIODIC) {
-            periodic();
-        } else if (getState() == AutoState.CLEANUP) {
-            done();
-            setState(AutoState.DONE);
-            return;
-        } else {
+        if (state == null) {
             return;
         }
-
-        if (isDone()) {
-            setState(AutoState.CLEANUP);
+        switch (state) {
+            case READY:
+                setState(AutoState.INIT);
+                break;
+            case INIT:
+                init();
+                setState(AutoState.PERIODIC);
+                break;
+            case PERIODIC:
+                periodic();
+                if (isDone()) {
+                    setState(AutoState.DONE);
+                }
+                break;
+            case DONE:
+                done();
+                setState(AutoState.FINISHED);
+                break;
+            case FINISHED:
+                break;
+            case EXIT:
+                break;
+            default:
+                break;
         }
-    }
-
-    private AutoState state;
-
-    public AutoState getState() {
-        return state;
     }
 
     public void setState(AutoState state) {
         this.state = state;
     }
+
+    public AutoState getState() {
+        return state;
+    }
+
 }

@@ -15,6 +15,7 @@ public interface TankDriveBase {
     boolean isLowGear();
 
     // Auto
+    void resetEncoders();
     double getLeftEncoderPosition();
     double getRightEncoderPosition();
     void setReferences(double leftSpeed, double rightSpeed);

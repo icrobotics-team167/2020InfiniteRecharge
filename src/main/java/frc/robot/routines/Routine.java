@@ -4,6 +4,9 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import frc.robot.routines.auto.Auto;
+import frc.robot.routines.auto.AutoState;
+
 public class Routine extends Action {
 
     private Queue<Action> actions;
@@ -11,6 +14,7 @@ public class Routine extends Action {
 
     public Routine(Action... actions) {
         this.actions = new LinkedList<>(Arrays.asList(actions));
+        setState(AutoState.READY);
     }
 
     @Override
@@ -21,8 +25,14 @@ public class Routine extends Action {
     @Override
     public void periodic() {
         if (currentAction != null) {
+            if (currentAction instanceof Auto) {
+                System.out.println("auto");
+            }
             currentAction.exec();
-            if (currentAction.isDone()) {
+            if (currentAction.getState() == AutoState.EXIT) {
+                state = AutoState.EXIT;
+            }
+            if (currentAction.getState() == AutoState.FINISHED) {
                 currentAction = actions.poll();
             }
         }
@@ -35,7 +45,6 @@ public class Routine extends Action {
 
     @Override
     public void done() {
-        System.out.println("Finished auto routine");
     }
 
 }
