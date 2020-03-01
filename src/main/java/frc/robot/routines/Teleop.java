@@ -74,7 +74,7 @@ public class Teleop {
             if (controls.doRunIndexerManually() || controls.doLiftMotorForwardManually() || controls.doLiftMotorReverseManually()) {
                 indexer.setManualTurnSpeed(controls.getIndexerManualSpeed());
                 if (controls.doLiftMotorForwardManually()) {
-                    indexer.setManualLiftSpeed(0.595);
+                    indexer.setManualLiftSpeed(1);
                 } else if (controls.doLiftMotorReverseManually()) {
                     indexer.setManualLiftSpeed(-0.595);
                 } else {

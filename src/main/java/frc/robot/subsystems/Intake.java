@@ -69,6 +69,7 @@ public class Intake {
         }
     }
 
+
     public void setMode(Mode mode) {
         if (mode != this.mode) {
             this.mode = mode;

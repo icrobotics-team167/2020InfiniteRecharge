@@ -119,23 +119,23 @@ public class Indexer {
             case SMART_SHOOT:
                 servo.set(1);
                 if (!liftTimer.hasElapsed(0.6)) {
-                    liftMotorController.set(0.65);
+                    liftMotorController.set(0.8);
                     turnMotorController.set(0);
                     antiJamTimer.reset();
                 } else if (!startupTimer.hasElapsed(1)) {
-                    liftMotorController.set(0.65);
+                    liftMotorController.set(0.8);
                     turnMotorController.set(0.3);
                     antiJamTimer.reset();
                 } else if (turnEncoder.getVelocity() < 1500 && !antiJamTimer.hasElapsed(1.5)) {
                     liftMotorController.set(0);
                     turnMotorController.set(-0.15);
                 } else if (turnEncoder.getVelocity() < 1500) {
-                    liftMotorController.set(0.65);
+                    liftMotorController.set(0.8);
                     turnMotorController.set(0);
                     antiJamTimer.reset();
                     startupTimer.reset();
                 } else {
-                    liftMotorController.set(0.65);
+                    liftMotorController.set(0.8);
                     turnMotorController.set(0.3);
                     antiJamTimer.reset();
                 }
