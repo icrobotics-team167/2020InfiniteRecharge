@@ -4,5 +4,6 @@ public enum AutoState {
     READY, // constructed
     FAILED, // error pulling trajectory
     PERIODIC, // periodic
-    DONE // done
+    CLEANUP,
+    DONE, // done
 }

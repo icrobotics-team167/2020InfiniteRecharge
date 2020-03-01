@@ -106,22 +106,23 @@ public class TalonTankDriveBase implements TankDriveBase {
     }
 
     @Override
-    public double getLeftSpeed() {
+    public double getLeftEncoderPosition() {
         return 0;
     }
 
     @Override
-    public double getRightSpeed() {
+    public double getRightEncoderPosition() {
         return 0;
     }
 
     @Override
     public void setReferences(double leftSpeed, double rightSpeed) {
-        return;
+
     }
 
     @Override
     public Rotation2d getGyroHeading() {
-        return Rotation2d.fromDegrees(-navx.getRate());
+        return null;
     }
+
 }

@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.util.Units;
 import frc.robot.Config;
 
 public class SparkTankDriveBase implements TankDriveBase {
@@ -21,10 +22,10 @@ public class SparkTankDriveBase implements TankDriveBase {
     private CANSparkMax[] rightMotorGroup;
     private CANEncoder[] leftEncoders;
     private CANEncoder[] rightEncoders;
+    private CANPIDController leftPID;
+    private CANPIDController rightPID;
     private DoubleSolenoid doubleSolenoid;
     private boolean highGear;
-    private CANPIDController[] leftControllers;
-    private CANPIDController[] rightControllers;
 
     // Singleton
     private static SparkTankDriveBase instance;
@@ -51,38 +52,34 @@ public class SparkTankDriveBase implements TankDriveBase {
         rightMotorGroup[1] = new CANSparkMax(Config.Ports.SparkTank.RIGHT_2, CANSparkMaxLowLevel.MotorType.kBrushless);
         rightMotorGroup[2] = new CANSparkMax(Config.Ports.SparkTank.RIGHT_3, CANSparkMaxLowLevel.MotorType.kBrushless);
 
-        leftEncoders = new CANEncoder[3];
-        rightEncoders = new CANEncoder[3];
-        for (int i = 0; i <= 2; i++) {
-            leftMotorGroup[i].restoreFactoryDefaults();
-            rightMotorGroup[i].restoreFactoryDefaults();
-            leftEncoders[i] = leftMotorGroup[i].getEncoder(EncoderType.kHallSensor, 4096);
-            rightEncoders[i] = rightMotorGroup[i].getEncoder(EncoderType.kHallSensor, 4096);
-            leftMotorGroup[i].setSmartCurrentLimit(80);
-            leftMotorGroup[i].setSecondaryCurrentLimit(60);
-            rightMotorGroup[i].setSmartCurrentLimit(80);
-            rightMotorGroup[i].setSecondaryCurrentLimit(60);
-            leftMotorGroup[i].setOpenLoopRampRate(0);
-            leftMotorGroup[i].setClosedLoopRampRate(0);
-            rightMotorGroup[i].setOpenLoopRampRate(0);
-            rightMotorGroup[i].setClosedLoopRampRate(0);
-        }
+        leftMotorGroup[0].restoreFactoryDefaults();
+        rightMotorGroup[0].restoreFactoryDefaults();
+        leftEncoders[0] = leftMotorGroup[0].getEncoder(EncoderType.kHallSensor, 4096);
+        rightEncoders[0] = rightMotorGroup[0].getEncoder(EncoderType.kHallSensor, 4096);
+        leftMotorGroup[0].setSmartCurrentLimit(80);
+        leftMotorGroup[0].setSecondaryCurrentLimit(60);
+        rightMotorGroup[0].setSmartCurrentLimit(80);
+        rightMotorGroup[0].setSecondaryCurrentLimit(60);
+        leftMotorGroup[0].setOpenLoopRampRate(0);
+        leftMotorGroup[0].setClosedLoopRampRate(0);
+        rightMotorGroup[0].setOpenLoopRampRate(0);
+        rightMotorGroup[0].setClosedLoopRampRate(0);
+
+        leftPID = leftMotorGroup[0].getPIDController();
+        rightPID = rightMotorGroup[0].getPIDController();
+
+        leftMotorGroup[1].follow(leftMotorGroup[0]);
+        leftMotorGroup[2].follow(leftMotorGroup[0]);
+        rightMotorGroup[1].follow(rightMotorGroup[0]);
+        rightMotorGroup[2].follow(rightMotorGroup[0]);
 
         doubleSolenoid = new DoubleSolenoid(
             Config.Settings.SPARK_TANK_ENABLED ? Config.Ports.SparkTank.PCM : Config.Ports.TalonTank.PCM,
             Config.Ports.SparkTank.SOLENOID_FORWARD,
             Config.Ports.SparkTank.SOLENOID_REVERSE
         );
-        highGear = false;
 
-        leftControllers = new CANPIDController[3];
-        rightControllers = new CANPIDController[3];
-        leftControllers[0] = leftMotorGroup[0].getPIDController();
-        leftControllers[1] = leftMotorGroup[1].getPIDController();
-        leftControllers[2] = leftMotorGroup[2].getPIDController();
-        rightControllers[0] = rightMotorGroup[0].getPIDController();
-        rightControllers[1] = rightMotorGroup[1].getPIDController();
-        rightControllers[2] = rightMotorGroup[2].getPIDController();
+        highGear = false;
     }
 
     @Override
@@ -126,34 +123,49 @@ public class SparkTankDriveBase implements TankDriveBase {
         return !highGear;
     }
 
-    public void testMotor() {
-        rightMotorGroup[2].set(1);
-    }
-
     @Override
-    public double getLeftSpeed() {
-        double speedAverage = (leftEncoders[0].getVelocity() + leftEncoders[1].getVelocity() + leftEncoders[2].getVelocity()) / 3;
-        return 0.39898226700466 * (speedAverage / 60) / 2.83; // low gear - 7.5
-    }
+    public double getLeftEncoderPosition() {
+        double encoderValue = leftEncoders[0].getPosition();
 
-    @Override
-    public double getRightSpeed() {
-        double speedAverage = (rightEncoders[0].getVelocity() + rightEncoders[1].getVelocity() + rightEncoders[2].getVelocity()) / 3;
-        return 0.39898226700466 * (speedAverage / 60) / 2.83;
-    }
-
-    @Override
-    public void setReferences(double leftSpeed, double rightSpeed) {
-        for (CANPIDController controller : leftControllers) {
-            controller.setReference(leftSpeed, ControlType.kSmartVelocity);
+        if (highGear) {
+            return Units.inchesToMeters(encoderValue * 5 * Math.PI / 4.17);
+        } else {
+            return Units.inchesToMeters(encoderValue * 5 * Math.PI / 11.03);
         }
-        for (CANPIDController controller : rightControllers) {
-            controller.setReference(rightSpeed, ControlType.kSmartVelocity);
+    }
+
+    @Override
+    public double getRightEncoderPosition() {
+        double encoderValue = rightEncoders[0].getPosition();
+
+        if (highGear) {
+            return Units.inchesToMeters(encoderValue * 5 * Math.PI / 4.17);
+        } else {
+            return Units.inchesToMeters(encoderValue * 5 * Math.PI / 11.03);
         }
+    }
+
+    @Override
+    public void setReferences(double leftMetersPerSecond, double rightMetersPerSecond) {
+        leftPID.setReference(metersPerSecondToRPM(leftMetersPerSecond), ControlType.kVelocity);
+        rightPID.setReference(metersPerSecondToRPM(rightMetersPerSecond), ControlType.kVelocity);
     }
 
     @Override
     public Rotation2d getGyroHeading() {
         return Rotation2d.fromDegrees(-navx.getRate());
     }
+
+    private double metersPerSecondToRPM(double metersPerSecond) {
+        if (highGear) {
+            return 60 * Units.metersToInches(metersPerSecond) / (5 * Math.PI * 11.03);
+        } else {
+            return 60 * Units.metersToInches(metersPerSecond) / (5 * Math.PI * 4.17);
+        }
+    }
+
+    public void testMotor() {
+        rightMotorGroup[2].set(1);
+    }
+
 }

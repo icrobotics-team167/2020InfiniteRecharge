@@ -17,7 +17,7 @@ public class PeriodicTimer {
     }
 
     public boolean hasElapsed(double seconds) {
-        return Timer.getFPGATimestamp() - startTime >= seconds;
+        return get() >= seconds;
     }
 
     public boolean hasElapsedOnce(double seconds) {
@@ -29,6 +29,10 @@ public class PeriodicTimer {
     }
 
     public double get() {
+        return Timer.getFPGATimestamp() - startTime;
+    }
+
+    public double getAbsoluteTime() {
         return Timer.getFPGATimestamp();
     }
 }

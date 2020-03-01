@@ -17,8 +17,6 @@ import frc.robot.routines.Action;
 import frc.robot.routines.Teleop;
 import frc.robot.routines.auto.Auto;
 import frc.robot.routines.auto.AutoRoutine;
-import frc.robot.routines.auto.AutoState;
-import frc.robot.routines.auto.NullAction;
 import frc.robot.subsystems.Subsystems;
 
 public class Robot extends TimedRobot {
@@ -86,8 +84,7 @@ public class Robot extends TimedRobot {
 
         Subsystems.setInitialStates();
 
-        // auto = new Auto(AutoRoutine.FRIENDLY_TRENCH_RUN);
-        // auto.setState(AutoState.READY);
+        auto = new Auto(AutoRoutine.FRIENDLY_TRENCH_RUN);
         teleop = new Teleop(controls);
     }
 
@@ -113,14 +110,13 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-        // auto.setState(AutoState.READY);
-        // auto.exec();
-        // System.out.println("Auto selected: " + autoChooser.getSelected().name);
+         auto.exec();
+         System.out.println("Auto selected: " + autoChooser.getSelected().name);
     }
 
     @Override
     public void autonomousPeriodic() {
-        // auto.exec();
+         auto.exec();
     }
 
     @Override

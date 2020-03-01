@@ -1,13 +1,12 @@
 package frc.robot.routines.auto;
 
+import edu.wpi.first.wpilibj.util.Units;
 import frc.robot.routines.Action;
 import frc.robot.subsystems.Subsystems;
 import frc.robot.util.PeriodicTimer;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj.Filesystem;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.controller.RamseteController;
-import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
@@ -16,79 +15,67 @@ import edu.wpi.first.wpilibj.DriverStation;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.function.Supplier;
 
 public class Auto extends Action {
 
-    private String trajectoryJSON;
+    private String trajectoryFileName;
     private Trajectory trajectory;
 
-    private Timer timer;
-    private Supplier<Pose2d> pose;
-    private RamseteController follower; 
-    private DifferentialDriveKinematics kinematics; 
-
+    private PeriodicTimer timer;
+    private RamseteController follower;
+    private DifferentialDriveKinematics kinematics;
     private DifferentialDriveOdometry odometry;
 
     public Auto(AutoRoutine routine) {
-        trajectoryJSON = "paths/" + routine.trajectoryFile + ".wpilib.json";
+        trajectoryFileName = "paths/" + routine.trajectoryFile + ".wpilib.json";
 
         try {
-            Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
+            Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryFileName);
             trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
             setState(AutoState.READY);
         } catch (IOException ex) {
-            DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
+            DriverStation.reportError("Unable to open trajectory: " + trajectoryFileName, ex.getStackTrace());
             setState(AutoState.FAILED);
         }
-        
-        timer = new Timer();
-    }
-     @Override
-    public void init() {
-        follower = new RamseteController();
-        kinematics = new DifferentialDriveKinematics(2);
-        odometry = new DifferentialDriveOdometry(Subsystems.driveBase.getGyroHeading(), trajectory.getInitialPose());
 
-        timer.start();
+        timer = new PeriodicTimer();
+    }
+
+    @Override
+    public void init() {
         timer.reset();
 
-        // pose = new Supplier<Pose2d>() {
-        //     public Pose2d get() {
-        //         return odometry.getPoseMeters();
-        //     }
-        // };
+        follower = new RamseteController();
+        kinematics = new DifferentialDriveKinematics(Units.feetToMeters(2));
+        odometry = new DifferentialDriveOdometry(Subsystems.driveBase.getGyroHeading(), trajectory.getInitialPose());
     }
-    
+
     @Override
     public void periodic() {
-        System.out.println(Subsystems.driveBase.getGyroHeading());
-        System.out.println(Subsystems.driveBase.getLeftSpeed());
-        System.out.println(Subsystems.driveBase.getRightSpeed());
-        odometry.update(Subsystems.driveBase.getGyroHeading(), Subsystems.driveBase.getLeftSpeed(), Subsystems.driveBase.getRightSpeed());
+        System.out.println("Gyro heading (radians): " + Subsystems.driveBase.getGyroHeading());
+        System.out.println("Left encoder (meters): " + Subsystems.driveBase.getLeftEncoderPosition());
+        System.out.println("Right encoder (meters): " + Subsystems.driveBase.getRightEncoderPosition());
 
-        // System.out.println(odometry.getPoseMeters() + "  " + trajectory.sample(timer.get()));
+        odometry.update(Subsystems.driveBase.getGyroHeading(), Subsystems.driveBase.getLeftEncoderPosition(), Subsystems.driveBase.getRightEncoderPosition());
+
         DifferentialDriveWheelSpeeds targetWheelSpeeds = kinematics.toWheelSpeeds(follower.calculate(
-            odometry.getPoseMeters(), 
-            trajectory.sample(timer.get()))
-        );
+            odometry.getPoseMeters(),
+            trajectory.sample(timer.get())
+        ));
 
-        // System.out.println(targetWheelSpeeds.leftMetersPerSecond);
-        // System.out.println(targetWheelSpeeds.rightMetersPerSecond + "\n");
-        
+        System.out.println("Left target (m/s): " + targetWheelSpeeds.leftMetersPerSecond);
+        System.out.println("Right target (m/s): " + targetWheelSpeeds.rightMetersPerSecond + "\n");
+
         Subsystems.driveBase.setReferences(targetWheelSpeeds.leftMetersPerSecond, targetWheelSpeeds.rightMetersPerSecond);
-    
-        Subsystems.driveBase.tankDrive(0.2, 0.2);
     }
 
     @Override
     public boolean isDone() {
-        // return timer.hasElapsed(trajectory.getTotalTimeSeconds());
-        return false;
+        return timer.hasElapsed(trajectory.getTotalTimeSeconds());
     }
 
     @Override
     public void done() {
-        timer.stop();
     }
+
 }
