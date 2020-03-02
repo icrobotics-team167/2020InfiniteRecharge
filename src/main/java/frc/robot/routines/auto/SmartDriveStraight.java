@@ -32,20 +32,20 @@ public class SmartDriveStraight extends Action {
 
         speed = Math.abs(speed);
 
-        minSpeed = 0.3 * speed;
+        minSpeed = 0.2 * speed;
         if (minSpeed < 0.1) {
             minSpeed = 0.1;
         }
         if (minSpeed > speed) {
-            minSpeed = speedRange;
+            minSpeed = speed;
         }
 
-        accelerationMeters = Math.abs(Units.feetToMeters(2 * speed));
+        accelerationMeters = Units.feetToMeters(3 * speed);
         if (2 * accelerationMeters > meters) {
             accelerationMeters = meters / 2;
         }
 
-        double maxAcceleration = Math.min((speed - minSpeed) / accelerationMeters, 0.35);
+        double maxAcceleration = Math.min((speed - minSpeed) / accelerationMeters, 0.8 / Units.feetToMeters(3));
         maxSpeed = minSpeed + accelerationMeters * maxAcceleration;
 
         speedRange = maxSpeed - minSpeed;
@@ -65,27 +65,30 @@ public class SmartDriveStraight extends Action {
         if (timeoutSeconds >= 0 && timer.hasElapsed(timeoutSeconds)) {
             state = AutoState.EXIT;
         }
-        double leftEncoderPosition = Subsystems.driveBase.getLeftEncoderPosition();
-        double rightEncoderPosition = Subsystems.driveBase.getRightEncoderPosition();
-        double metersTraveled = Math.max(leftEncoderPosition, rightEncoderPosition);
         if (speed > 0) {
+            double leftEncoderPosition = Subsystems.driveBase.getLeftEncoderPosition();
+            double rightEncoderPosition = Subsystems.driveBase.getRightEncoderPosition();
+            double metersTraveled = Math.max(leftEncoderPosition, rightEncoderPosition);
             if (metersTraveled > meters - accelerationMeters) {
-                Subsystems.driveBase.straightDrive(minSpeed + (((meters - metersTraveled) / accelerationMeters)) * speedRange);
+                Subsystems.driveBase.straightDrive(minSpeed + ((((meters - metersTraveled) / accelerationMeters)) * speedRange));
             } else if (metersTraveled < accelerationMeters) {
-                Subsystems.driveBase.straightDrive(minSpeed + (metersTraveled / accelerationMeters) * speedRange);
+                Subsystems.driveBase.straightDrive(minSpeed + ((metersTraveled / accelerationMeters) * speedRange));
             } else {
                 Subsystems.driveBase.straightDrive(maxSpeed);
             }
         } else if (speed < 0) {
-            if (Math.abs(metersTraveled) > meters - accelerationMeters) {
-                Subsystems.driveBase.straightDrive(minSpeed + (((meters - metersTraveled) / accelerationMeters)) * speedRange);
-            } else if (Math.abs(metersTraveled) < accelerationMeters) {
-                Subsystems.driveBase.straightDrive(minSpeed + (metersTraveled / accelerationMeters) * speedRange);
+            double leftEncoderPosition = Math.abs(Subsystems.driveBase.getLeftEncoderPosition());
+            double rightEncoderPosition = Math.abs(Subsystems.driveBase.getRightEncoderPosition());
+            double metersTraveled = Math.max(leftEncoderPosition, rightEncoderPosition);
+            if (metersTraveled > meters - accelerationMeters) {
+                Subsystems.driveBase.straightDrive(-(minSpeed + ((((meters - metersTraveled) / accelerationMeters)) * speedRange)));
+            } else if (metersTraveled < accelerationMeters) {
+                Subsystems.driveBase.straightDrive(-(minSpeed + ((metersTraveled / accelerationMeters) * speedRange)));
             } else {
-                Subsystems.driveBase.straightDrive(maxSpeed);
+                Subsystems.driveBase.straightDrive(-maxSpeed);
             }
         } else {
-            Subsystems.driveBase.straightDrive(0);
+            Subsystems.driveBase.stop();
         }
     }
 
