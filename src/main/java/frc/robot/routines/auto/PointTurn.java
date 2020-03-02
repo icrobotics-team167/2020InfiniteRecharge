@@ -17,6 +17,9 @@ public class PointTurn extends Action {
     }
 
     public PointTurn(double degreesClockwise, double speed, double timeoutSeconds) {
+        super();
+        this.degreesClockwise = degreesClockwise;
+        this.speed = speed;
         this.timeoutSeconds = timeoutSeconds;
         initialAngle = 0;
         timer = new PeriodicTimer();
@@ -49,7 +52,7 @@ public class PointTurn extends Action {
 
     @Override
     public void done() {
-
+        Subsystems.driveBase.stop();
     }
 
 }

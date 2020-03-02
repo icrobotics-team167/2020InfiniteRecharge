@@ -38,7 +38,9 @@ public class Teleop {
     public void periodic() {
         // Drive base
         if (controls.doStraightDrive()) {
-            driveBase.straightDrive(controls.getTankLeftSpeed());
+            // Straight drive is inverted because it is designed for autonomous where
+            // the intake is the front instead of the shooter
+            driveBase.straightDrive(-controls.getTankLeftSpeed());
         } else {
             driveBase.tankDrive(controls.getTankLeftSpeed(), controls.getTankRightSpeed());
         }

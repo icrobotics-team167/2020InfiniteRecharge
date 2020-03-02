@@ -28,13 +28,13 @@ public class Routine extends Action {
             if (currentAction instanceof FollowPath) {
                 System.out.println("auto");
             }
-            currentAction.exec();
             if (currentAction.getState() == AutoState.EXIT) {
                 state = AutoState.EXIT;
             }
             if (currentAction.getState() == AutoState.FINISHED) {
                 currentAction = actions.poll();
             }
+            currentAction.exec();
         }
     }
 

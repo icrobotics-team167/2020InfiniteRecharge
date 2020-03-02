@@ -37,6 +37,7 @@ public abstract class Action {
             case FINISHED:
                 break;
             case EXIT:
+                done();
                 break;
             default:
                 break;

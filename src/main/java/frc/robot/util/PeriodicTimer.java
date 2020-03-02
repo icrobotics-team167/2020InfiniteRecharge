@@ -35,4 +35,5 @@ public class PeriodicTimer {
     public double getAbsoluteTime() {
         return Timer.getFPGATimestamp();
     }
+
 }

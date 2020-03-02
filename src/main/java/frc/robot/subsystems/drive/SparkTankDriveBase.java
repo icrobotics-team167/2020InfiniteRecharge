@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpiutil.math.MathUtil;
 import frc.robot.Config;
@@ -31,9 +32,9 @@ public class SparkTankDriveBase implements TankDriveBase {
     private boolean straightDriving;
     private double straightDriveAngleSetpoint;
     private PIDController straightDrivePID;
-    private final double STRAIGHT_DRIVE_KP = 0.02;
-    private final double STRAIGHT_DRIVE_KI = 0.0001;
-    private final double STRAIGHT_DRIVE_KD = 0.01;
+    private final double STRAIGHT_DRIVE_KP = 0.02; // 0.02 works
+    private final double STRAIGHT_DRIVE_KI = 0;
+    private final double STRAIGHT_DRIVE_KD = 0;
     private CANPIDController leftPID;
     private final double LEFT_KP = 0.001; // last tried: 0.0001
     private final double LEFT_KI = 0;
@@ -114,7 +115,7 @@ public class SparkTankDriveBase implements TankDriveBase {
 
     @Override
     public void tankDrive(double leftSpeed, double rightSpeed) {
-        rightMaster.set(-leftSpeed);
+        rightMaster.set(0.976 * -leftSpeed);
         leftMaster.set(-rightSpeed);
         straightDriving = false;
     }
@@ -160,7 +161,12 @@ public class SparkTankDriveBase implements TankDriveBase {
 
         double error = straightDrivePID.calculate(navx.getAngle());
         leftMaster.set(MathUtil.clamp(speed + error, -1, 1));
-        rightMaster.set(MathUtil.clamp(speed - error, -1, 1));
+        rightMaster.set(MathUtil.clamp(0.976 * speed - error, -1, 1));
+    }
+
+    @Override
+    public void stop() {
+        tankDrive(0, 0);
     }
 
     @Override

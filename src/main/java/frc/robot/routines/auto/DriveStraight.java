@@ -58,7 +58,7 @@ public class DriveStraight extends Action {
 
     @Override
     public void done() {
-
+        Subsystems.driveBase.stop();
     }
 
 }

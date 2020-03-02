@@ -17,7 +17,10 @@ import frc.robot.routines.Action;
 import frc.robot.routines.Routine;
 import frc.robot.routines.Teleop;
 import frc.robot.routines.auto.FollowPath;
+import frc.robot.routines.auto.PointTurn;
+import frc.robot.routines.auto.Wait;
 import frc.robot.routines.auto.AutoRoutine;
+import frc.robot.routines.auto.DriveStraight;
 import frc.robot.subsystems.Subsystems;
 
 public class Robot extends TimedRobot {
@@ -87,7 +90,10 @@ public class Robot extends TimedRobot {
         Subsystems.setInitialStates();
 
         auto = new Routine(new Action[] {
-            new FollowPath(AutoRoutine.FTR1),
+            new DriveStraight(132, 0.4),
+//            new Wait(1),
+//            new PointTurn(90, 0.2),
+//            new FollowPath(AutoRoutine.FTR1),
 //            new FollowPath(AutoRoutine.FTR2),
 //            new FollowPath(AutoRoutine.FTR3),
 //            new FollowPath(AutoRoutine.FTR4),
@@ -104,6 +110,7 @@ public class Robot extends TimedRobot {
     public void robotPeriodic() {
         SmartDashboard.putNumber("drive/leftEncoderPosition", Subsystems.driveBase.getLeftEncoderPosition());
         SmartDashboard.putNumber("drive/rightEncoderPosition", Subsystems.driveBase.getRightEncoderPosition());
+        SmartDashboard.putNumber("drive/gyroAngle", Subsystems.driveBase.getAngle());
 
         SmartDashboard.putNumber("limelight/tx", Subsystems.limelight.tx());
         SmartDashboard.putNumber("limelight/ty", Subsystems.limelight.ty());

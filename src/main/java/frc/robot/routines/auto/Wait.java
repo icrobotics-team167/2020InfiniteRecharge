@@ -6,11 +6,12 @@ import frc.robot.util.PeriodicTimer;
 public class Wait extends Action {
 
     private PeriodicTimer timer;
-    private double milliseconds;
+    private double seconds;
 
-    public Wait(int milliseconds) {
+    public Wait(double seconds) {
+        super();
         timer = new PeriodicTimer();
-        this.milliseconds = milliseconds;
+        this.seconds = seconds;
     }
 
     @Override
@@ -23,10 +24,12 @@ public class Wait extends Action {
 
     @Override
     public boolean isDone() {
-        return timer.hasElapsed(milliseconds / 1000);
+        return timer.hasElapsed(seconds);
     }
 
     @Override
-    public void done() {}
+    public void done() {
+
+    }
 
 }
