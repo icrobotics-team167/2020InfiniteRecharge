@@ -76,7 +76,7 @@ public class SparkTankDriveBase implements TankDriveBase {
         previousRightSpeed = 0;
         feedforward = new SimpleMotorFeedforward(0.169, 3.49, 0.532);
 
-        final double kP = 0;
+        final double kP = 0.001; // 0.0001
         final double kI = 0;
         final double kD = 0;
         leftPID = leftMaster.getPIDController();
