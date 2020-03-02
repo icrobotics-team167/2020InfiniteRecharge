@@ -32,16 +32,16 @@ public class SparkTankDriveBase implements TankDriveBase {
     private boolean straightDriving;
     private double straightDriveAngleSetpoint;
     private PIDController straightDrivePID;
-    private final double STRAIGHT_DRIVE_KP = 0.02; // 0.02 works
+    private final double STRAIGHT_DRIVE_KP = 0.015; // 0.02 works
     private final double STRAIGHT_DRIVE_KI = 0;
     private final double STRAIGHT_DRIVE_KD = 0;
     private CANPIDController leftPID;
-    private final double LEFT_KP = 0.001; // last tried: 0.0001
+    private final double LEFT_KP = 0.002; // last tried: 0.0001
     private final double LEFT_KI = 0;
     private final double LEFT_KD = 0;
-    private final double LEFT_KF = 0.000232; // with slower paths?: 0.00075
+    private final double LEFT_KF = 0.000268; // with slower paths?: 0.00075
     private CANPIDController rightPID;
-    private final double RIGHT_KP = 0.001; // last tried: 0.0001
+    private final double RIGHT_KP = 0.0015; // last tried: 0.0001
     private final double RIGHT_KI = 0;
     private final double RIGHT_KD = 0;
     private final double RIGHT_KF = 0.000232; // with slower paths?: 0.00075
@@ -153,9 +153,14 @@ public class SparkTankDriveBase implements TankDriveBase {
 
     @Override
     public void straightDrive(double speed) {
+        straightDrive(speed, true);
+    }
+
+    @Override
+    public void straightDrive(double speed, boolean newAngle) {
         if (!straightDriving) {
             straightDriving = true;
-            straightDriveAngleSetpoint = navx.getAngle();
+            straightDriveAngleSetpoint = newAngle ? navx.getAngle() : straightDriveAngleSetpoint;
             straightDrivePID.setSetpoint(straightDriveAngleSetpoint);
         }
 
@@ -210,21 +215,13 @@ public class SparkTankDriveBase implements TankDriveBase {
 
     @Override
     public void setReferences(double leftMetersPerSecond, double rightMetersPerSecond) {
-        final double kF = 0.000232; // 0.00075
-
         double leftSpeed = metersPerSecondToRPM(leftMetersPerSecond);
-        double leftFF = leftSpeed * kF;
-        leftPID.setFF(kF);
         leftPID.setReference(leftSpeed, ControlType.kVelocity);
         System.out.println("Left RPM: " + leftSpeed);
-        System.out.println("Left FF: " + leftFF);
 
         double rightSpeed = metersPerSecondToRPM(rightMetersPerSecond);
-        double rightFF = rightSpeed * kF;
-        rightPID.setFF(kF);
         rightPID.setReference(rightSpeed, ControlType.kVelocity);
         System.out.println("Right RPM: " + rightSpeed);
-        System.out.println("Right FF: " + rightFF);
 
         straightDriving = false;
     }

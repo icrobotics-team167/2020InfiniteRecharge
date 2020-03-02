@@ -74,14 +74,14 @@ public class Turret {
     }
 
     public void autoAlign() {
-        if (limelight.tv()) {
-            double tx = limelight.tx();
-            double output = pid.calculate(tx);
-            SmartDashboard.putNumber("Turret PID Output", output);
-            motor.set(ControlMode.PercentOutput, MathUtil.clamp(output, -1, 1));
-        } else {
-            motor.set(ControlMode.PercentOutput, 0);
-        }
+        // if (limelight.tv()) {
+        double tx = limelight.tx();
+        double output = pid.calculate(tx);
+        SmartDashboard.putNumber("Turret PID Output", output);
+        motor.set(ControlMode.PercentOutput, MathUtil.clamp(output, -1, 1));
+        // } else {
+        //     motor.set(ControlMode.PercentOutput, 0);
+        // }
     }
 
     public void turnClockwise(double speed) {

@@ -16,6 +16,7 @@ public interface TankDriveBase {
 
     // Auto
     void straightDrive(double speed);
+    void straightDrive(double speed, boolean newAngle);
     void stop();
     void pointTurn(double speed);
     double getAngle();

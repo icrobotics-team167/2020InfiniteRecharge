@@ -62,6 +62,9 @@ public class Shooter {
                 leftMotorController.set(0);
                 rightMotorController.set(0);
             }
+        } else {
+            leftMotorController.set(0);
+            rightMotorController.set(0);
         }
     }
 

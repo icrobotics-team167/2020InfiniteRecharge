@@ -17,7 +17,16 @@ import frc.robot.routines.Action;
 import frc.robot.routines.Routine;
 import frc.robot.routines.Teleop;
 import frc.robot.routines.auto.AutoRoutine;
+import frc.robot.routines.auto.FollowPath;
 import frc.robot.routines.auto.RawDriveStraight;
+import frc.robot.routines.auto.RawPointTurn;
+import frc.robot.routines.auto.SecondSickoShoot;
+import frc.robot.routines.auto.SickoShoot;
+import frc.robot.routines.auto.SmartDriveStraight;
+import frc.robot.routines.auto.SmartPointTurn;
+import frc.robot.routines.auto.StartShooter;
+import frc.robot.routines.auto.Wait;
+import frc.robot.routines.auto.WaitInfinite;
 import frc.robot.subsystems.Subsystems;
 
 public class Robot extends TimedRobot {
@@ -87,18 +96,24 @@ public class Robot extends TimedRobot {
         Subsystems.setInitialStates();
 
         auto = new Routine(new Action[] {
-            new RawDriveStraight(132, 0.4),
-//            new Wait(1),
-//            new PointTurn(90, 0.2),
-//            new FollowPath(AutoRoutine.FTR1),
-//            new FollowPath(AutoRoutine.FTR2),
-//            new FollowPath(AutoRoutine.FTR3),
-//            new FollowPath(AutoRoutine.FTR4),
-//            new FollowPath(AutoRoutine.FTR5),
-//            new FollowPath(AutoRoutine.RT),
-//            new FollowPath(AutoRoutine.RT),
-//            new FollowPath(AutoRoutine.RT),
-//            new FollowPath(AutoRoutine.RT),
+            new StartShooter(),
+            new SmartDriveStraight(114, 0.4, 8),
+            new SickoShoot(3),
+            new SmartDriveStraight(135, 0.2, 5),
+            new SmartDriveStraight(135, -0.4, 5),
+            new SecondSickoShoot(3)
+            // new SmartDriveStraight(150, 0.4),
+            // new Wait(1),
+            // new RawPointTurn(90, 0.2),
+            // new FollowPath(AutoRoutine.FTR1),
+            // new FollowPath(AutoRoutine.FTR2),
+            // new FollowPath(AutoRoutine.FTR3),
+            // new FollowPath(AutoRoutine.FTR4),
+            // new FollowPath(AutoRoutine.FTR5),
+            // new FollowPath(AutoRoutine.RT),
+            // new FollowPath(AutoRoutine.RT),
+            // new FollowPath(AutoRoutine.RT),
+            // new FollowPath(AutoRoutine.RT),
         });
         teleop = new Teleop(controls);
     }
@@ -138,6 +153,10 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousPeriodic() {
         auto.exec();
+        Subsystems.intake.run();
+        Subsystems.indexer.run();
+        Subsystems.shooter.run();
+        Subsystems.turret.run();
     }
 
     @Override

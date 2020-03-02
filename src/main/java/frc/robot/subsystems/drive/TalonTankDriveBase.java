@@ -107,6 +107,11 @@ public class TalonTankDriveBase implements TankDriveBase {
 
     @Override
     public void straightDrive(double speed) {
+        straightDrive(speed, true);
+    }
+
+    @Override
+    public void straightDrive(double speed, boolean newAngle) {
 
     }
 

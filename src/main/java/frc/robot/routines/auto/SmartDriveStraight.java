@@ -70,22 +70,22 @@ public class SmartDriveStraight extends Action {
             double rightEncoderPosition = Subsystems.driveBase.getRightEncoderPosition() - rightEncoderInitialPosition;
             double metersTraveled = Math.max(leftEncoderPosition, rightEncoderPosition);
             if (metersTraveled > meters - accelerationMeters) {
-                Subsystems.driveBase.straightDrive(minSpeed + ((((meters - metersTraveled) / accelerationMeters)) * speedRange));
+                Subsystems.driveBase.straightDrive(minSpeed + ((((meters - metersTraveled) / accelerationMeters)) * speedRange), false);
             } else if (metersTraveled < accelerationMeters) {
-                Subsystems.driveBase.straightDrive(minSpeed + ((metersTraveled / accelerationMeters) * speedRange));
+                Subsystems.driveBase.straightDrive(minSpeed + ((metersTraveled / accelerationMeters) * speedRange), false);
             } else {
-                Subsystems.driveBase.straightDrive(maxSpeed);
+                Subsystems.driveBase.straightDrive(maxSpeed, false);
             }
         } else if (speed < 0) {
             double leftEncoderPosition = Math.abs(Subsystems.driveBase.getLeftEncoderPosition() - leftEncoderInitialPosition);
             double rightEncoderPosition = Math.abs(Subsystems.driveBase.getRightEncoderPosition() - rightEncoderInitialPosition);
             double metersTraveled = Math.max(leftEncoderPosition, rightEncoderPosition);
             if (metersTraveled > meters - accelerationMeters) {
-                Subsystems.driveBase.straightDrive(-(minSpeed + ((((meters - metersTraveled) / accelerationMeters)) * speedRange)));
+                Subsystems.driveBase.straightDrive(-(minSpeed + ((((meters - metersTraveled) / accelerationMeters)) * speedRange)), false);
             } else if (metersTraveled < accelerationMeters) {
-                Subsystems.driveBase.straightDrive(-(minSpeed + ((metersTraveled / accelerationMeters) * speedRange)));
+                Subsystems.driveBase.straightDrive(-(minSpeed + ((metersTraveled / accelerationMeters) * speedRange)), false);
             } else {
-                Subsystems.driveBase.straightDrive(-maxSpeed);
+                Subsystems.driveBase.straightDrive(-maxSpeed, false);
             }
         } else {
             Subsystems.driveBase.stop();

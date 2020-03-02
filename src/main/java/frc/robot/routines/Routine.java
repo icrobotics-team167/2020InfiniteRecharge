@@ -33,6 +33,9 @@ public class Routine extends Action {
             }
             if (currentAction.getState() == AutoState.FINISHED) {
                 currentAction = actions.poll();
+                if (currentAction == null) {
+                    return;
+                }
             }
             currentAction.exec();
         }

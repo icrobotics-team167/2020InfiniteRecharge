@@ -8,7 +8,9 @@ public class NullAction extends Action {
     public void init() {}
 
     @Override
-    public void periodic() {}
+    public void periodic() {
+        
+    }
 
     @Override
     public boolean isDone() {
