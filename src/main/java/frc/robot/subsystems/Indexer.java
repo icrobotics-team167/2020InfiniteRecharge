@@ -24,6 +24,7 @@ public class Indexer {
         SMART_INTAKE("SMART_INTAKE"),
         GAP_ALIGNMENT("GAP_ALIGNMENT"),
         SMART_SHOOT("SMART_SHOOT"),
+        SICKO_SHOOT("SICKO_SHOOT"),
         MANUAL("MANUAL");
 
         public final String name;
@@ -137,6 +138,30 @@ public class Indexer {
                 } else {
                     liftMotorController.set(0.8);
                     turnMotorController.set(0.3);
+                    antiJamTimer.reset();
+                }
+                return;
+            case SICKO_SHOOT:
+                servo.set(1);
+                if (!liftTimer.hasElapsed(0.3)) {
+                    liftMotorController.set(1);
+                    turnMotorController.set(0);
+                    antiJamTimer.reset();
+                } else if (!startupTimer.hasElapsed(1)) {
+                    liftMotorController.set(1);
+                    turnMotorController.set(0.65);
+                    antiJamTimer.reset();
+                } else if (turnEncoder.getVelocity() < 3100 && !antiJamTimer.hasElapsed(1.5)) {
+                    liftMotorController.set(0);
+                    turnMotorController.set(-0.2);
+                } else if (turnEncoder.getVelocity() < 3100) {
+                    liftMotorController.set(1);
+                    turnMotorController.set(0);
+                    antiJamTimer.reset();
+                    startupTimer.reset();
+                } else {
+                    liftMotorController.set(1);
+                    turnMotorController.set(0.65);
                     antiJamTimer.reset();
                 }
                 return;

@@ -80,16 +80,16 @@ public class DoubleController extends ControlScheme {
     @Override
     public double getIntakeManualSpeed() {
         if (!Config.Settings.INTAKE_DEAD_ZONE_ENABLED) {
-            return 0.5 * secondary.getRightStickY();
+            return 0.75 * secondary.getRightStickY();
         }
         double speed = secondary.getRightStickY();
         double deadZoneSize = Math.abs(Config.Tolerances.INTAKE_DEAD_ZONE_SIZE);
         if (Math.abs(speed) < deadZoneSize) {
             return 0;
         } else if (speed > 0) {
-            return ((0.5 * speed) / (1 - deadZoneSize)) - ((0.5 * deadZoneSize) / (1 - deadZoneSize));
+            return ((0.75 * speed) / (1 - deadZoneSize)) - ((0.75 * deadZoneSize) / (1 - deadZoneSize));
         } else {
-            return ((0.5 * speed) / (1 - deadZoneSize)) + ((0.5 * deadZoneSize) / (1 - deadZoneSize));
+            return ((0.75 * speed) / (1 - deadZoneSize)) + ((0.75 * deadZoneSize) / (1 - deadZoneSize));
         }
     }
 
@@ -104,6 +104,14 @@ public class DoubleController extends ControlScheme {
     }
 
     @Override
+    public boolean doIndexerSickoShootMode() {
+        if (primary.isPSController()) {
+            return primary.getMenuButton();
+        }
+        return false;
+    }
+
+    @Override
     public boolean doRunIndexerManually() {
         return getIndexerManualSpeed() != 0;
     }
@@ -111,22 +119,27 @@ public class DoubleController extends ControlScheme {
     @Override
     public double getIndexerManualSpeed() {
         if (!Config.Settings.INDEXER_DEAD_ZONE_ENABLED) {
-            return -0.35 * secondary.getLeftStickX();
+            return 0.35 * secondary.getLeftStickX();
         }
         double speed = secondary.getLeftStickX();
         double deadZoneSize = Math.abs(Config.Tolerances.INDEXER_DEAD_ZONE_SIZE);
         if (Math.abs(speed) < deadZoneSize) {
             return 0;
         } else if (speed > 0) {
-            return -1 * (((0.35 * speed) / (1 - deadZoneSize)) - ((0.35 * deadZoneSize) / (1 - deadZoneSize)));
+            return ((0.35 * speed) / (1 - deadZoneSize)) - ((0.35 * deadZoneSize) / (1 - deadZoneSize));
         } else {
-            return -1 * (((0.35 * speed) / (1 - deadZoneSize)) + ((0.35 * deadZoneSize) / (1 - deadZoneSize)));
+            return ((0.35 * speed) / (1 - deadZoneSize)) + ((0.35 * deadZoneSize) / (1 - deadZoneSize));
         }
     }
 
     @Override
     public boolean doLiftMotorForwardManually() {
         return secondary.getXButton();
+    }
+
+    @Override
+    public boolean doAntiJamReverse() {
+        return secondary.getBButton();
     }
 
     @Override

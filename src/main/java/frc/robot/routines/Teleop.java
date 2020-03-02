@@ -83,9 +83,13 @@ public class Teleop {
                 indexer.setMode(Indexer.Mode.MANUAL);
             } else if (controls.doIndexerShooterMode()) {
                 indexer.setMode(Indexer.Mode.SMART_SHOOT);
+                // shooter.setTargetRPM(4400);
                 // if ((indexer.isGapAligned() && shooter.isUpToSpeed()) || indexer.getMode() == Indexer.Mode.SMART_SHOOT) {
                 //     indexer.setMode(Indexer.Mode.SMART_SHOOT);
                 // }
+            } else if (controls.doIndexerSickoShootMode()) {
+                indexer.setMode(Indexer.Mode.SICKO_SHOOT);
+                // shooter.setTargetRPM(5000);
             } else if (controls.doToggleIndexerAlignMode()) {
                 if (indexer.getMode() == Indexer.Mode.GAP_ALIGNMENT) {
                     indexer.setMode(Indexer.Mode.OFF);

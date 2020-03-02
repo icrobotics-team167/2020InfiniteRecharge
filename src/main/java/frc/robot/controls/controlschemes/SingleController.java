@@ -89,6 +89,16 @@ public class SingleController extends ControlScheme {
     public boolean doIndexerShooterMode() {
         return primary.getRightTrigger();
     }
+    
+    @Override
+    public boolean doIndexerSickoShootMode() {
+        return false;
+    }
+
+    @Override
+    public boolean doAntiJamReverse() {
+        return false;
+    }
 
     @Override
     public boolean doRunIndexerManually() {

@@ -6,6 +6,7 @@ public enum AutoRoutine {
     FTR3("3", "3"),
     FTR4("4b", "4b"),
     FTR5("5b", "5b"),
+    RT("Right Turn", "rightTurn"),
     CIRCLE("Circle", "circle"),
     ENEMY_TENCH_RUN("Enemy Trench Run", "ETR"),
     SHOOT_3("Shoot 3", "S3"),

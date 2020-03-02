@@ -21,4 +21,6 @@ public interface TankDriveBase {
     void setReferences(double leftSpeed, double rightSpeed);
     Rotation2d getGyroHeading();
 
+    
+    double metersPerSecondToRPM(double metersPerSecond);
 }

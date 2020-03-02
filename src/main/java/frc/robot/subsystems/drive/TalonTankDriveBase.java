@@ -130,4 +130,8 @@ public class TalonTankDriveBase implements TankDriveBase {
         return null;
     }
 
+    @Override
+    public double metersPerSecondToRPM(double metersPerSecond) {
+        return 0;
+    }
 }

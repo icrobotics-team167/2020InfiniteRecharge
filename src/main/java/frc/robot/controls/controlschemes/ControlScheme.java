@@ -21,10 +21,12 @@ public abstract class ControlScheme {
     // Indexer
     public abstract boolean doToggleIndexerAlignMode();
     public abstract boolean doIndexerShooterMode();
+    public abstract boolean doIndexerSickoShootMode();
     public abstract boolean doRunIndexerManually();
     public abstract double getIndexerManualSpeed();
     public abstract boolean doLiftMotorForwardManually();
     public abstract boolean doLiftMotorReverseManually();
+    public abstract boolean doAntiJamReverse();
 
     // Shooter
     public abstract boolean doToggleShooter();

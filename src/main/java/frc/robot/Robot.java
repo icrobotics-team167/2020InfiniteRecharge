@@ -90,7 +90,7 @@ public class Robot extends TimedRobot {
             // new Auto(AutoRoutine.FTR3),
             // new Auto(AutoRoutine.FTR4),
             // new Auto(AutoRoutine.FTR5),
-            new Auto(AutoRoutine.CIRCLE),
+            new Auto(AutoRoutine.RT),
         });
         // auto = new Auto(AutoRoutine.FRIENDLY_TRENCH_RUN);
         teleop = new Teleop(controls);

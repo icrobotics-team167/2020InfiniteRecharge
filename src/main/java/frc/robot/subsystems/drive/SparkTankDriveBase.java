@@ -76,7 +76,7 @@ public class SparkTankDriveBase implements TankDriveBase {
         previousRightSpeed = 0;
         feedforward = new SimpleMotorFeedforward(0.169, 3.49, 0.532);
 
-        final double kP = 6e-4;
+        final double kP = 0;
         final double kI = 0;
         final double kD = 0;
         leftPID = leftMaster.getPIDController();
@@ -169,15 +169,17 @@ public class SparkTankDriveBase implements TankDriveBase {
 
     @Override
     public void setReferences(double leftMetersPerSecond, double rightMetersPerSecond) {
+        final double kF = 0.00000012; // 0.0000001
+
         double leftSpeed = metersPerSecondToRPM(leftMetersPerSecond);
-        double leftFF = feedforward.calculate(leftMetersPerSecond, (leftMetersPerSecond - previousLeftSpeed) / Config.Settings.CPU_PERIOD);
+        double leftFF = leftSpeed * kF;
         leftPID.setFF(leftFF);
         leftPID.setReference(leftSpeed, ControlType.kVelocity);
         System.out.println("Left RPM: " + leftSpeed);
         System.out.println("Left FF: " + leftFF);
 
         double rightSpeed = metersPerSecondToRPM(rightMetersPerSecond);
-        double rightFF = feedforward.calculate(rightMetersPerSecond, (rightMetersPerSecond - previousRightSpeed) / Config.Settings.CPU_PERIOD);
+        double rightFF = rightSpeed * kF;
         rightPID.setFF(rightFF);
         rightPID.setReference(rightSpeed, ControlType.kVelocity);
         System.out.println("Right RPM: " + rightSpeed);
@@ -189,11 +191,12 @@ public class SparkTankDriveBase implements TankDriveBase {
         return Rotation2d.fromDegrees(-navx.getRate());
     }
 
-    private double metersPerSecondToRPM(double metersPerSecond) {
+    @Override
+    public double metersPerSecondToRPM(double metersPerSecond) {
         if (highGear) {
-            return 60 * Units.metersToInches(metersPerSecond) / (5 * Math.PI * 4.17);
+            return 4.17 * 60 * Units.metersToInches(metersPerSecond) / (5 * Math.PI);
         } else {
-            return 60 * Units.metersToInches(metersPerSecond) / (5 * Math.PI * 11.03);
+            return 11.03 * 60 * Units.metersToInches(metersPerSecond) / (5 * Math.PI);
         }
     }
 

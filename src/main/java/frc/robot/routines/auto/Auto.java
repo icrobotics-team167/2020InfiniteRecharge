@@ -70,6 +70,8 @@ public class Auto extends Action {
         // System.out.println("Left target (m/s): " + targetWheelSpeeds.leftMetersPerSecond);
         // System.out.println("Right target (m/s): " + targetWheelSpeeds.rightMetersPerSecond + "\n");
 
+        System.out.println("Left SetSpeed: " + targetWheelSpeeds.leftMetersPerSecond);
+        System.out.println("Right SetSpeed: " + targetWheelSpeeds.rightMetersPerSecond);
         Subsystems.driveBase.setReferences(targetWheelSpeeds.leftMetersPerSecond, targetWheelSpeeds.rightMetersPerSecond);
     }
 

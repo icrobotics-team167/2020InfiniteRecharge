@@ -71,9 +71,19 @@ public class NullController extends ControlScheme {
     public boolean doIndexerShooterMode() {
         return false;
     }
+    
+    @Override
+    public boolean doIndexerSickoShootMode() {
+        return false;
+    }
 
     @Override
     public boolean doRunIndexerManually() {
+        return false;
+    }
+
+    @Override
+    public boolean doAntiJamReverse() {
         return false;
     }
 
