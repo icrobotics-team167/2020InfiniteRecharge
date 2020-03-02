@@ -33,6 +33,11 @@ public class DoubleController extends ControlScheme {
     }
 
     @Override
+    public boolean doStraightDrive() {
+        return primary.getAButton();
+    }
+
+    @Override
     public boolean doSwitchHighGear() {
         return primary.getRightStickButtonToggled();
     }
@@ -138,13 +143,13 @@ public class DoubleController extends ControlScheme {
     }
 
     @Override
-    public boolean doAntiJamReverse() {
-        return secondary.getBButton();
+    public boolean doLiftMotorReverseManually() {
+        return secondary.getYButton();
     }
 
     @Override
-    public boolean doLiftMotorReverseManually() {
-        return secondary.getYButton();
+    public boolean doAntiJamServoReverseManually() {
+        return secondary.getBButton();
     }
 
     @Override

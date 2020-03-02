@@ -46,6 +46,7 @@ public class Indexer {
     private Mode mode;
     private double manualTurnSpeed;
     private double manualLiftSpeed;
+    private int antiJamServoInverted;
 
     private Indexer() {
         turnMotorController = new CANSparkMax(Config.Ports.Indexer.TURN_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless);
@@ -73,6 +74,10 @@ public class Indexer {
         antiJamTimer = new PeriodicTimer();
 
         mode = Mode.OFF;
+
+        manualTurnSpeed = 0;
+        manualLiftSpeed = 0;
+        antiJamServoInverted = 1;
     }
 
     public void run() {
@@ -84,7 +89,7 @@ public class Indexer {
                 liftTimer.reset();
                 return;
             case SMART_INTAKE:
-                servo.set(1);
+                servo.set(antiJamServoInverted * 1);
                 if (!startupTimer.hasElapsed(1)) {
                     turnMotorController.set(0.15);
                     liftMotorController.set(0);
@@ -111,14 +116,14 @@ public class Indexer {
                     turnMotorController.set(0);
                 } else {
                     gapAligned = false;
-                    servo.set(1);
+                    servo.set(antiJamServoInverted * 1);
                     turnMotorController.set(0.15);
                 }
                 liftMotorController.set(0);
                 liftTimer.reset();
                 return;
             case SMART_SHOOT:
-                servo.set(1);
+                servo.set(antiJamServoInverted * 1);
                 if (!liftTimer.hasElapsed(0.6)) {
                     liftMotorController.set(0.8);
                     turnMotorController.set(0);
@@ -142,7 +147,7 @@ public class Indexer {
                 }
                 return;
             case SICKO_SHOOT:
-                servo.set(1);
+                servo.set(antiJamServoInverted * 1);
                 if (!liftTimer.hasElapsed(0.3)) {
                     liftMotorController.set(1);
                     turnMotorController.set(0);
@@ -166,7 +171,7 @@ public class Indexer {
                 }
                 return;
             case MANUAL:
-                servo.set(1);
+                servo.set(antiJamServoInverted * 1);
                 turnMotorController.set(manualTurnSpeed);
                 liftMotorController.set(manualLiftSpeed);
                 liftTimer.reset();
@@ -226,6 +231,14 @@ public class Indexer {
 
     public void setManualLiftSpeed(double speed) {
         manualLiftSpeed = speed;
+    }
+
+    public void forwardAntiJamServo() {
+        antiJamServoInverted = 1;
+    }
+
+    public void reverseAntiJamServo() {
+        antiJamServoInverted = -1;
     }
 
 }

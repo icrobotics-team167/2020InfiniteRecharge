@@ -17,6 +17,7 @@ public class Shooter {
         return instance;
     }
 
+    private boolean on;
     private int targetRPM;
     private CANSparkMax leftMotorController;
     private CANSparkMax rightMotorController;
@@ -46,18 +47,21 @@ public class Shooter {
         leftEncoder.setPosition(0);
         rightEncoder.setPosition(0);
 
-        stop();
+        on = false;
+        targetRPM = Config.Settings.REGULAR_SHOOTING_RPM;
     }
 
     public void run() {
-        int actualRPM = (int) leftEncoder.getVelocity();
+        if (on) {
+            int actualRPM = (int) leftEncoder.getVelocity();
 
-        if (actualRPM <= targetRPM) {
-            leftMotorController.set(1);
-            rightMotorController.set(1);
-        } else {
-            leftMotorController.set(0);
-            rightMotorController.set(0);
+            if (actualRPM <= targetRPM) {
+                leftMotorController.set(1);
+                rightMotorController.set(1);
+            } else {
+                leftMotorController.set(0);
+                rightMotorController.set(0);
+            }
         }
     }
 
@@ -66,19 +70,15 @@ public class Shooter {
     }
 
     public void toggle() {
-        if (targetRPM <= 0) {
-            start();
-        } else {
-            stop();
-        }
+        on = !on;
     }
 
     public void start() {
-        setTargetRPM(Config.Settings.SHOOTING_RPM);
+        on = true;
     }
 
     public void stop() {
-        setTargetRPM(-1000);
+        on = false;
     }
 
     public void testLeft() {
@@ -100,11 +100,11 @@ public class Shooter {
     }
 
     public boolean isInStoppedMode() {
-        return targetRPM <= 0;
+        return !on;
     }
 
     public boolean isInShootingMode() {
-        return !isInStoppedMode();
+        return on;
     }
 
     public boolean isStopped() {
@@ -112,7 +112,7 @@ public class Shooter {
     }
 
     public boolean isUpToSpeed() {
-        return getRPM() >= Config.Settings.SHOOTING_RPM - 300;
+        return getRPM() >= targetRPM - 400;
     }
 
     public double getLeftVoltage() {

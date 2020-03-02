@@ -1,5 +1,6 @@
 package frc.robot.routines;
 
+import frc.robot.Config;
 import frc.robot.controls.controlschemes.ControlScheme;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.drive.TankDriveBase;
@@ -36,7 +37,11 @@ public class Teleop {
 
     public void periodic() {
         // Drive base
-        driveBase.tankDrive(controls.getTankLeftSpeed(), controls.getTankRightSpeed());
+        if (controls.doStraightDrive()) {
+            driveBase.straightDrive(controls.getTankLeftSpeed());
+        } else {
+            driveBase.tankDrive(controls.getTankLeftSpeed(), controls.getTankRightSpeed());
+        }
         if (controls.doSwitchHighGear()) {
             driveBase.setHighGear();
         } else if (controls.doSwitchLowGear()) {
@@ -73,6 +78,11 @@ public class Teleop {
                 intake.setMode(Intake.Mode.OFF);
             }
 
+            if (controls.doAntiJamServoReverseManually()) {
+                indexer.reverseAntiJamServo();
+            } else {
+                indexer.forwardAntiJamServo();
+            }
             if (controls.doRunIndexerManually() || controls.doLiftMotorForwardManually() || controls.doLiftMotorReverseManually()) {
                 indexer.setManualTurnSpeed(controls.getIndexerManualSpeed());
                 if (controls.doLiftMotorForwardManually()) {
@@ -85,13 +95,16 @@ public class Teleop {
                 indexer.setMode(Indexer.Mode.MANUAL);
             } else if (controls.doIndexerShooterMode()) {
                 indexer.setMode(Indexer.Mode.SMART_SHOOT);
-                // shooter.setTargetRPM(4400);
-                // if ((indexer.isGapAligned() && shooter.isUpToSpeed()) || indexer.getMode() == Indexer.Mode.SMART_SHOOT) {
-                //     indexer.setMode(Indexer.Mode.SMART_SHOOT);
-                // }
+                shooter.setTargetRPM(Config.Settings.REGULAR_SHOOTING_RPM);
+//                if ((indexer.isGapAligned() && shooter.isUpToSpeed()) || (indexer.getMode() == Indexer.Mode.SMART_SHOOT || indexer.getMode() == Indexer.Mode.SICKO_SHOOT)) {
+//                    indexer.setMode(Indexer.Mode.SMART_SHOOT);
+//                }
             } else if (controls.doIndexerSickoShootMode()) {
                 indexer.setMode(Indexer.Mode.SICKO_SHOOT);
-                // shooter.setTargetRPM(5000);
+                shooter.setTargetRPM(Config.Settings.SICKO_SHOOTING_RPM);
+//                if ((indexer.isGapAligned() && shooter.isUpToSpeed()) || indexer.getMode() == Indexer.Mode.SICKO_SHOOT) {
+//                    indexer.setMode(Indexer.Mode.SICKO_SHOOT);
+//                }
             } else if (controls.doToggleIndexerAlignMode()) {
                 if (indexer.getMode() == Indexer.Mode.GAP_ALIGNMENT) {
                     indexer.setMode(Indexer.Mode.OFF);

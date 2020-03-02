@@ -31,6 +31,11 @@ public class SingleController extends ControlScheme {
     }
 
     @Override
+    public boolean doStraightDrive() {
+        return false;
+    }
+
+    @Override
     public boolean doSwitchHighGear() {
         return primary.getRightStickButton();
     }
@@ -89,14 +94,9 @@ public class SingleController extends ControlScheme {
     public boolean doIndexerShooterMode() {
         return primary.getRightTrigger();
     }
-    
-    @Override
-    public boolean doIndexerSickoShootMode() {
-        return false;
-    }
 
     @Override
-    public boolean doAntiJamReverse() {
+    public boolean doIndexerSickoShootMode() {
         return false;
     }
 
@@ -121,6 +121,11 @@ public class SingleController extends ControlScheme {
     }
 
     @Override
+    public boolean doAntiJamServoReverseManually() {
+        return false;
+    }
+
+    @Override
     public boolean doToggleShooter() {
         return primary.getYButtonToggled();
     }
@@ -139,7 +144,7 @@ public class SingleController extends ControlScheme {
     public boolean doTurnTurretCounterclockwise() {
         return primary.getViewButton();
     }
-    
+
     @Override
     public boolean doToggleClimbExtension() {
         if (primary.isPSController()) {

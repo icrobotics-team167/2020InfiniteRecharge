@@ -5,6 +5,7 @@ public abstract class ControlScheme {
     // Drive base
     public abstract double getTankLeftSpeed();
     public abstract double getTankRightSpeed();
+    public abstract boolean doStraightDrive();
     public abstract boolean doSwitchHighGear();
     public abstract boolean doSwitchLowGear();
     public abstract boolean doToggleGearing();
@@ -26,7 +27,7 @@ public abstract class ControlScheme {
     public abstract double getIndexerManualSpeed();
     public abstract boolean doLiftMotorForwardManually();
     public abstract boolean doLiftMotorReverseManually();
-    public abstract boolean doAntiJamReverse();
+    public abstract boolean doAntiJamServoReverseManually();
 
     // Shooter
     public abstract boolean doToggleShooter();

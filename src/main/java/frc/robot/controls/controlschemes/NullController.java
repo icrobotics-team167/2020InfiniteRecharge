@@ -13,6 +13,11 @@ public class NullController extends ControlScheme {
     }
 
     @Override
+    public boolean doStraightDrive() {
+        return false;
+    }
+
+    @Override
     public boolean doSwitchHighGear() {
         return false;
     }
@@ -71,7 +76,7 @@ public class NullController extends ControlScheme {
     public boolean doIndexerShooterMode() {
         return false;
     }
-    
+
     @Override
     public boolean doIndexerSickoShootMode() {
         return false;
@@ -79,11 +84,6 @@ public class NullController extends ControlScheme {
 
     @Override
     public boolean doRunIndexerManually() {
-        return false;
-    }
-
-    @Override
-    public boolean doAntiJamReverse() {
         return false;
     }
 
@@ -99,6 +99,11 @@ public class NullController extends ControlScheme {
 
     @Override
     public boolean doLiftMotorReverseManually() {
+        return false;
+    }
+
+    @Override
+    public boolean doAntiJamServoReverseManually() {
         return false;
     }
 
