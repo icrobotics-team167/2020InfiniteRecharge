@@ -11,6 +11,10 @@ public abstract class Action {
 
     protected AutoState state;
 
+    public Action() {
+        state = AutoState.INIT;
+    }
+
     public void exec() {
         if (state == null) {
             return;

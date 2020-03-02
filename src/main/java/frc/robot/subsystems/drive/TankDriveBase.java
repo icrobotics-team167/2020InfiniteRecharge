@@ -15,12 +15,16 @@ public interface TankDriveBase {
     boolean isLowGear();
 
     // Auto
-    void resetEncoders();
+    void straightDrive(double speed);
+    void pointTurn(double speed);
+    double getAngle();
     double getLeftEncoderPosition();
     double getRightEncoderPosition();
+    void resetEncoders();
     void setReferences(double leftSpeed, double rightSpeed);
     Rotation2d getGyroHeading();
 
-    
+    // Utility
     double metersPerSecondToRPM(double metersPerSecond);
+
 }

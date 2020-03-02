@@ -106,8 +106,18 @@ public class TalonTankDriveBase implements TankDriveBase {
     }
 
     @Override
-    public void resetEncoders() {
-        
+    public void straightDrive(double speed) {
+
+    }
+
+    @Override
+    public void pointTurn(double speed) {
+
+    }
+
+    @Override
+    public double getAngle() {
+        return 0;
     }
 
     @Override
@@ -121,8 +131,13 @@ public class TalonTankDriveBase implements TankDriveBase {
     }
 
     @Override
+    public void resetEncoders() {
+
+    }
+
+    @Override
     public void setReferences(double leftMetersPerSecond, double rightMetersPerSecond) {
-        
+
     }
 
     @Override
@@ -134,4 +149,5 @@ public class TalonTankDriveBase implements TankDriveBase {
     public double metersPerSecondToRPM(double metersPerSecond) {
         return 0;
     }
+
 }

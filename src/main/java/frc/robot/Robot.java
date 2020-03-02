@@ -19,7 +19,6 @@ import frc.robot.routines.Teleop;
 import frc.robot.routines.auto.FollowPath;
 import frc.robot.routines.auto.AutoRoutine;
 import frc.robot.subsystems.Subsystems;
-import frc.robot.subsystems.drive.SparkTankDriveBase;
 
 public class Robot extends TimedRobot {
 

@@ -11,8 +11,10 @@ import com.revrobotics.EncoderType;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.util.Units;
+import edu.wpi.first.wpiutil.math.MathUtil;
 import frc.robot.Config;
 
 public class SparkTankDriveBase implements TankDriveBase {
@@ -26,6 +28,12 @@ public class SparkTankDriveBase implements TankDriveBase {
     private CANSparkMax rightSlave2;
     private CANEncoder leftEncoder;
     private CANEncoder rightEncoder;
+    private boolean straightDriving;
+    private double straightDriveAngleSetpoint;
+    private PIDController straightDrivePID;
+    private final double STRAIGHT_DRIVE_KP = 0.02;
+    private final double STRAIGHT_DRIVE_KI = 0.0001;
+    private final double STRAIGHT_DRIVE_KD = 0.01;
     private CANPIDController leftPID;
     private final double LEFT_KP = 0.001; // last tried: 0.0001
     private final double LEFT_KI = 0;
@@ -76,6 +84,9 @@ public class SparkTankDriveBase implements TankDriveBase {
         rightMaster.setOpenLoopRampRate(0);
         rightMaster.setClosedLoopRampRate(0);
 
+        straightDrivePID = new PIDController(STRAIGHT_DRIVE_KP, STRAIGHT_DRIVE_KI, STRAIGHT_DRIVE_KD);
+        straightDrivePID.setTolerance(0.4);
+
         leftPID = leftMaster.getPIDController();
         leftPID.setP(LEFT_KP);
         leftPID.setI(LEFT_KI);
@@ -105,6 +116,7 @@ public class SparkTankDriveBase implements TankDriveBase {
     public void tankDrive(double leftSpeed, double rightSpeed) {
         rightMaster.set(-leftSpeed);
         leftMaster.set(-rightSpeed);
+        straightDriving = false;
     }
 
     @Override
@@ -139,9 +151,27 @@ public class SparkTankDriveBase implements TankDriveBase {
     }
 
     @Override
-    public void resetEncoders() {
-        leftEncoder.setPosition(0);
-        rightEncoder.setPosition(0);
+    public void straightDrive(double speed) {
+        if (!straightDriving) {
+            straightDriving = true;
+            straightDriveAngleSetpoint = navx.getAngle();
+            straightDrivePID.setSetpoint(straightDriveAngleSetpoint);
+        }
+
+        double error = straightDrivePID.calculate(navx.getAngle());
+        leftMaster.set(MathUtil.clamp(speed + error, -1, 1));
+        rightMaster.set(MathUtil.clamp(speed - error, -1, 1));
+    }
+
+    @Override
+    public void pointTurn(double speed) {
+        leftMaster.set(speed);
+        rightMaster.set(-speed);
+    }
+
+    @Override
+    public double getAngle() {
+        return navx.getAngle();
     }
 
     @Override
@@ -167,6 +197,12 @@ public class SparkTankDriveBase implements TankDriveBase {
     }
 
     @Override
+    public void resetEncoders() {
+        leftEncoder.setPosition(0);
+        rightEncoder.setPosition(0);
+    }
+
+    @Override
     public void setReferences(double leftMetersPerSecond, double rightMetersPerSecond) {
         final double kF = 0.000232; // 0.00075
 
@@ -183,6 +219,8 @@ public class SparkTankDriveBase implements TankDriveBase {
         rightPID.setReference(rightSpeed, ControlType.kVelocity);
         System.out.println("Right RPM: " + rightSpeed);
         System.out.println("Right FF: " + rightFF);
+
+        straightDriving = false;
     }
 
     @Override
