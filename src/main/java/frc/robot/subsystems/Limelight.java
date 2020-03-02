@@ -14,6 +14,7 @@ public class Limelight {
     }
 
     private boolean visionEnabled;
+    private boolean tv;
     private double tx;
     private double ty;
     private double ta;
@@ -36,6 +37,7 @@ public class Limelight {
 
     public void update() {
         NetworkTable nt = NetworkTableInstance.getDefault().getTable("limelight");
+        tv = nt.getEntry("tv").getBoolean(false);
         tx = nt.getEntry("tx").getDouble(0);
         ty = nt.getEntry("ty").getDouble(0);
         ta = nt.getEntry("ta").getDouble(0);
@@ -45,6 +47,11 @@ public class Limelight {
 
     public NetworkTable getTable() {
         return NetworkTableInstance.getDefault().getTable("limelight");
+    }
+
+    public boolean tv() {
+        update();
+        return tv;
     }
 
     public double tx() {
