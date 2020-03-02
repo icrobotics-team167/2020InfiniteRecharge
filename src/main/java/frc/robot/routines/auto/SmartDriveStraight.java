@@ -66,8 +66,8 @@ public class SmartDriveStraight extends Action {
             state = AutoState.EXIT;
         }
         if (speed > 0) {
-            double leftEncoderPosition = Subsystems.driveBase.getLeftEncoderPosition();
-            double rightEncoderPosition = Subsystems.driveBase.getRightEncoderPosition();
+            double leftEncoderPosition = Subsystems.driveBase.getLeftEncoderPosition() - leftEncoderInitialPosition;
+            double rightEncoderPosition = Subsystems.driveBase.getRightEncoderPosition() - rightEncoderInitialPosition;
             double metersTraveled = Math.max(leftEncoderPosition, rightEncoderPosition);
             if (metersTraveled > meters - accelerationMeters) {
                 Subsystems.driveBase.straightDrive(minSpeed + ((((meters - metersTraveled) / accelerationMeters)) * speedRange));
@@ -77,8 +77,8 @@ public class SmartDriveStraight extends Action {
                 Subsystems.driveBase.straightDrive(maxSpeed);
             }
         } else if (speed < 0) {
-            double leftEncoderPosition = Math.abs(Subsystems.driveBase.getLeftEncoderPosition());
-            double rightEncoderPosition = Math.abs(Subsystems.driveBase.getRightEncoderPosition());
+            double leftEncoderPosition = Math.abs(Subsystems.driveBase.getLeftEncoderPosition() - leftEncoderInitialPosition);
+            double rightEncoderPosition = Math.abs(Subsystems.driveBase.getRightEncoderPosition() - rightEncoderInitialPosition);
             double metersTraveled = Math.max(leftEncoderPosition, rightEncoderPosition);
             if (metersTraveled > meters - accelerationMeters) {
                 Subsystems.driveBase.straightDrive(-(minSpeed + ((((meters - metersTraveled) / accelerationMeters)) * speedRange)));

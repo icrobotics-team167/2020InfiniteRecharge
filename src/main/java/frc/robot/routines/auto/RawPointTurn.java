@@ -4,7 +4,7 @@ import frc.robot.routines.Action;
 import frc.robot.subsystems.Subsystems;
 import frc.robot.util.PeriodicTimer;
 
-public class PointTurn extends Action {
+public class RawPointTurn extends Action {
 
     private double degreesClockwise;
     private double speed;
@@ -12,11 +12,11 @@ public class PointTurn extends Action {
     private double initialAngle;
     private PeriodicTimer timer;
 
-    public PointTurn(double degreesClockwise, double speed) {
+    public RawPointTurn(double degreesClockwise, double speed) {
         this(degreesClockwise, speed, -1);
     }
 
-    public PointTurn(double degreesClockwise, double speed, double timeoutSeconds) {
+    public RawPointTurn(double degreesClockwise, double speed, double timeoutSeconds) {
         super();
         this.degreesClockwise = degreesClockwise;
         this.speed = speed;

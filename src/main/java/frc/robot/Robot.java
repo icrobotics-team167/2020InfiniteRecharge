@@ -16,11 +16,8 @@ import frc.robot.controls.controlschemes.SingleController;
 import frc.robot.routines.Action;
 import frc.robot.routines.Routine;
 import frc.robot.routines.Teleop;
-import frc.robot.routines.auto.FollowPath;
-import frc.robot.routines.auto.PointTurn;
-import frc.robot.routines.auto.Wait;
 import frc.robot.routines.auto.AutoRoutine;
-import frc.robot.routines.auto.DriveStraight;
+import frc.robot.routines.auto.RawDriveStraight;
 import frc.robot.subsystems.Subsystems;
 
 public class Robot extends TimedRobot {
@@ -90,7 +87,7 @@ public class Robot extends TimedRobot {
         Subsystems.setInitialStates();
 
         auto = new Routine(new Action[] {
-            new DriveStraight(132, 0.4),
+            new RawDriveStraight(132, 0.4),
 //            new Wait(1),
 //            new PointTurn(90, 0.2),
 //            new FollowPath(AutoRoutine.FTR1),
