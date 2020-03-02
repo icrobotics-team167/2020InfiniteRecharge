@@ -25,6 +25,8 @@ public class Teleop {
     }
 
     public void init() {
+        driveBase.setHighGear();
+        driveBase.resetEncoders();
         intake.setMode(Intake.Mode.OFF);
         intake.retract();
         indexer.setMode(Indexer.Mode.OFF);
@@ -136,7 +138,7 @@ public class Teleop {
         if (controls.doClimbReset()) {
             climb.reset();
         }
-        
+
         // Run
         intake.run();
         indexer.run();

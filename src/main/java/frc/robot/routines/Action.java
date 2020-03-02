@@ -16,9 +16,6 @@ public abstract class Action {
             return;
         }
         switch (state) {
-            case READY:
-                setState(AutoState.INIT);
-                break;
             case INIT:
                 init();
                 setState(AutoState.PERIODIC);

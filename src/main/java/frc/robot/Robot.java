@@ -16,7 +16,7 @@ import frc.robot.controls.controlschemes.SingleController;
 import frc.robot.routines.Action;
 import frc.robot.routines.Routine;
 import frc.robot.routines.Teleop;
-import frc.robot.routines.auto.Auto;
+import frc.robot.routines.auto.FollowPath;
 import frc.robot.routines.auto.AutoRoutine;
 import frc.robot.subsystems.Subsystems;
 import frc.robot.subsystems.drive.SparkTankDriveBase;
@@ -81,34 +81,30 @@ public class Robot extends TimedRobot {
 
         new Thread(() -> {
             UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+//            camera.setFPS(30);
+//            camera.setResolution(320, 240);
         }).start();
 
         Subsystems.setInitialStates();
 
         auto = new Routine(new Action[] {
-            new Auto(AutoRoutine.FTR1),
-            // new Auto(AutoRoutine.FTR2),
-            // new Auto(AutoRoutine.FTR3),
-            // new Auto(AutoRoutine.FTR4),
-            // new Auto(AutoRoutine.FTR5),
-            // new Auto(AutoRoutine.RT),
-            // new Auto(AutoRoutine.RT),
-            // new Auto(AutoRoutine.RT),
-            // new Auto(AutoRoutine.RT),
+            new FollowPath(AutoRoutine.FTR1),
+//            new FollowPath(AutoRoutine.FTR2),
+//            new FollowPath(AutoRoutine.FTR3),
+//            new FollowPath(AutoRoutine.FTR4),
+//            new FollowPath(AutoRoutine.FTR5),
+//            new FollowPath(AutoRoutine.RT),
+//            new FollowPath(AutoRoutine.RT),
+//            new FollowPath(AutoRoutine.RT),
+//            new FollowPath(AutoRoutine.RT),
         });
-        // auto = new Auto(AutoRoutine.FRIENDLY_TRENCH_RUN);
         teleop = new Teleop(controls);
     }
 
     @Override
     public void robotPeriodic() {
-        SmartDashboard.putNumber("drive/leftEncoder", Subsystems.driveBase.getLeftEncoderPosition());
-        SmartDashboard.putNumber("drive/rightEncoder", Subsystems.driveBase.getRightEncoderPosition());
-        // System.out.println("Left encoder: " + Subsystems.driveBase.());
-        // System.out.println("Right encoder: " + Subsystems.driveBase.getRightEncoderPosition());
-        
-        SmartDashboard.putNumber("Speed: ", ((SparkTankDriveBase) Subsystems.driveBase).getSpeed());
-        SmartDashboard.putNumber("Accel: ", ((SparkTankDriveBase) Subsystems.driveBase).getAccl());
+        SmartDashboard.putNumber("drive/leftEncoderPosition", Subsystems.driveBase.getLeftEncoderPosition());
+        SmartDashboard.putNumber("drive/rightEncoderPosition", Subsystems.driveBase.getRightEncoderPosition());
 
         SmartDashboard.putNumber("limelight/tx", Subsystems.limelight.tx());
         SmartDashboard.putNumber("limelight/ty", Subsystems.limelight.ty());
@@ -144,7 +140,6 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopInit() {
         teleop.init();
-        Subsystems.driveBase.resetEncoders();
     }
 
     @Override

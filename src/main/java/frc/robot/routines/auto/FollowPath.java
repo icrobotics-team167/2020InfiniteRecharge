@@ -1,6 +1,5 @@
 package frc.robot.routines.auto;
 
-import edu.wpi.first.wpilibj.util.Units;
 import frc.robot.routines.Action;
 import frc.robot.subsystems.Subsystems;
 import frc.robot.util.PeriodicTimer;
@@ -16,7 +15,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import java.io.IOException;
 import java.nio.file.Path;
 
-public class Auto extends Action {
+public class FollowPath extends Action {
 
     private String trajectoryFileName;
     private Trajectory trajectory;
@@ -26,13 +25,13 @@ public class Auto extends Action {
     private DifferentialDriveKinematics kinematics;
     private DifferentialDriveOdometry odometry;
 
-    public Auto(AutoRoutine routine) {
+    public FollowPath(AutoRoutine routine) {
         trajectoryFileName = "paths/" + routine.trajectoryFile + ".wpilib.json";
 
         try {
             Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryFileName);
             trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
-            setState(AutoState.READY);
+            setState(AutoState.INIT);
         } catch (IOException ex) {
             DriverStation.reportError("Unable to open trajectory: " + trajectoryFileName, ex.getStackTrace());
             setState(AutoState.EXIT);

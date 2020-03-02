@@ -11,7 +11,6 @@ import com.revrobotics.EncoderType;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.util.Units;
 import frc.robot.Config;
@@ -28,10 +27,15 @@ public class SparkTankDriveBase implements TankDriveBase {
     private CANEncoder leftEncoder;
     private CANEncoder rightEncoder;
     private CANPIDController leftPID;
+    private final double LEFT_KP = 0.001; // last tried: 0.0001
+    private final double LEFT_KI = 0;
+    private final double LEFT_KD = 0;
+    private final double LEFT_KF = 0.000232; // with slower paths?: 0.00075
     private CANPIDController rightPID;
-    private double previousLeftSpeed;
-    private double previousRightSpeed;
-    private SimpleMotorFeedforward feedforward;
+    private final double RIGHT_KP = 0.001; // last tried: 0.0001
+    private final double RIGHT_KI = 0;
+    private final double RIGHT_KD = 0;
+    private final double RIGHT_KF = 0.000232; // with slower paths?: 0.00075
     private DoubleSolenoid doubleSolenoid;
     private boolean highGear;
 
@@ -72,21 +76,16 @@ public class SparkTankDriveBase implements TankDriveBase {
         rightMaster.setOpenLoopRampRate(0);
         rightMaster.setClosedLoopRampRate(0);
 
-        previousLeftSpeed = 0;
-        previousRightSpeed = 0;
-        feedforward = new SimpleMotorFeedforward(0.169, 3.49, 0.532);
-
-        final double kP = 0.001; // 0.0001
-        final double kI = 0;
-        final double kD = 0;
         leftPID = leftMaster.getPIDController();
-        leftPID.setP(kP);
-        leftPID.setI(kI);
-        leftPID.setD(kD);
+        leftPID.setP(LEFT_KP);
+        leftPID.setI(LEFT_KI);
+        leftPID.setD(LEFT_KD);
+        leftPID.setFF(LEFT_KF);
         rightPID = rightMaster.getPIDController();
-        rightPID.setP(kP);
-        rightPID.setI(kI);
-        rightPID.setD(kD);
+        rightPID.setP(RIGHT_KP);
+        rightPID.setI(RIGHT_KI);
+        rightPID.setD(RIGHT_KD);
+        rightPID.setFF(RIGHT_KF);
 
         leftSlave1.follow(leftMaster);
         leftSlave2.follow(leftMaster);
@@ -200,15 +199,4 @@ public class SparkTankDriveBase implements TankDriveBase {
         }
     }
 
-    public double getSpeed() {
-        return Math.min(leftEncoder.getVelocity(), rightEncoder.getVelocity()); 
-    }
-
-    double prevVelocity = 0;
-    public double getAccl() {
-        double velocity = Math.min(leftEncoder.getVelocity(), rightEncoder.getVelocity());
-        double res = (velocity - prevVelocity) / Config.Settings.CPU_PERIOD;
-        prevVelocity = velocity;
-        return res;
-    }
 }
