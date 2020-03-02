@@ -19,6 +19,7 @@ import frc.robot.routines.Teleop;
 import frc.robot.routines.auto.Auto;
 import frc.robot.routines.auto.AutoRoutine;
 import frc.robot.subsystems.Subsystems;
+import frc.robot.subsystems.drive.SparkTankDriveBase;
 
 public class Robot extends TimedRobot {
 
@@ -85,12 +86,15 @@ public class Robot extends TimedRobot {
         Subsystems.setInitialStates();
 
         auto = new Routine(new Action[] {
-            // new Auto(AutoRoutine.FTR1),
+            new Auto(AutoRoutine.FTR1),
             // new Auto(AutoRoutine.FTR2),
             // new Auto(AutoRoutine.FTR3),
             // new Auto(AutoRoutine.FTR4),
             // new Auto(AutoRoutine.FTR5),
-            new Auto(AutoRoutine.RT),
+            // new Auto(AutoRoutine.RT),
+            // new Auto(AutoRoutine.RT),
+            // new Auto(AutoRoutine.RT),
+            // new Auto(AutoRoutine.RT),
         });
         // auto = new Auto(AutoRoutine.FRIENDLY_TRENCH_RUN);
         teleop = new Teleop(controls);
@@ -100,8 +104,11 @@ public class Robot extends TimedRobot {
     public void robotPeriodic() {
         SmartDashboard.putNumber("drive/leftEncoder", Subsystems.driveBase.getLeftEncoderPosition());
         SmartDashboard.putNumber("drive/rightEncoder", Subsystems.driveBase.getRightEncoderPosition());
-        // System.out.println("Left encoder: " + Subsystems.driveBase.getLeftEncoderPosition());
+        // System.out.println("Left encoder: " + Subsystems.driveBase.());
         // System.out.println("Right encoder: " + Subsystems.driveBase.getRightEncoderPosition());
+        
+        SmartDashboard.putNumber("Speed: ", ((SparkTankDriveBase) Subsystems.driveBase).getSpeed());
+        SmartDashboard.putNumber("Accel: ", ((SparkTankDriveBase) Subsystems.driveBase).getAccl());
 
         SmartDashboard.putNumber("limelight/tx", Subsystems.limelight.tx());
         SmartDashboard.putNumber("limelight/ty", Subsystems.limelight.ty());
@@ -124,7 +131,7 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
         Subsystems.driveBase.resetEncoders();
-        Subsystems.driveBase.setLowGear();
+        Subsystems.driveBase.setHighGear();
         auto.exec();
         System.out.println("Auto selected: " + autoChooser.getSelected().name);
     }

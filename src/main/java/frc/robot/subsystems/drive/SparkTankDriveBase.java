@@ -169,18 +169,18 @@ public class SparkTankDriveBase implements TankDriveBase {
 
     @Override
     public void setReferences(double leftMetersPerSecond, double rightMetersPerSecond) {
-        final double kF = 0.00000012; // 0.0000001
+        final double kF = 0.000232; // 0.00075
 
         double leftSpeed = metersPerSecondToRPM(leftMetersPerSecond);
         double leftFF = leftSpeed * kF;
-        leftPID.setFF(leftFF);
+        leftPID.setFF(kF);
         leftPID.setReference(leftSpeed, ControlType.kVelocity);
         System.out.println("Left RPM: " + leftSpeed);
         System.out.println("Left FF: " + leftFF);
 
         double rightSpeed = metersPerSecondToRPM(rightMetersPerSecond);
         double rightFF = rightSpeed * kF;
-        rightPID.setFF(rightFF);
+        rightPID.setFF(kF);
         rightPID.setReference(rightSpeed, ControlType.kVelocity);
         System.out.println("Right RPM: " + rightSpeed);
         System.out.println("Right FF: " + rightFF);
@@ -200,4 +200,15 @@ public class SparkTankDriveBase implements TankDriveBase {
         }
     }
 
+    public double getSpeed() {
+        return Math.min(leftEncoder.getVelocity(), rightEncoder.getVelocity()); 
+    }
+
+    double prevVelocity = 0;
+    public double getAccl() {
+        double velocity = Math.min(leftEncoder.getVelocity(), rightEncoder.getVelocity());
+        double res = (velocity - prevVelocity) / Config.Settings.CPU_PERIOD;
+        prevVelocity = velocity;
+        return res;
+    }
 }
