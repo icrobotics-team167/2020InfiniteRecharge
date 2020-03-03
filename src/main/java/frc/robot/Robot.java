@@ -99,8 +99,8 @@ public class Robot extends TimedRobot {
             new StartShooter(),
             new SmartDriveStraight(114, 0.4, 8),
             new SickoShoot(3),
-            new SmartDriveStraight(135, 0.2, 5),
-            new SmartDriveStraight(135, -0.4, 5),
+            new SmartDriveStraight(48, 0.2, 3.5),
+            new SmartDriveStraight(48, -0.4, 3.5),
             new SecondSickoShoot(3)
             // new SmartDriveStraight(150, 0.4),
             // new Wait(1),
