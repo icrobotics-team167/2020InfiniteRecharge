@@ -1,8 +1,9 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
 import edu.wpi.first.wpilibj.Solenoid;
 import frc.robot.Config;
 
@@ -24,7 +25,7 @@ public class Intake {
     }
 
     private Solenoid solenoid;
-    private TalonSRX motor;
+    private CANSparkMax motor;
     private Mode mode;
     private boolean extended;
     private double manualSpeed;
@@ -34,9 +35,14 @@ public class Intake {
             Config.Settings.SPARK_TANK_ENABLED ? Config.Ports.SparkTank.PCM : Config.Ports.TalonTank.PCM,
             Config.Ports.Intake.SOLENOID
         );
-        motor = new TalonSRX(Config.Ports.Intake.MOTOR);
+        motor = new CANSparkMax(Config.Ports.Intake.MOTOR, MotorType.kBrushless);
+        motor.restoreFactoryDefaults();
+        motor.setIdleMode(CANSparkMax.IdleMode.kBrake);
         motor.setInverted(true);
-        motor.setNeutralMode(NeutralMode.Brake);
+        motor.setOpenLoopRampRate(0);
+        motor.setClosedLoopRampRate(0);
+        motor.setSmartCurrentLimit(80);
+        motor.setSecondaryCurrentLimit(40);
         mode = Mode.OFF;
         extended = false;
     }
@@ -44,27 +50,27 @@ public class Intake {
     public void run() {
         switch (mode) {
             case OFF:
-                motor.set(ControlMode.PercentOutput, 0);
+                motor.set(0);
                 break;
             case FORWARD:
                 if (extended) {
-                    motor.set(ControlMode.PercentOutput, 0.95);
+                    motor.set(0.95);
                 } else {
-                    motor.set(ControlMode.PercentOutput, 0.4);
+                    motor.set(0.4);
                 }
                 break;
             case REVERSE:
                 if (extended) {
-                    motor.set(ControlMode.PercentOutput, -0.6);
+                    motor.set(-0.6);
                 } else {
-                    motor.set(ControlMode.PercentOutput, -0.3);
+                    motor.set(-0.3);
                 }
                 break;
             case MANUAL:
-                motor.set(ControlMode.PercentOutput, manualSpeed);
+                motor.set(manualSpeed);
                 break;
             default:
-                motor.set(ControlMode.PercentOutput, 0);
+                motor.set(0);
                 break;
         }
     }

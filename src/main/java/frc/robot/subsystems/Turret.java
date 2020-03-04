@@ -1,8 +1,8 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -27,13 +27,19 @@ public class Turret {
     }
 
     private Mode mode;
-    private TalonSRX motor;
+    private CANSparkMax motor;
     private PIDController pid;
     private Limelight limelight;
 
     private Turret() {
-        motor = new TalonSRX(Config.Ports.TURRET);
-        motor.setNeutralMode(NeutralMode.Brake);
+        motor = new CANSparkMax(Config.Ports.TURRET, MotorType.kBrushless);
+        motor.restoreFactoryDefaults();
+        motor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+        motor.setInverted(false);
+        motor.setOpenLoopRampRate(0);
+        motor.setClosedLoopRampRate(0);
+        motor.setSmartCurrentLimit(80);
+        motor.setSecondaryCurrentLimit(40);
         pid = new PIDController(0.065, 0.002, 0.002, Config.Settings.CPU_PERIOD);
         pid.setSetpoint(0.4);
         pid.setTolerance(0.4);
@@ -82,19 +88,19 @@ public class Turret {
         double tx = limelight.tx();
         double output = pid.calculate(tx);
         SmartDashboard.putNumber("Turret PID Output", output);
-        motor.set(ControlMode.PercentOutput, MathUtil.clamp(output, -1, 1));
+        motor.set(MathUtil.clamp(output, -1, 1));
     }
 
     private void turnClockwise(double speed) {
-        motor.set(ControlMode.PercentOutput, -speed);
+        motor.set(-speed);
     }
 
     private void turnCounterclockwise(double speed) {
-        motor.set(ControlMode.PercentOutput, speed);
+        motor.set(speed);
     }
 
     private void stop() {
-        motor.set(ControlMode.PercentOutput, 0);
+        motor.set(0);
     }
 
 }
