@@ -48,7 +48,7 @@ public class Shooter {
         rightEncoder.setPosition(0);
 
         on = false;
-        targetRPM = Config.Settings.REGULAR_SHOOTING_RPM;
+        targetRPM = Config.Settings.SICKO_SHOOTING_RPM;
     }
 
     public void run() {

@@ -86,18 +86,18 @@ public class SingleController extends ControlScheme {
     }
 
     @Override
+    public boolean doIndexerSingleTurn() {
+        return false;
+    }
+
+    @Override
     public boolean doToggleIndexerAlignMode() {
         return primary.getXButtonToggled();
     }
 
     @Override
-    public boolean doIndexerShooterMode() {
-        return primary.getRightTrigger();
-    }
-
-    @Override
     public boolean doIndexerSickoShootMode() {
-        return false;
+        return primary.getRightTrigger();
     }
 
     @Override

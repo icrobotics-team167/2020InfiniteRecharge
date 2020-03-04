@@ -16,10 +16,7 @@ public class SingleIndexerTurn extends Action {
     @Override
     public void init() {
         timer.reset();
-        Subsystems.indexer.setManualTurnSpeed(0.5);
-        Subsystems.indexer.setManualLiftSpeed(0);
-        Subsystems.indexer.forwardAntiJamServo();
-        Subsystems.indexer.setMode(Indexer.Mode.MANUAL);
+        Subsystems.indexer.setMode(Indexer.Mode.SINGLE_TURN);
     }
 
     @Override
@@ -29,13 +26,11 @@ public class SingleIndexerTurn extends Action {
 
     @Override
     public boolean isDone() {
-        return timer.hasElapsed(0.5);
+        return Subsystems.indexer.hasCompletedSingleTurn();
     }
 
     @Override
     public void done() {
-        Subsystems.indexer.setManualTurnSpeed(0);
-        Subsystems.indexer.forwardAntiJamServo();
         Subsystems.indexer.setMode(Indexer.Mode.OFF);
     }
 

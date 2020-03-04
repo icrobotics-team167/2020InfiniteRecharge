@@ -67,7 +67,7 @@ public class Teleop {
             }
             if (controls.doGroundIntake() || controls.doHumanPlayerIntake()) {
                 intake.setMode(Intake.Mode.FORWARD);
-                if (indexer.getMode() != Indexer.Mode.GAP_ALIGNMENT && indexer.getMode() != Indexer.Mode.SMART_SHOOT) {
+                if (indexer.getMode() != Indexer.Mode.GAP_ALIGNMENT && indexer.getMode() != Indexer.Mode.SICKO_SHOOT) {
                     indexer.setMode(Indexer.Mode.SMART_INTAKE);
                 }
                 // if (indexer.getMode() == Indexer.Mode.GAP_ALIGNMENT && !indexer.isGapAligned()) {
@@ -95,18 +95,14 @@ public class Teleop {
                     indexer.setManualLiftSpeed(0);
                 }
                 indexer.setMode(Indexer.Mode.MANUAL);
-            } else if (controls.doIndexerShooterMode()) {
-                indexer.setMode(Indexer.Mode.SMART_SHOOT);
-                shooter.setTargetRPM(Config.Settings.REGULAR_SHOOTING_RPM);
-//                if ((indexer.isGapAligned() && shooter.isUpToSpeed()) || (indexer.getMode() == Indexer.Mode.SMART_SHOOT || indexer.getMode() == Indexer.Mode.SICKO_SHOOT)) {
-//                    indexer.setMode(Indexer.Mode.SMART_SHOOT);
-//                }
             } else if (controls.doIndexerSickoShootMode()) {
                 indexer.setMode(Indexer.Mode.SICKO_SHOOT);
                 shooter.setTargetRPM(Config.Settings.SICKO_SHOOTING_RPM);
 //                if ((indexer.isGapAligned() && shooter.isUpToSpeed()) || indexer.getMode() == Indexer.Mode.SICKO_SHOOT) {
 //                    indexer.setMode(Indexer.Mode.SICKO_SHOOT);
 //                }
+            } else if (controls.doIndexerSingleTurn()) {
+                indexer.setMode(Indexer.Mode.SINGLE_TURN);
             } else if (controls.doToggleIndexerAlignMode()) {
                 if (indexer.getMode() == Indexer.Mode.GAP_ALIGNMENT) {
                     indexer.setMode(Indexer.Mode.OFF);

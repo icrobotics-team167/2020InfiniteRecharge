@@ -1,6 +1,5 @@
 package frc.robot.routines.auto;
 
-import frc.robot.Config;
 import frc.robot.routines.Action;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;

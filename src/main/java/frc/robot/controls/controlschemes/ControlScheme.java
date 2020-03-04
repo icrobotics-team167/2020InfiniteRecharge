@@ -20,8 +20,8 @@ public abstract class ControlScheme {
     public abstract double getIntakeManualSpeed();
 
     // Indexer
+    public abstract boolean doIndexerSingleTurn();
     public abstract boolean doToggleIndexerAlignMode();
-    public abstract boolean doIndexerShooterMode();
     public abstract boolean doIndexerSickoShootMode();
     public abstract boolean doRunIndexerManually();
     public abstract double getIndexerManualSpeed();

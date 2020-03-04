@@ -99,21 +99,18 @@ public class DoubleController extends ControlScheme {
     }
 
     @Override
+    public boolean doIndexerSingleTurn() {
+        return primary.getViewButton();
+    }
+
+    @Override
     public boolean doToggleIndexerAlignMode() {
         return secondary.getLeftBumperToggled();
     }
 
     @Override
-    public boolean doIndexerShooterMode() {
-        return primary.getRightTrigger();
-    }
-
-    @Override
     public boolean doIndexerSickoShootMode() {
-        if (primary.isPSController()) {
-            return primary.getMenuButton();
-        }
-        return false;
+        return primary.getRightTrigger();
     }
 
     @Override

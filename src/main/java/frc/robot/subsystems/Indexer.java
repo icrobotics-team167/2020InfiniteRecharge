@@ -22,8 +22,8 @@ public class Indexer {
     public static enum Mode {
         OFF("OFF"),
         SMART_INTAKE("SMART_INTAKE"),
+        SINGLE_TURN("SINGLE_TURN"),
         GAP_ALIGNMENT("GAP_ALIGNMENT"),
-        SMART_SHOOT("SMART_SHOOT"),
         SICKO_SHOOT("SICKO_SHOOT"),
         MANUAL("MANUAL");
 
@@ -37,6 +37,7 @@ public class Indexer {
     private CANSparkMax turnMotorController;
     private CANEncoder turnEncoder;
     private DigitalInput limitSwitch;
+    private boolean hasCompletedSingleTurn;
     private boolean gapAligned;
     private CANSparkMax liftMotorController;
     private Servo servo;
@@ -59,6 +60,8 @@ public class Indexer {
         turnMotorController.setSecondaryCurrentLimit(40);
 
         turnEncoder = turnMotorController.getEncoder();
+
+        hasCompletedSingleTurn = false;
 
         limitSwitch = new DigitalInput(Config.Ports.Indexer.LIMIT_SWITCH);
         gapAligned = false;
@@ -114,6 +117,18 @@ public class Indexer {
                 }
                 liftTimer.reset();
                 return;
+            case SINGLE_TURN:
+                liftMotorController.set(0);
+                servo.set(0.5);
+                if (!startupTimer.hasElapsed(0.5)) {
+                    hasCompletedSingleTurn = false;
+                    turnMotorController.set(0.5);
+                } else {
+                    hasCompletedSingleTurn = true;
+                    turnMotorController.set(0);
+                }
+                liftTimer.reset();
+                return;
             case GAP_ALIGNMENT:
                 if (gapAligned || !limitSwitch.get()) {
                     gapAligned = true;
@@ -127,30 +142,6 @@ public class Indexer {
                 liftMotorController.set(0);
                 liftTimer.reset();
                 return;
-            case SMART_SHOOT:
-                servo.set(antiJamServoInverted * 1);
-                if (!liftTimer.hasElapsed(0.6)) {
-                    liftMotorController.set(0.5);
-                    turnMotorController.set(0);
-                    antiJamTimer.reset();
-                } else if (!startupTimer.hasElapsed(1)) {
-                    liftMotorController.set(0.5);
-                    turnMotorController.set(0.5);
-                    antiJamTimer.reset();
-                } else if (turnEncoder.getVelocity() < 1500 && !antiJamTimer.hasElapsed(1.5)) {
-                    liftMotorController.set(0);
-                    turnMotorController.set(-0.15);
-                } else if (turnEncoder.getVelocity() < 1500) {
-                    liftMotorController.set(0.5);
-                    turnMotorController.set(0);
-                    antiJamTimer.reset();
-                    startupTimer.reset();
-                } else {
-                    liftMotorController.set(0.5);
-                    turnMotorController.set(0.5);
-                    antiJamTimer.reset();
-                }
-                return;
             case SICKO_SHOOT:
                 servo.set(antiJamServoInverted * 1);
                 if (!liftTimer.hasElapsed(0.3)) {
@@ -159,7 +150,7 @@ public class Indexer {
                     antiJamTimer.reset();
                 } else if (!startupTimer.hasElapsed(1)) {
                     liftMotorController.set(1);
-                    turnMotorController.set(0.55); // 0.55
+                    turnMotorController.set(0.55);
                     antiJamTimer.reset();
                 } else if (turnEncoder.getVelocity() < 3100 && !antiJamTimer.hasElapsed(1.5)) {
                     liftMotorController.set(0);
@@ -193,6 +184,10 @@ public class Indexer {
         return !limitSwitch.get();
     }
 
+    public boolean hasCompletedSingleTurn() {
+        return hasCompletedSingleTurn;
+    }
+
     public boolean isGapAligned() {
         return gapAligned;
     }
@@ -202,7 +197,7 @@ public class Indexer {
     }
 
     public boolean isShooting() {
-        return mode == Mode.SMART_SHOOT;
+        return mode == Mode.SICKO_SHOOT;
     }
 
     public double getTurnRPM() {
@@ -222,6 +217,7 @@ public class Indexer {
         }
         if (mode != Mode.OFF) {
             gapAligned = false;
+            hasCompletedSingleTurn = false;
         }
         this.mode = mode;
     }

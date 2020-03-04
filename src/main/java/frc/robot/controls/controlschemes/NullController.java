@@ -68,12 +68,12 @@ public class NullController extends ControlScheme {
     }
 
     @Override
-    public boolean doToggleIndexerAlignMode() {
+    public boolean doIndexerSingleTurn() {
         return false;
     }
 
     @Override
-    public boolean doIndexerShooterMode() {
+    public boolean doToggleIndexerAlignMode() {
         return false;
     }
 
