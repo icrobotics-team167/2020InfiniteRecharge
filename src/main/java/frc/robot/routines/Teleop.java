@@ -13,7 +13,8 @@ public class Teleop {
     private Indexer indexer;
     private Turret turret;
     private Shooter shooter;
-    private Climb climb;
+    private Climber climber;
+    private boolean climbMode;
 
     public Teleop(ControlScheme controls) {
         this.controls = controls;
@@ -22,7 +23,7 @@ public class Teleop {
         indexer = Subsystems.indexer;
         turret = Subsystems.turret;
         shooter = Subsystems.shooter;
-        climb = Subsystems.climb;
+        climber = Subsystems.climber;
     }
 
     public void init() {
@@ -33,6 +34,7 @@ public class Teleop {
         indexer.setMode(Indexer.Mode.OFF);
         turret.setMode(Turret.Mode.OFF);
         shooter.stop();
+        climbMode = false;
     }
 
     public void periodic() {
@@ -52,7 +54,7 @@ public class Teleop {
             driveBase.toggleGearing();
         }
 
-        if (!climb.isRaised()) {
+        if (!climbMode) {
             // Intake and indexer
             if (controls.doToggleIntakeExtension()) {
                 intake.toggleExtension();
@@ -128,26 +130,24 @@ public class Teleop {
             } else {
                 turret.setMode(Turret.Mode.OFF);
             }
-        } else {
-            if (controls.doClimbUp()) {
-                climb.pull();
-            } else if (controls.doClimbDown()) {
-                climb.down();
-            }
-        }
-
-        // Climb
-        if (controls.doToggleClimbExtension()) {
-            if (climb.isRaised()) {
-                climb.lower();
+        } else /* if (climbMode) */ {
+            if (controls.doRaiseClimber()) {
+                climber.raiseExtension();
+            } else if (controls.doLowerClimber()) {
+                climber.lowerExtension();
             } else {
-                climb.raise();
-                Subsystems.setClimbStates();
+                climber.stopExtension();
+            }
+            if (controls.doClimb()) {
+                climber.climbUp();
+            } else {
+                climber.stopClimb();
             }
         }
 
-        if (controls.doClimbReset()) {
-            climb.reset();
+        // Climb mode toggle
+        if (controls.doToggleClimbMode()) {
+            climbMode = !climbMode;
         }
 
         // Run

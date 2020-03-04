@@ -128,22 +128,22 @@ public class NullController extends ControlScheme {
     }
 
     @Override
-    public boolean doToggleClimbExtension() {
+    public boolean doToggleClimbMode() {
         return false;
     }
 
     @Override
-    public boolean doClimbUp() {
+    public boolean doRaiseClimber() {
         return false;
     }
 
     @Override
-    public boolean doClimbDown() {
+    public boolean doLowerClimber() {
         return false;
     }
 
     @Override
-    public boolean doClimbReset() {
+    public boolean doClimb() {
         return false;
     }
 

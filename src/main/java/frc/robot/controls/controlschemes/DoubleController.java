@@ -170,7 +170,7 @@ public class DoubleController extends ControlScheme {
     }
 
     @Override
-    public boolean doToggleClimbExtension() {
+    public boolean doToggleClimbMode() {
         if (primary.isPSController()) {
             return ((PSController) primary).getTouchpadButtonToggled();
         } else {
@@ -179,22 +179,18 @@ public class DoubleController extends ControlScheme {
     }
 
     @Override
-    public boolean doClimbUp() {
+    public boolean doRaiseClimber() {
+        return primary.getRightBumper();
+    }
+
+    @Override
+    public boolean doLowerClimber() {
+        return primary.getLeftBumper();
+    }
+
+    @Override
+    public boolean doClimb() {
         return primary.getRightTrigger();
-    }
-
-    @Override
-    public boolean doClimbDown() {
-        return primary.getLeftTrigger();
-    }
-
-    @Override
-    public boolean doClimbReset() {
-        if (primary.isPSController()) {
-            return ((PSController) primary).getPSButton();
-        } else {
-            return primary.getViewButton();
-        }
     }
 
 }

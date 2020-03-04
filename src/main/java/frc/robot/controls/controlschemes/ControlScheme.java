@@ -38,9 +38,9 @@ public abstract class ControlScheme {
     public abstract boolean doTurnTurretCounterclockwise();
 
     // Climb
-    public abstract boolean doToggleClimbExtension();
-    public abstract boolean doClimbUp();
-    public abstract boolean doClimbDown();
-    public abstract boolean doClimbReset();
+    public abstract boolean doToggleClimbMode();
+    public abstract boolean doRaiseClimber();
+    public abstract boolean doLowerClimber();
+    public abstract boolean doClimb();
 
 }

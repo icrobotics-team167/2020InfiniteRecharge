@@ -107,8 +107,7 @@ public class Config {
 
         // Climb ports
         public static final class Climb {
-            public static final int LOWER = 5;
-            public static final int UPPER = 10;
+            public static final int EXTENSION = 16;
             public static final int WINCH = 15;
         }
 
