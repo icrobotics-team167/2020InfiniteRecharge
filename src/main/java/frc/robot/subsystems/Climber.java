@@ -1,6 +1,5 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.Servo;
 import frc.robot.Config;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -25,13 +24,14 @@ public class Climber {
         extensionMotor = new CANSparkMax(Config.Ports.Climb.EXTENSION, MotorType.kBrushless);
         extensionMotor.restoreFactoryDefaults();
         extensionMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
-        extensionMotor.setInverted(false);
+        extensionMotor.setInverted(true);
         extensionMotor.setOpenLoopRampRate(0);
         extensionMotor.setClosedLoopRampRate(0);
         extensionMotor.setSmartCurrentLimit(80);
         extensionMotor.setSecondaryCurrentLimit(40);
         
         winchMotor = new TalonSRX(Config.Ports.Climb.WINCH);
+        winchMotor.setInverted(true);
     }
 
     public void raiseExtension() {
@@ -47,7 +47,7 @@ public class Climber {
     }
 
     public void climbUp() {
-        winchMotor.set(ControlMode.PercentOutput, 0.3);
+        winchMotor.set(ControlMode.PercentOutput, 1);
     }
 
     public void stopClimb() {

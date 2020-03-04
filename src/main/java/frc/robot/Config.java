@@ -97,7 +97,7 @@ public class Config {
         }
 
         // Turret motor controller port
-        public static final int TURRET = 13;
+        public static final int TURRET = 15;
 
         // Shooter motor controller ports
         public static final class Shooter {
@@ -108,7 +108,7 @@ public class Config {
         // Climb ports
         public static final class Climb {
             public static final int EXTENSION = 16;
-            public static final int WINCH = 15;
+            public static final int WINCH = 13;
         }
 
     }

@@ -21,6 +21,7 @@ public class StartShooter extends Action {
         Subsystems.indexer.setMode(Indexer.Mode.OFF);
         Subsystems.shooter.setTargetRPM(Config.Settings.SICKO_SHOOTING_RPM);
         Subsystems.shooter.start();
+        Subsystems.limelight.setVisionMode();
         Subsystems.turret.setMode(Turret.Mode.AUTO_ALIGN);
     }
 

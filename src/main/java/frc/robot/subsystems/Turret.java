@@ -1,7 +1,6 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.controller.PIDController;
@@ -32,7 +31,7 @@ public class Turret {
     private Limelight limelight;
 
     private Turret() {
-        motor = new CANSparkMax(Config.Ports.TURRET, MotorType.kBrushless);
+        motor = new CANSparkMax(Config.Ports.TURRET, MotorType.kBrushed);
         motor.restoreFactoryDefaults();
         motor.setIdleMode(CANSparkMax.IdleMode.kBrake);
         motor.setInverted(false);

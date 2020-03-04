@@ -179,6 +179,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void disabledInit() {
+        Subsystems.limelight.setCameraMode();
     }
 
     @Override
