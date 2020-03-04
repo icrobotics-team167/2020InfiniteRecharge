@@ -62,6 +62,11 @@ public class Turret {
     }
 
     public void setMode(Mode mode) {
+        if (mode == Turret.Mode.AUTO_ALIGN) {
+            limelight.setVisionMode();
+        } else {
+            limelight.setCameraMode();
+        }
         this.mode = mode;
     }
 
@@ -73,26 +78,22 @@ public class Turret {
         return pid.atSetpoint();
     }
 
-    public void autoAlign() {
-        // if (limelight.tv()) {
+    private void autoAlign() {
         double tx = limelight.tx();
         double output = pid.calculate(tx);
         SmartDashboard.putNumber("Turret PID Output", output);
         motor.set(ControlMode.PercentOutput, MathUtil.clamp(output, -1, 1));
-        // } else {
-        //     motor.set(ControlMode.PercentOutput, 0);
-        // }
     }
 
-    public void turnClockwise(double speed) {
+    private void turnClockwise(double speed) {
         motor.set(ControlMode.PercentOutput, -speed);
     }
 
-    public void turnCounterclockwise(double speed) {
+    private void turnCounterclockwise(double speed) {
         motor.set(ControlMode.PercentOutput, speed);
     }
 
-    public void stop() {
+    private void stop() {
         motor.set(ControlMode.PercentOutput, 0);
     }
 
