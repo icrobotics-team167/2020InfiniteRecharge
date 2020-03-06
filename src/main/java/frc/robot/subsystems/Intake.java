@@ -37,7 +37,7 @@ public class Intake {
         motor = new CANSparkMax(Config.Ports.Intake.MOTOR, MotorType.kBrushless);
         motor.restoreFactoryDefaults();
         motor.setIdleMode(CANSparkMax.IdleMode.kBrake);
-        motor.setInverted(true);
+        motor.setInverted(false);
         motor.setOpenLoopRampRate(0);
         motor.setClosedLoopRampRate(0);
         motor.setSmartCurrentLimit(80);

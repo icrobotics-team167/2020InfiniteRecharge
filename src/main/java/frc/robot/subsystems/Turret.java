@@ -34,7 +34,7 @@ public class Turret {
         motor = new CANSparkMax(Config.Ports.TURRET, MotorType.kBrushed);
         motor.restoreFactoryDefaults();
         motor.setIdleMode(CANSparkMax.IdleMode.kBrake);
-        motor.setInverted(false);
+        motor.setInverted(true);
         motor.setOpenLoopRampRate(0);
         motor.setClosedLoopRampRate(0);
         motor.setSmartCurrentLimit(80);

@@ -97,10 +97,11 @@ public class Robot extends TimedRobot {
 
         auto = new Routine(new Action[] {
             new StartShooter(),
+            new Wait(1),
             new SmartDriveStraight(114, 0.4, 8),
             new SickoShoot(3),
-            new SmartDriveStraight(48, 0.2, 3.5),
-            new SmartDriveStraight(48, -0.4, 3.5),
+            new SmartDriveStraight(68, 0.2, 3.5),
+            new SmartDriveStraight(68, -0.4, 3.5),
             new SecondSickoShoot(3)
             // new SmartDriveStraight(150, 0.4),
             // new Wait(1),
@@ -138,7 +139,6 @@ public class Robot extends TimedRobot {
         SmartDashboard.putBoolean("indexer/gapAligned", Subsystems.indexer.isGapAligned());
         SmartDashboard.putBoolean("indexer/isRunningAntiJam", Subsystems.indexer.isRunningAntiJam());
         SmartDashboard.putBoolean("indexer/isShooting", Subsystems.indexer.isShooting());
-
         SmartDashboard.putNumber("indexer/rpm", Subsystems.indexer.getTurnRPM());
     }
 
