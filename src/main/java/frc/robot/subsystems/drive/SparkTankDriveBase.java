@@ -114,7 +114,7 @@ public class SparkTankDriveBase implements TankDriveBase {
 
     @Override
     public void tankDrive(double leftSpeed, double rightSpeed) {
-        rightMaster.set(0.976 * -leftSpeed);
+        rightMaster.set(-leftSpeed);
         leftMaster.set(-rightSpeed);
         straightDriving = false;
     }
@@ -165,7 +165,7 @@ public class SparkTankDriveBase implements TankDriveBase {
 
         double error = straightDrivePID.calculate(navx.getAngle());
         leftMaster.set(MathUtil.clamp(speed + error, -1, 1));
-        rightMaster.set(MathUtil.clamp(0.976 * speed - error, -1, 1));
+        rightMaster.set(MathUtil.clamp(speed - error, -1, 1));
     }
 
     @Override

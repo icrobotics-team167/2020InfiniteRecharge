@@ -53,7 +53,7 @@ public class Intake {
                 break;
             case FORWARD:
                 if (extended) {
-                    motor.set(0.95);
+                    motor.set(1);
                 } else {
                     motor.set(0.4);
                 }

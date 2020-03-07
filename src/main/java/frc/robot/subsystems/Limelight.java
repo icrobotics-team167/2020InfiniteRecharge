@@ -26,12 +26,14 @@ public class Limelight {
     }
 
     public void setCameraMode() {
-        getTable().getEntry("camMode").setNumber(1);
+        getTable().getEntry("ledMode").setNumber(1);
+        // getTable().getEntry("camMode").setNumber(1);
         visionEnabled = false;
     }
 
     public void setVisionMode() {
-        getTable().getEntry("camMode").setNumber(0);
+        getTable().getEntry("ledMode").setNumber(0);
+        // getTable().getEntry("camMode").setNumber(0);
         visionEnabled = true;
     }
 
@@ -40,7 +42,7 @@ public class Limelight {
         tv = nt.getEntry("tv").getBoolean(false);
         tx = nt.getEntry("tx").getDouble(0);
         ty = nt.getEntry("ty").getDouble(0);
-        ta = nt.getEntry("ta").getDouble(0);
+        ta = nt.getEntry("ta").getDouble(0); 
         ts = nt.getEntry("ts").getDouble(0);
         distance = ((double) 66.5) / Math.tan(Math.toRadians(29.0436377382 + ty));
     }

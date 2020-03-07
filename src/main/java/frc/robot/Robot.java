@@ -90,31 +90,26 @@ public class Robot extends TimedRobot {
         new Thread(() -> {
             UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
 //            camera.setFPS(30);
-//            camera.setResolution(320, 240);
+//            camera.setRessssa1olution(320, 240);
         }).start();
 
         Subsystems.setInitialStates();
 
         auto = new Routine(new Action[] {
+            // Trench auto
+            // new StartShooter(),
+            // new SmartDriveStraight(114, 0.4, 7),
+            // new SmartDriveStraight(15, -0.3),
+            // new SickoShoot(3),
+            // new SmartDriveStraight(83, 0.2, 3.5),
+            // new SmartDriveStraight(83, -0.4, 3.5),
+            // new SecondSickoShoot(3),
+
+            // Center auto
             new StartShooter(),
-            new Wait(1),
-            new SmartDriveStraight(114, 0.4, 8),
+            new SmartDriveStraight(82, 0.2, 10),
+            new SmartDriveStraight(36, -0.2, 6),
             new SickoShoot(3),
-            new SmartDriveStraight(68, 0.2, 3.5),
-            new SmartDriveStraight(68, -0.4, 3.5),
-            new SecondSickoShoot(3)
-            // new SmartDriveStraight(150, 0.4),
-            // new Wait(1),
-            // new RawPointTurn(90, 0.2),
-            // new FollowPath(AutoRoutine.FTR1),
-            // new FollowPath(AutoRoutine.FTR2),
-            // new FollowPath(AutoRoutine.FTR3),
-            // new FollowPath(AutoRoutine.FTR4),
-            // new FollowPath(AutoRoutine.FTR5),
-            // new FollowPath(AutoRoutine.RT),
-            // new FollowPath(AutoRoutine.RT),
-            // new FollowPath(AutoRoutine.RT),
-            // new FollowPath(AutoRoutine.RT),
         });
         teleop = new Teleop(controls);
     }

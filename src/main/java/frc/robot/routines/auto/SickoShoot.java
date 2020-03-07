@@ -10,11 +10,17 @@ public class SickoShoot extends Action {
 
     private PeriodicTimer timer;
     private double seconds;
+    private double delay;
 
     public SickoShoot(double seconds) {
+        this(seconds, 2);
+    }
+
+    public SickoShoot(double seconds, double delay) {
         super();
         timer = new PeriodicTimer();
         this.seconds = seconds;
+        this.delay = delay;
     }
 
     @Override
@@ -24,7 +30,7 @@ public class SickoShoot extends Action {
 
     @Override
     public void periodic() {
-        if (!timer.hasElapsed(2)) {
+        if (!timer.hasElapsed(delay)) {
             Subsystems.indexer.setMode(Indexer.Mode.OFF);
         } else {
             Subsystems.indexer.setMode(Indexer.Mode.SICKO_SHOOT);
@@ -33,7 +39,7 @@ public class SickoShoot extends Action {
 
     @Override
     public boolean isDone() {
-        return timer.hasElapsed(seconds + 2);
+        return timer.hasElapsed(seconds + delay);
     }
 
     @Override
