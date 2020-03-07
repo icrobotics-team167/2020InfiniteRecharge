@@ -32,7 +32,6 @@ import frc.robot.subsystems.Subsystems;
 public class Robot extends TimedRobot {
 
     private SendableChooser<AutoRoutine> autoChooser = new SendableChooser<>();
-    private DriverStation driverStation;
     private ControlScheme controls;
     private Action auto;
     private Teleop teleop;
@@ -47,8 +46,6 @@ public class Robot extends TimedRobot {
         autoChooser.addOption(AutoRoutine.ENEMY_TENCH_RUN.name, AutoRoutine.ENEMY_TENCH_RUN);
         autoChooser.addOption(AutoRoutine.SHOOT_3.name, AutoRoutine.SHOOT_3);
         SmartDashboard.putData("Autonomous Routines", autoChooser);
-
-        driverStation = DriverStation.getInstance();
 
         Controller primaryController = null;
         switch (Config.Settings.PRIMARY_CONTROLLER_TYPE) {
@@ -90,7 +87,7 @@ public class Robot extends TimedRobot {
         new Thread(() -> {
             UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
 //            camera.setFPS(30);
-//            camera.setRessssa1olution(320, 240);
+//            camera.setResolution(320, 240);
         }).start();
 
         Subsystems.setInitialStates();
